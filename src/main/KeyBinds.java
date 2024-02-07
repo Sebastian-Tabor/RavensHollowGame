@@ -1,8 +1,10 @@
+package main;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyBinds implements KeyListener {
-    public boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bSpacePressed;
+    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bSpacePressed;
 
     @Override
     public void keyTyped(KeyEvent e) {} //not used yet
