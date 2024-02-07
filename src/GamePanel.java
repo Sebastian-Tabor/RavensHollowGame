@@ -11,28 +11,10 @@ public class GamePanel extends JPanel implements Runnable {
     final int iScreenWidth = iMaxScreenColumns * iTileSize;
     final int iScreenHeight = iMaxScreenRows * iTileSize;
     Thread gameThread;
+    KeyBinds keyBinds = new KeyBinds();
     //FPS
     int iFPS = 60;
     //Keybind objects
-    KeyBinds keyBinds = new KeyBinds();
-    //Player pos vars
-    int iPlayerPosX = 100;
-    int iPlayerPosY = 540;
-    int iOriginalPlayerPosY = iPlayerPosY;
-    //Character stats
-    Character Fighter = new Character("Badger", 300, 300, 10, 50, 0, 5, 150, 2);
-    Character Mage = new Character("Bunny", 100, 100, 15, 50, 0, 5, 200, 1);
-    Character Player = new Character("InsertNameHere", 150, 150, 10, 50, 0, 5, 100, 10);
-    Character Tank = new Character("Turtle", 500, 500, 5, 50, 0, 5, 0, 1);
-    /*  New character base stats as follows:
-        Fighter     MaxHP:250  DmgPerHit:5   MaxUlt:50    PerHitUlt:5     CharSpeed:2    Total:50
-        Mage        MaxHP:100  DmgPerHit:10  MaxUlt:50    PerHitUlt:10    CharSpeed:1    Total:50
-        Ranger      MaxHP:150  DmgPerHit:5   MaxUlt:50    PerHitUlt:5     CharSpeed:1    Total:50
-        Rouge       MaxHP:200  DmgPerHit:15  MaxUlt:50    PerHitUlt:5     CharSpeed:3    Total:50
-        Tank        MaxHP:500  DmgPerHit:2   MaxUlt:50    PerHitUlt:10    CharSpeed:1    Total:50
-     */
-
-
     public GamePanel() {
         this.setPreferredSize(new Dimension(iScreenWidth,iScreenHeight));
         this.setBackground(Color.black);
@@ -40,6 +22,19 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyBinds);
         this.setFocusable(true);
     }
+    //Characters
+    public static Character Fighter = new Character("Badger", 300, 300, 10, 50, 0, 5, 150, 2,100, 540);
+    public static Character Mage = new Character("Hare", 100, 100, 15, 50, 0, 5, 200, 1,100, 540);
+    public static Character Player = new Character("InsertNameHere", 150, 150, 10, 50, 0, 5, 100, 10,100, 540);
+    public static Character Rouge = new Character("Weasel", 200, 200, 15, 50, 0,5, 150, 3 ,100,540);
+    public static Character Tank = new Character("Turtle", 500, 500, 5, 50, 0, 5, 0, 1,100, 540);
+    /*  New character base stats as follows:
+        Fighter     MaxHP:250  DmgPerHit:5   MaxUlt:50    PerHitUlt:5     CharSpeed:2    Total:50
+        Mage        MaxHP:100  DmgPerHit:10  MaxUlt:50    PerHitUlt:10    CharSpeed:1    Total:50
+        Ranger      MaxHP:150  DmgPerHit:5   MaxUlt:50    PerHitUlt:5     CharSpeed:1    Total:50
+        Rouge       MaxHP:200  DmgPerHit:15  MaxUlt:50    PerHitUlt:5     CharSpeed:3    Total:50
+        Tank        MaxHP:500  DmgPerHit:2   MaxUlt:50    PerHitUlt:10    CharSpeed:1    Total:50
+     */
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
@@ -61,23 +56,13 @@ public class GamePanel extends JPanel implements Runnable {
             catch (InterruptedException e) {throw new RuntimeException(e);}
         }
     }
-    public void jump(Character character){}
-    public void update(){
-        if (keyBinds.bLeftPressed) {iPlayerPosX -= Player.getIvCharacterSpeed();}
-        if (keyBinds.bRightPressed) {iPlayerPosX += Player.getIvCharacterSpeed();}
-        //if (keyBinds.bDownPressed == true) {iPlayerPosX += Player.getIvCharacterSpeed();}
-        if (keyBinds.bUpPressed) {iPlayerPosY -= 2*Player.getIvCharacterSpeed();}
-        if (keyBinds.bSpacePressed) {iPlayerPosY -= Player.getIvCharacterSpeed();}
-        if (iPlayerPosY > 540){iPlayerPosY = 100;}
-        if (iPlayerPosY-iOriginalPlayerPosY >= 6*Player.getIvCharacterSpeed()){}
-        if (iPlayerPosY < 540){iPlayerPosY += Player.getIvCharacterSpeed();}
-    }
+    public void update() {Player.characterMovement(Player);}
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         //repainting character on each loop
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.darkGray);
-        g2.fillRect(iPlayerPosX,iPlayerPosY,iTileSize,iTileSize);
+        g2.fillRect(Player.getiCharPosX(), Player.getiCharPosY(), iTileSize,iTileSize);
         g2.dispose();
     }
 
