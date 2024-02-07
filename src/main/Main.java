@@ -1,5 +1,7 @@
 package main;
 
+import entity.Player;
+
 import javax.swing.*;
 
 public class Main {
@@ -10,6 +12,7 @@ public class Main {
         window.setResizable(true);
         window.setTitle("Raven's Hollow");
         window.setIconImage(null);
+
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
         window.pack();

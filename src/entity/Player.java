@@ -15,15 +15,14 @@ public class Player extends Entity{
         x = 100;
         y = 540;
         speed = 10;
-
     }
     public void update() {
         int iOldCharPosY = y;
-        if (keyBinds.bLeftPressed) {x -= this.speed;}
-        if (keyBinds.bRightPressed) {x += speed;}
+        if (KeyBinds.bLeftPressed) {x -= speed;}
+        if (KeyBinds.bRightPressed) {x += speed;}
         //if (keyBinds.bDownPressed == true) {iPlayerPosX += Player.getIvCharacterSpeed();}
-        if (keyBinds.bUpPressed) {y -= 2*speed ;}
-        if (keyBinds.bSpacePressed) {y -= 2*speed  ;}
+        if (KeyBinds.bUpPressed) {y -= 2*speed ;}
+        if (KeyBinds.bSpacePressed) {y -= 2*speed  ;}
         if (y > 540){y = 100;}
         if (y-iOldCharPosY >= 6*speed  ){y += speed   ;}
         if (y < 540){y += speed;}}
