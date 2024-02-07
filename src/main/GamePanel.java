@@ -9,13 +9,13 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
     //Frame setting vars
-    public static final int iOriginalTileSize = 120;
-    public static final int iScale = 1;
-    public static final int iTileSize = iOriginalTileSize * iScale;
-    public static final int iMaxScreenColumns = 1920;
-    public static final int iMaxScreenRows = 1080;
-    public static final int iScreenWidth = iMaxScreenColumns * iTileSize;
-    public static final int iScreenHeight = iMaxScreenRows * iTileSize;
+    public final int iOriginalTileSize = 120;
+    public final int iScale = 1;
+    public final int iTileSize = iOriginalTileSize * iScale;
+    public final int iMaxScreenColumns = 1920;
+    public final int iMaxScreenRows = 1080;
+    public final int iScreenWidth = iMaxScreenColumns * iTileSize;
+    public final int iScreenHeight = iMaxScreenRows * iTileSize;
     KeyBinds keyBinds = new KeyBinds();
     Thread gameThread;
     Player player = new Player(this, keyBinds);
@@ -29,15 +29,13 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyBinds);
         this.setFocusable(true);
     }
-    public void startGameThread(){
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
+    public void startGameThread(){gameThread = new Thread(this);gameThread.start();}
 
     @Override
     public void run() {
         double dDrawIntervalNS = 1000000000/((double)iFPS);
         double dNextDrawTimeNS = System.nanoTime() + dDrawIntervalNS;
+        player.setDefaultValues();
         while(gameThread != null){
             long runTime = System.nanoTime();
 
