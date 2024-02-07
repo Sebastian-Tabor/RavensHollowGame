@@ -10,10 +10,10 @@ public class KeyBinds implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP){bUpPressed = true;}
         if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {bLeftPressed = true;}
         if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){bDownPressed = true;}
         if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT){bRightPressed = true;}
+        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP){bUpPressed = true;}
         if (code == KeyEvent.VK_SPACE){bSpacePressed = true;}
 
     }
