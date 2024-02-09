@@ -22,7 +22,7 @@ public class Player extends Entity {
         x = 100;
         y = 540;
         speed = 10;
-        direction = "down";
+        direction = "idle";
     }
 
     public void getPlayerImage() {
@@ -35,9 +35,7 @@ public class Player extends Entity {
             left2 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
-        }
-        catch (IOException e) {e.printStackTrace();}
-    }
+        } catch (IOException e) {e.printStackTrace();}}
 
     public void update() {
         int iOldCharPosY = y;

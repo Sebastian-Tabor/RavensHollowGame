@@ -19,6 +19,6 @@ public class Main {
         window.setVisible(true);
         gamePanel.startGameThread();
 
-        //Credits KaupenJoe, John Waskom, John Peterson, RyiSnow
+        //Credits KaupenJoe, John Waskom, John Peterson, RyiSnow, Gh0stlyCy80rg
     }
 }
