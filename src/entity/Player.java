@@ -41,24 +41,26 @@ public class Player extends Entity {
 
     public void update() {
         int iOldCharPosY = y;
-
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bSpacePressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
                 x -= speed;
                 direction = "left";
-            } else if (KeyBinds.bRightPressed) {
+            }
+            if (KeyBinds.bRightPressed) {
                 x += speed;
                 direction = "right";
-            } else if (y >= 540) {
+            }
+            if (y >= 540) {
                 if (KeyBinds.bUpPressed) {
-                    y -= 5 * speed;
+                    y -= 2 * speed;
                     direction = "jump";
                 }
                 if (KeyBinds.bSpacePressed) {
-                    y -= 5 * speed;
+                    y -= 2 * speed;
                     direction = "jump";
                 }
-            } else if (KeyBinds.bDownPressed) {
+            }
+            if (KeyBinds.bDownPressed) {
                 direction = "crouch";
             }
             //Gravity
@@ -73,7 +75,6 @@ public class Player extends Entity {
             }
         }
         else {direction = "idle";}
-
 //Sprite counter
         spriteCounter ++;
         if (spriteCounter > 12) {
@@ -81,7 +82,6 @@ public class Player extends Entity {
             else if (spriteNumber == 1) {spriteNumber = 2;}
         spriteCounter = 0;
         }
-
     }
 
     public void draw(Graphics2D g2) {

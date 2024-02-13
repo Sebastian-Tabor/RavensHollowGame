@@ -49,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
         player.update();
     }
     public void paintComponent(Graphics g){
+        System.out.println("Drawing");
         super.paintComponent(g);
         //repainting Player character on each loop
         Graphics2D g2 = (Graphics2D) g;
