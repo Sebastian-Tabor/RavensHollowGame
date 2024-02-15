@@ -45,8 +45,8 @@ public class Player extends Entity {
         int gravity = 10;
         if (y > 540) {y =540;}
         if (y < 540) {y += gravity;}
-        if (jumpCounter == 10) {canJump = false;}
-        if (y == 540) {canJump = true; jumpCounter = 0;}
+        if (jumpCounter == 10) {canJump = false; falling = true;}
+        if (y == 540) {canJump = true; jumpCounter = 0; falling = false;}
 
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bSpacePressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
