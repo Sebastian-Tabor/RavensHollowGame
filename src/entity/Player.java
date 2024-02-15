@@ -41,6 +41,13 @@ public class Player extends Entity {
 
     public void update() {
         int iOldCharPosY = y;
+        //Gravity and jump counter
+        int gravity = 10;
+        if (y > 540) {y =540;}
+        if (y < 540) {y += gravity;}
+        if (jumpCounter == 10) {canJump = false;}
+        if (y == 540) {canJump = true; jumpCounter = 0;}
+
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bSpacePressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
                 x -= speed;
@@ -50,29 +57,17 @@ public class Player extends Entity {
                 x += speed;
                 direction = "right";
             }
-            if (y >= 540) {
-                if (KeyBinds.bUpPressed) {
-                    y -= 2 * speed;
-                    direction = "jump";
-                }
-                if (KeyBinds.bSpacePressed) {
-                    y -= 2 * speed;
-                    direction = "jump";
-                }
+            if (KeyBinds.bUpPressed && canJump) {
+                y -= 3 * speed;
+                direction = "jump";
+                jumpCounter ++;
             }
-            if (KeyBinds.bDownPressed) {
-                direction = "crouch";
+            if (KeyBinds.bSpacePressed && canJump) {
+                y -= 3 * speed;
+                direction = "jump";
+                jumpCounter ++;
             }
-            //Gravity
-            if (y > 540) {
-                y = 100;
-            }
-            if (y - iOldCharPosY >= 6 * speed) {
-                y += speed;
-            }
-            if (y < 540) {
-                y += speed;
-            }
+            if (KeyBinds.bDownPressed) {direction = "crouch";}
         }
         else {direction = "idle";}
 //Sprite counter

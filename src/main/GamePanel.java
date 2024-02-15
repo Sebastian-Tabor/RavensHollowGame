@@ -28,6 +28,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyBinds);
         this.setFocusable(true);
+        this.setAlignmentX(0);
+        this.setAlignmentY(0);
     }
     public void startGameThread(){gameThread = new Thread(this);gameThread.start();}
 
@@ -49,7 +51,6 @@ public class GamePanel extends JPanel implements Runnable {
         player.update();
     }
     public void paintComponent(Graphics g){
-        System.out.println("Drawing");
         super.paintComponent(g);
         //repainting Player character on each loop
         Graphics2D g2 = (Graphics2D) g;
