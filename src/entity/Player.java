@@ -29,6 +29,10 @@ public class Player extends Entity {
         try {
             jump1 = ImageIO.read(getClass().getResourceAsStream("/player/jump1.png"));
             jump2 = ImageIO.read(getClass().getResourceAsStream("/player/jump2.png"));
+            leftjump1 = ImageIO.read(getClass().getResourceAsStream("/player/leftjump1.png"));
+            leftjump2 = ImageIO.read(getClass().getResourceAsStream("/player/leftjump2.png"));
+            rightjump1 = ImageIO.read(getClass().getResourceAsStream("/player/rightjump1.png"));
+            rightjump2 = ImageIO.read(getClass().getResourceAsStream("/player/rightjump2.png"));
             crouch1 = ImageIO.read(getClass().getResourceAsStream("/player/crouch1.png"));
             crouch2 = ImageIO.read(getClass().getResourceAsStream("/player/crouch2.png"));
             left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
@@ -67,6 +71,18 @@ public class Player extends Entity {
                 direction = "jump";
                 jumpCounter ++;
             }
+            if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed && canJump) {
+                direction = "left jump";
+            }
+            if (KeyBinds.bRightPressed && KeyBinds.bUpPressed && canJump) {
+                direction = "right jump";
+            }
+            if (KeyBinds.bLeftPressed && KeyBinds.bSpacePressed && canJump) {
+                direction = "left jump";
+            }
+            if (KeyBinds.bRightPressed && KeyBinds.bSpacePressed && canJump) {
+                direction = "right jump";
+            }
             if (KeyBinds.bDownPressed) {direction = "crouch";}
         }
         else {direction = "idle";}
@@ -97,6 +113,14 @@ public class Player extends Entity {
             case "jump":
                 if (spriteNumber == 1) {image = jump1;}
                 if (spriteNumber == 2) {image = jump2;}
+                break;
+            case "left jump":
+                if (spriteNumber == 1) {image = leftjump1;}
+                if (spriteNumber == 2) {image = leftjump2;}
+                break;
+            case "right jump":
+                if (spriteNumber == 1) {image = rightjump1;}
+                if (spriteNumber == 2) {image = rightjump2;}
                 break;
             case "idle":
                 if (spriteNumber == 1) {image = idle1;}

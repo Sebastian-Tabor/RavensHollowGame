@@ -18,7 +18,7 @@ public class Entity {
     public boolean falling;
     public int jumpCounter = 0;
 
-    public BufferedImage jump1, jump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2;
+    public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2;
     public String direction;
 
 }
