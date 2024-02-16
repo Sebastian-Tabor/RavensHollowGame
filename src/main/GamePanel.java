@@ -3,6 +3,8 @@ package main;
 import entity.Character;
 import entity.Player;
 import main.KeyBinds;
+import tile.Tile;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int iMaxScreenRows = 1080;
     public final int iScreenWidth = iMaxScreenColumns * iTileSize;
     public final int iScreenHeight = iMaxScreenRows * iTileSize;
+    TileManager tileManager = new TileManager(this);
     KeyBinds keyBinds = new KeyBinds();
     Thread gameThread;
     Player player = new Player(this, keyBinds);
@@ -54,6 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         //repainting Player character on each loop
         Graphics2D g2 = (Graphics2D) g;
+        tileManager.draw(g2);
         player.draw(g2);
         g2.dispose();
     }
