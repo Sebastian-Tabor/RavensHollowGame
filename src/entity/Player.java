@@ -49,7 +49,7 @@ public class Player extends Entity {
         int gravity = 10;
         if (y > 540) {y =540;}
         if (y < 540) {y += gravity;}
-        if (jumpCounter == 10) {canJump = false; falling = true;}
+        if (jumpCounter == 12) {canJump = false; falling = true;}
         if (y == 540) {canJump = true; jumpCounter = 0; falling = false;}
 
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bSpacePressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
@@ -62,12 +62,11 @@ public class Player extends Entity {
                 direction = "right";
             }
             if (KeyBinds.bUpPressed && canJump) {
-                y -= 3 * speed;
+                y -= 2 * speed;
                 direction = "jump";
                 jumpCounter ++;
-            }
-            if (KeyBinds.bSpacePressed && canJump) {
-                y -= 3 * speed;
+            } else if (KeyBinds.bSpacePressed && canJump) {
+                y -= 2 * speed;
                 direction = "jump";
                 jumpCounter ++;
             }

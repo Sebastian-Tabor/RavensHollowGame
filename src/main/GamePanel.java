@@ -11,11 +11,11 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
     //Frame setting vars
-    public final int iOriginalTileSize = 120;
+    public final int iOriginalTileSize = 64;
     public final int iScale = 1;
     public final int iTileSize = iOriginalTileSize * iScale;
-    public final int iMaxScreenColumns = 1920;
-    public final int iMaxScreenRows = 1080;
+    public final int iMaxScreenColumns = 30;
+    public final int iMaxScreenRows = 22;
     public final int iScreenWidth = iMaxScreenColumns * iTileSize;
     public final int iScreenHeight = iMaxScreenRows * iTileSize;
     TileManager tileManager = new TileManager(this);
