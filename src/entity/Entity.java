@@ -10,7 +10,7 @@ public class Entity {
     public int iCurrentUltimate;
     public int iPerHitUltimate;
     public int iUltimateDamage;
-    public int x, y;
+    public int iPlayerX, iPlayerY;
     public int speed;
     public int spriteCounter = 0;
     public int spriteNumber = 1;

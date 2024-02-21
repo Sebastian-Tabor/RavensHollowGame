@@ -10,23 +10,29 @@ import java.io.IOException;
 public class Player extends Entity {
     final GamePanel gamePanel;
     final KeyBinds keyBinds;
-
+    public final int iScreenX;
+    public int iScreenY;
     public Player(GamePanel gamePanel, KeyBinds keyBinds) {
         this.gamePanel = gamePanel;
         this.keyBinds = keyBinds;
+        iScreenX = (gamePanel.iScreenWidth/2 - gamePanel.iTileSize/2);
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x = 100;
-        y = 540;
+        iPlayerX = 100;
+        iPlayerY = 540;
         speed = 10;
         direction = "idle";
     }
 
     public void getPlayerImage() {
         try {
+            left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
             jump1 = ImageIO.read(getClass().getResourceAsStream("/player/jump1.png"));
             jump2 = ImageIO.read(getClass().getResourceAsStream("/player/jump2.png"));
             leftjump1 = ImageIO.read(getClass().getResourceAsStream("/player/leftjump1.png"));
@@ -35,38 +41,35 @@ public class Player extends Entity {
             rightjump2 = ImageIO.read(getClass().getResourceAsStream("/player/rightjump2.png"));
             crouch1 = ImageIO.read(getClass().getResourceAsStream("/player/crouch1.png"));
             crouch2 = ImageIO.read(getClass().getResourceAsStream("/player/crouch2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
             idle1 = ImageIO.read(getClass().getResourceAsStream("/player/idle1.png"));
             idle2 = ImageIO.read(getClass().getResourceAsStream("/player/idle2.png"));
         } catch (IOException e) {e.printStackTrace();}}
 
     public void update() {
-        int iOldCharPosY = y;
         //Gravity and jump counter
         int gravity = 10;
-        if (y > 540) {y =540;}
-        if (y < 540) {y += gravity;}
+        if (iPlayerY > 540) {
+            iPlayerY =540;}
+        if (iPlayerY < 540) {
+            iPlayerY += gravity;}
         if (jumpCounter == 12) {canJump = false; falling = true;}
-        if (y == 540) {canJump = true; jumpCounter = 0; falling = false;}
-
+        if (iPlayerY == 540) {canJump = true; jumpCounter = 0; falling = false;}
+        //Key mapping
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bSpacePressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
-                x -= speed;
+                iPlayerX -= speed;
                 direction = "left";
             }
             if (KeyBinds.bRightPressed) {
-                x += speed;
+                iPlayerX += speed;
                 direction = "right";
             }
             if (KeyBinds.bUpPressed && canJump) {
-                y -= 2 * speed;
+                iPlayerY -= 2 * speed;
                 direction = "jump";
                 jumpCounter ++;
             } else if (KeyBinds.bSpacePressed && canJump) {
-                y -= 2 * speed;
+                iPlayerY -= 2 * speed;
                 direction = "jump";
                 jumpCounter ++;
             }
@@ -126,6 +129,6 @@ public class Player extends Entity {
                 if (spriteNumber == 2) {image = idle2;}
                 break;
         }
-        g2.drawImage(image, x, y, gamePanel.iTileSize, gamePanel.iTileSize, null);
+        g2.drawImage(image, iScreenX, iPlayerY, gamePanel.iTileSize, gamePanel.iTileSize, null);
     }
 }
