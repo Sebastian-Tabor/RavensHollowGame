@@ -1,15 +1,15 @@
 package main;
 
-import entity.Character;
 import entity.Player;
-import main.KeyBinds;
-import tile.Tile;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
+
+    // Game status booleans
+    public boolean bBossFight = true;
     //Frame setting vars
     public final int iOriginalTileSize = 64;
     public final int iScale = 1;
@@ -18,10 +18,16 @@ public class GamePanel extends JPanel implements Runnable {
     public final int iMaxScreenRows = 22;
     public final int iScreenWidth = iMaxScreenColumns * iTileSize;
     public final int iScreenHeight = iMaxScreenRows * iTileSize;
+
+    //Map size
+    public final int iMaxMapCol = 30;
+    public final int iMaxMapRow = 22;
+    public final int iMapHeight = iTileSize * iMaxMapCol;
+    public final int iMapWidth = iTileSize * iMaxMapRow;
     TileManager tileManager = new TileManager(this);
     KeyBinds keyBinds = new KeyBinds();
     Thread gameThread;
-    Player player = new Player(this, keyBinds);
+    public Player player = new Player(this, keyBinds);
     //FPS
     int iFPS = 60;
     //Keybind objects
@@ -61,5 +67,4 @@ public class GamePanel extends JPanel implements Runnable {
         player.draw(g2);
         g2.dispose();
     }
-
 }

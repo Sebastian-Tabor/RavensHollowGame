@@ -5,6 +5,7 @@ import main.KeyBinds;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class Player extends Entity {
@@ -29,20 +30,20 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
         try {
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
-            jump1 = ImageIO.read(getClass().getResourceAsStream("/player/jump1.png"));
-            jump2 = ImageIO.read(getClass().getResourceAsStream("/player/jump2.png"));
-            leftjump1 = ImageIO.read(getClass().getResourceAsStream("/player/leftjump1.png"));
-            leftjump2 = ImageIO.read(getClass().getResourceAsStream("/player/leftjump2.png"));
-            rightjump1 = ImageIO.read(getClass().getResourceAsStream("/player/rightjump1.png"));
-            rightjump2 = ImageIO.read(getClass().getResourceAsStream("/player/rightjump2.png"));
-            crouch1 = ImageIO.read(getClass().getResourceAsStream("/player/crouch1.png"));
-            crouch2 = ImageIO.read(getClass().getResourceAsStream("/player/crouch2.png"));
-            idle1 = ImageIO.read(getClass().getResourceAsStream("/player/idle1.png"));
-            idle2 = ImageIO.read(getClass().getResourceAsStream("/player/idle2.png"));
+            left1 = ImageIO.read(new File("./res/player/left1.png"));
+            left2 = ImageIO.read(new File("./res/player/left2.png"));
+            right1 = ImageIO.read(new File("./res/player/right1.png"));
+            right2 = ImageIO.read(new File("./res/player/right2.png"));
+            jump1 = ImageIO.read(new File("./res/player/jump1.png"));
+            jump2 = ImageIO.read(new File("./res/player/jump2.png"));
+            leftjump1 = ImageIO.read(new File("./res/player/leftjump1.png"));
+            leftjump2 = ImageIO.read(new File("./res/player/leftjump2.png"));
+            rightjump1 = ImageIO.read(new File("./res/player/rightjump1.png"));
+            rightjump2 = ImageIO.read(new File("./res/player/rightjump2.png"));
+            crouch1 = ImageIO.read(new File("./res/player/crouch1.png"));
+            crouch2 = ImageIO.read(new File("./res/player/crouch2.png"));
+            idle1 = ImageIO.read(new File("./res/player/idle1.png"));
+            idle2 = ImageIO.read(new File("./res/player/idle2.png"));
         } catch (IOException e) {e.printStackTrace();}}
 
     public void update() {
