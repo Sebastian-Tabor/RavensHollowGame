@@ -5,11 +5,14 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel implements Runnable {
 
     // Game status booleans
-    public boolean bBossFight = true;
+    public boolean bScrollerLevel = true;
+
     //Frame setting vars
     public final int iOriginalTileSize = 64;
     public final int iScale = 1;
@@ -20,7 +23,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int iScreenHeight = iMaxScreenRows * iTileSize;
 
     //Map size
-    public final int iMaxMapCol = 30;
+    public final int iMaxMapCol = 90;
     public final int iMaxMapRow = 22;
     public final int iMapHeight = iTileSize * iMaxMapCol;
     public final int iMapWidth = iTileSize * iMaxMapRow;
@@ -28,8 +31,10 @@ public class GamePanel extends JPanel implements Runnable {
     KeyBinds keyBinds = new KeyBinds();
     Thread gameThread;
     public Player player = new Player(this, keyBinds);
+
     //FPS
     int iFPS = 60;
+
     //Keybind objects
     public GamePanel() {
         this.setPreferredSize(new Dimension(iScreenWidth,iScreenHeight));
@@ -40,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setAlignmentX(0);
         this.setAlignmentY(0);
     }
+
     public void startGameThread(){gameThread = new Thread(this);gameThread.start();}
 
     @Override

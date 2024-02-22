@@ -8,22 +8,30 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Player extends Entity {
-    final GamePanel gamePanel;
+public class Player extends EntityManager {
+    final GamePanel gp;
     final KeyBinds keyBinds;
     public final int iScreenX;
-    public int iScreenY;
-    public Player(GamePanel gamePanel, KeyBinds keyBinds) {
-        this.gamePanel = gamePanel;
+    //public final int iScreenY;
+    public Player(GamePanel gp, KeyBinds keyBinds) {
+        this.gp = gp;
         this.keyBinds = keyBinds;
-        iScreenX = (gamePanel.iScreenWidth/2 - gamePanel.iTileSize/2);
-        setDefaultValues();
+
+        iScreenX = (gp.iScreenWidth/2 - gp.iTileSize/2);
+
+        setPosStartLevel();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        iPlayerX = 100;
-        iPlayerY = 540;
+        iPlayerX = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenColumns));
+        iPlayerY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
+        speed = 10;
+        direction = "idle";
+    }
+    public void setPosStartLevel() {
+        iPlayerX = (gp.iTileSize * (int)(0.1 * gp.iMaxScreenColumns));
+        iPlayerY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
         speed = 10;
         direction = "idle";
     }
@@ -47,14 +55,28 @@ public class Player extends Entity {
         } catch (IOException e) {e.printStackTrace();}}
 
     public void update() {
-        //Gravity and jump counter
+        //Gravity
         int gravity = 10;
         if (iPlayerY > 540) {
             iPlayerY =540;}
         if (iPlayerY < 540) {
             iPlayerY += gravity;}
-        if (jumpCounter == 12) {canJump = false; falling = true;}
-        if (iPlayerY == 540) {canJump = true; jumpCounter = 0; falling = false;}
+
+        //Jumping
+        if (jumpCounter == 12) {
+            canJump = false;
+            falling = true;
+        }
+        if (iPlayerY == 540) {
+            falling = false;
+            if (jumpCounter > 0) {
+                jumpCounter--;
+            }
+        }
+        if (jumpCounter == 0) {
+            canJump = true;
+        }
+
         //Key mapping
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bSpacePressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
@@ -102,34 +124,66 @@ public class Player extends Entity {
         BufferedImage image = null;
         switch (direction) {
             case "left":
-                if (spriteNumber == 1) {image = left1;}
-                if (spriteNumber == 2) {image = left2;}
+                if (spriteNumber == 1) {
+                    image = left1;
+                }
+                if (spriteNumber == 2) {
+                    image = left2;
+                }
                 break;
             case "right":
-                if (spriteNumber == 1) {image = right1;}
-                if (spriteNumber == 2) {image = right2;}
+                if (spriteNumber == 1) {
+                    image = right1;
+                }
+                if (spriteNumber == 2) {
+                    image = right2;
+                }
                 break;
             case "crouch":
-                if (spriteNumber == 1) {image = crouch1;}
-                if (spriteNumber == 2) {image = crouch2;}
+                if (spriteNumber == 1) {
+                    image = crouch1;
+                }
+                if (spriteNumber == 2) {
+                    image = crouch2;
+                }
                 break;
             case "jump":
-                if (spriteNumber == 1) {image = jump1;}
-                if (spriteNumber == 2) {image = jump2;}
+                if (spriteNumber == 1) {
+                    image = jump1;
+                }
+                if (spriteNumber == 2) {
+                    image = jump2;
+                }
                 break;
             case "left jump":
-                if (spriteNumber == 1) {image = leftjump1;}
-                if (spriteNumber == 2) {image = leftjump2;}
+                if (spriteNumber == 1) {
+                    image = leftjump1;
+                }
+                if (spriteNumber == 2) {
+                    image = leftjump2;
+                }
                 break;
             case "right jump":
-                if (spriteNumber == 1) {image = rightjump1;}
-                if (spriteNumber == 2) {image = rightjump2;}
+                if (spriteNumber == 1) {
+                    image = rightjump1;
+                }
+                if (spriteNumber == 2) {
+                    image = rightjump2;
+                }
                 break;
             case "idle":
-                if (spriteNumber == 1) {image = idle1;}
-                if (spriteNumber == 2) {image = idle2;}
+                if (spriteNumber == 1) {
+                    image = idle1;
+                }
+                if (spriteNumber == 2) {
+                    image = idle2;
+                }
                 break;
         }
-        g2.drawImage(image, iScreenX, iPlayerY, gamePanel.iTileSize, gamePanel.iTileSize, null);
+        if (gp.bScrollerLevel) {
+            g2.drawImage(image, iScreenX, iPlayerY, gp.iTileSize, gp.iTileSize, null);
+        } else {
+            g2.drawImage(image, iPlayerX, iPlayerY, gp.iTileSize, gp.iTileSize, null);
+        }
     }
 }

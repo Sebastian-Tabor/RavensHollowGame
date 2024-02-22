@@ -2,7 +2,7 @@ package entity;
 
 import java.awt.image.BufferedImage;
 
-public class Entity {
+public class EntityManager {
     public int iMaxHealth;
     public int iCurrentHealth;
     public int iDamagePerHit;
@@ -12,8 +12,12 @@ public class Entity {
     public int iUltimateDamage;
     public int iPlayerX, iPlayerY;
     public int speed;
+
+    // Animations
     public int spriteCounter = 0;
     public int spriteNumber = 1;
+
+    //Jump vars
     public boolean canJump;
     public boolean falling;
     public int jumpCounter = 0;
