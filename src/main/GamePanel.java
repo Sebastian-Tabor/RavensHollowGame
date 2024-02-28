@@ -5,13 +5,12 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel implements Runnable {
 
     // Game status booleans
     public boolean bScrollerLevel = true;
+    public boolean bEnterLevel = true;
 
     //Frame setting vars
     public final int iOriginalTileSize = 64;
@@ -30,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileManager = new TileManager(this);
     KeyBinds keyBinds = new KeyBinds();
     Thread gameThread;
+    public CollisionCheck cCheck = new CollisionCheck(this);
     public Player player = new Player(this, keyBinds);
 
     //FPS

@@ -12,30 +12,40 @@ public class Player extends EntityManager {
     final GamePanel gp;
     final KeyBinds keyBinds;
     public final int iScreenX;
-    //public final int iScreenY;
+    public final int iScreenY;
+
+//PLAYER OBJECT
     public Player(GamePanel gp, KeyBinds keyBinds) {
         this.gp = gp;
         this.keyBinds = keyBinds;
-
+    //PLAYER POS ON SCREEN
         iScreenX = (gp.iScreenWidth/2 - gp.iTileSize/2);
-
-        setPosStartLevel();
+        iScreenY = (gp.iScreenHeight/2 - gp.iTileSize/2);
+    //PLAYER HITBOX
+        hitBox = new Rectangle(8, 0, 48, 64);
+    //PLAYER POS METHOD IMPLEMENTATION
+        if (gp.bEnterLevel){
+            setPosStartLevel();
+        } else {setDefaultValues();}
+    //PLAYER IMAGE METHOD IMPLEMENTATION
         getPlayerImage();
     }
 
+//SETTING PLAYER POSITION
     public void setDefaultValues() {
-        iPlayerX = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenColumns));
-        iPlayerY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
+        iWorldX = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenColumns));
+        iWorldY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
         speed = 10;
         direction = "idle";
     }
     public void setPosStartLevel() {
-        iPlayerX = (gp.iTileSize * (int)(0.1 * gp.iMaxScreenColumns));
-        iPlayerY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
+        iWorldX = (gp.iTileSize * (int)(0.1 * gp.iMaxScreenColumns));
+        iWorldY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
         speed = 10;
         direction = "idle";
     }
 
+//PLAYER IMAGE METHOD
     public void getPlayerImage() {
         try {
             left1 = ImageIO.read(new File("./res/player/left1.png"));
@@ -54,64 +64,76 @@ public class Player extends EntityManager {
             idle2 = ImageIO.read(new File("./res/player/idle2.png"));
         } catch (IOException e) {e.printStackTrace();}}
 
+//UPDATE
     public void update() {
-        //Gravity
-        int gravity = 10;
-        if (iPlayerY > 540) {
-            iPlayerY =540;}
-        if (iPlayerY < 540) {
-            iPlayerY += gravity;}
 
-        //Jumping
-        if (jumpCounter == 12) {
-            canJump = false;
-            falling = true;
-        }
-        if (iPlayerY == 540) {
-            falling = false;
-            if (jumpCounter > 0) {
-                jumpCounter--;
-            }
-        }
-        if (jumpCounter == 0) {
-            canJump = true;
-        }
-
-        //Key mapping
+    //KEYBIND MAPPING
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bSpacePressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
-                iPlayerX -= speed;
                 direction = "left";
             }
             if (KeyBinds.bRightPressed) {
-                iPlayerX += speed;
                 direction = "right";
             }
-            if (KeyBinds.bUpPressed && canJump) {
-                iPlayerY -= 2 * speed;
+            if (KeyBinds.bUpPressed) {
                 direction = "jump";
-                jumpCounter ++;
-            } else if (KeyBinds.bSpacePressed && canJump) {
-                iPlayerY -= 2 * speed;
+            } else if (KeyBinds.bSpacePressed) {
                 direction = "jump";
-                jumpCounter ++;
+            } else if (KeyBinds.bDownPressed) {
+                direction = "crouch";
             }
-            if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed && canJump) {
+            if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed ) {
                 direction = "left jump";
             }
-            if (KeyBinds.bRightPressed && KeyBinds.bUpPressed && canJump) {
+            if (KeyBinds.bRightPressed && KeyBinds.bUpPressed ) {
                 direction = "right jump";
             }
-            if (KeyBinds.bLeftPressed && KeyBinds.bSpacePressed && canJump) {
+            if (KeyBinds.bLeftPressed && KeyBinds.bSpacePressed) {
                 direction = "left jump";
             }
-            if (KeyBinds.bRightPressed && KeyBinds.bSpacePressed && canJump) {
+            if (KeyBinds.bRightPressed && KeyBinds.bSpacePressed ) {
                 direction = "right jump";
             }
-            if (KeyBinds.bDownPressed) {direction = "crouch";}
         }
-        else {direction = "idle";}
-//Sprite counter
+        else {
+            direction = "idle";
+        }
+
+    //COLLISION CHECK
+        bCollisionVertical = false;
+        bCollisionHorizontal = false;
+        gp.cCheck.checkTile(this);
+
+        if (!bCollisionVertical) {
+            switch (direction) {
+                case "jump":
+                    iWorldY -= 2 * speed;
+                    break;
+                case "crouch", "idle":
+                    iWorldY += 2 * speed;
+                    break;
+            }
+        }
+        if (!bCollisionHorizontal) {
+            switch (direction) {
+                case "left jump":
+                    iWorldY -= 2 * speed;
+                    iWorldX -= speed;
+                    break;
+                case "right jump":
+                    iWorldY -= 2 * speed;
+                    iWorldX += speed;
+                    break;
+                case "left":
+                    iWorldX -= speed;
+                    break;
+                case "right":
+                    iWorldX += speed;
+                    break;
+            }
+        }
+
+    //SPRITE COUNTER
         spriteCounter ++;
         if (spriteCounter > 12) {
             if (spriteNumber == 2){spriteNumber = 1;}
@@ -120,6 +142,7 @@ public class Player extends EntityManager {
         }
     }
 
+//DRAW METHOD
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
@@ -180,10 +203,6 @@ public class Player extends EntityManager {
                 }
                 break;
         }
-        if (gp.bScrollerLevel) {
-            g2.drawImage(image, iScreenX, iPlayerY, gp.iTileSize, gp.iTileSize, null);
-        } else {
-            g2.drawImage(image, iPlayerX, iPlayerY, gp.iTileSize, gp.iTileSize, null);
-        }
+            g2.drawImage(image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
     }
 }

@@ -8,8 +8,8 @@ import java.io.*;
 
 public class TileManager {
     GamePanel gp;
-    Tile[] tile;
-    int[][] iiMapTileNumber;
+    public Tile[] tile;
+    public int[][] iiMapTileNumber;
 
     public TileManager(GamePanel gp){
         this.gp = gp;
@@ -26,6 +26,7 @@ public class TileManager {
 
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(new File("./res/tiles/gabe.png"));
+            tile[1].collision = true;
 
         }catch(IOException e){
             e.printStackTrace();
@@ -59,48 +60,26 @@ public class TileManager {
     }
     public void draw(Graphics2D g2){
 
-        if (gp.bScrollerLevel){
             int iMapCol = 0;
             int iMapRow = 0;
-            int y = 0;
 
-            while (iMapCol < gp.iMaxMapCol && iMapRow < gp.iMaxMapRow){
+            while (iMapCol < gp.iMaxMapCol && iMapRow < gp.iMaxMapRow) {
                 int iTileNum = iiMapTileNumber[iMapCol][iMapRow];
 
                 int iMapX = iMapCol * gp.iTileSize;
-                int iScreenX = iMapX - gp.player.iPlayerX + gp.player.iScreenX;
+                int iMapY = iMapRow * gp.iTileSize;
+                int iScreenX = iMapX - gp.player.iWorldX + gp.player.iScreenX;
+                int iScreenY = iMapY - gp.player.iWorldY + gp.player.iScreenY;
 
-                if (iMapX + gp.iTileSize > gp.player.iPlayerX - gp.player.iScreenX && iMapX - gp.iTileSize < gp.player.iPlayerX + gp.player.iScreenX){
-                    g2.drawImage(tile[iTileNum].image, iScreenX, y, gp.iTileSize, gp.iTileSize, null);
+                if (iMapX + gp.iTileSize > gp.player.iWorldX - gp.player.iScreenX && iMapX - gp.iTileSize < gp.player.iWorldX + gp.player.iScreenX) {
+                    g2.drawImage(tile[iTileNum].image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
                 }
 
                 iMapCol++;
-                if (iMapCol == gp.iMaxMapCol){
+                if (iMapCol == gp.iMaxMapCol) {
                     iMapCol = 0;
                     iMapRow++;
-                    y += gp.iTileSize;
                 }
             }
-        } else {
-            int col = 0;
-            int row = 0;
-            int x = 0;
-            int y = 0;
-
-            while (col < gp.iMaxScreenColumns && row < gp.iMaxScreenRows){
-                int iTileNum = iiMapTileNumber[col][row];
-
-                g2.drawImage(tile[iTileNum].image, x, y, gp.iTileSize, gp.iTileSize, null);
-                col++;
-                x += gp.iTileSize;
-                if (col == gp.iMaxScreenColumns){
-                    col = 0;
-                    x = 0;
-                    row++;
-                    y += gp.iTileSize;
-                }
-            }
-        }
-
     }
 }
