@@ -26,7 +26,7 @@ public class CollisionCheck {
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
                 if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
-                    entity.bCollisionVertical = true;
+                    entity.bCollisionOn = true;
                 }
                 break;
             case "crouch", "idle":
@@ -34,7 +34,8 @@ public class CollisionCheck {
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
                 if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
-                    entity.bCollisionVertical = true;
+                    entity.bCollisionOn = true;
+                    entity.bCollisionFloor = true;
                 }
                 break;
             case "left":
@@ -42,7 +43,7 @@ public class CollisionCheck {
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
                 if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
-                    entity.bCollisionHorizontal = true;
+                    entity.bCollisionOn = true;
                 }
                 break;
             case "right":
@@ -50,29 +51,27 @@ public class CollisionCheck {
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
                 if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
-                    entity.bCollisionHorizontal = true;
+                    entity.bCollisionOn = true;
                 }
                 break;
             case "right jump":
-                iEntityLeftCol = (iEntityRightWorldX - entity.speed)/gp.iTileSize;
+                iEntityLeftCol = (iEntityLeftWorldX - entity.speed)/gp.iTileSize;
                 iEntityRightCol = (iEntityRightWorldX + entity.speed)/gp.iTileSize;
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
                 iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
                 if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision || gp.tileManager.tile[iTileNum3].collision){
-                    entity.bCollisionHorizontal = true;
-                    entity.bCollisionVertical = true;
+                    entity.bCollisionOn = true;
                 }
                 break;
             case "left jump":
-                iEntityLeftCol = (iEntityRightWorldX - entity.speed)/gp.iTileSize;
+                iEntityLeftCol = (iEntityLeftWorldX - entity.speed)/gp.iTileSize;
                 iEntityRightCol = (iEntityRightWorldX + entity.speed)/gp.iTileSize;
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
                 iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
                 if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision || gp.tileManager.tile[iTileNum3].collision){
-                    entity.bCollisionHorizontal = true;
-                    entity.bCollisionVertical = true;
+                    entity.bCollisionOn = true;
                 }
                 break;
         }

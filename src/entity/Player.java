@@ -98,30 +98,41 @@ public class Player extends EntityManager {
         else {
             direction = "idle";
         }
-
+    //CAN JUMP
+        if (iJumpCounter > 30) {
+            bCanJump = false;
+        }
+        if (bCollisionFloor) {
+            bCanJump = true;
+        }
     //COLLISION CHECK
-        bCollisionVertical = false;
-        bCollisionHorizontal = false;
+        bCollisionOn = false;
+        bCollisionFloor = false;
         gp.cCheck.checkTile(this);
 
-        if (!bCollisionVertical) {
+        if (!bCollisionOn) {
             switch (direction) {
                 case "jump":
-                    iWorldY -= 2 * speed;
+                    if (bCanJump) {
+                        iWorldY -= 2 * speed;
+                        iJumpCounter++;
+                    }
                     break;
                 case "crouch", "idle":
                     iWorldY += 2 * speed;
                     break;
-            }
-        }
-        if (!bCollisionHorizontal) {
-            switch (direction) {
                 case "left jump":
-                    iWorldY -= 2 * speed;
+                    if (bCanJump) {
+                        iWorldY -= 2 * speed;
+                        iJumpCounter++;
+                    }
                     iWorldX -= speed;
                     break;
                 case "right jump":
-                    iWorldY -= 2 * speed;
+                    if (bCanJump) {
+                        iWorldY -= 2 * speed;
+                        iJumpCounter++;
+                    }
                     iWorldX += speed;
                     break;
                 case "left":
@@ -134,11 +145,13 @@ public class Player extends EntityManager {
         }
 
     //SPRITE COUNTER
-        spriteCounter ++;
-        if (spriteCounter > 12) {
-            if (spriteNumber == 2){spriteNumber = 1;}
-            else if (spriteNumber == 1) {spriteNumber = 2;}
-        spriteCounter = 0;
+        iSpriteCounter++;
+        if (iSpriteCounter > 12) {
+            if (iSpriteNumber == 2){
+                iSpriteNumber = 1;}
+            else if (iSpriteNumber == 1) {
+                iSpriteNumber = 2;}
+        iSpriteCounter = 0;
         }
     }
 
@@ -147,58 +160,58 @@ public class Player extends EntityManager {
         BufferedImage image = null;
         switch (direction) {
             case "left":
-                if (spriteNumber == 1) {
+                if (iSpriteNumber == 1) {
                     image = left1;
                 }
-                if (spriteNumber == 2) {
+                if (iSpriteNumber == 2) {
                     image = left2;
                 }
                 break;
             case "right":
-                if (spriteNumber == 1) {
+                if (iSpriteNumber == 1) {
                     image = right1;
                 }
-                if (spriteNumber == 2) {
+                if (iSpriteNumber == 2) {
                     image = right2;
                 }
                 break;
             case "crouch":
-                if (spriteNumber == 1) {
+                if (iSpriteNumber == 1) {
                     image = crouch1;
                 }
-                if (spriteNumber == 2) {
+                if (iSpriteNumber == 2) {
                     image = crouch2;
                 }
                 break;
             case "jump":
-                if (spriteNumber == 1) {
+                if (iSpriteNumber == 1) {
                     image = jump1;
                 }
-                if (spriteNumber == 2) {
+                if (iSpriteNumber == 2) {
                     image = jump2;
                 }
                 break;
             case "left jump":
-                if (spriteNumber == 1) {
+                if (iSpriteNumber == 1) {
                     image = leftjump1;
                 }
-                if (spriteNumber == 2) {
+                if (iSpriteNumber == 2) {
                     image = leftjump2;
                 }
                 break;
             case "right jump":
-                if (spriteNumber == 1) {
+                if (iSpriteNumber == 1) {
                     image = rightjump1;
                 }
-                if (spriteNumber == 2) {
+                if (iSpriteNumber == 2) {
                     image = rightjump2;
                 }
                 break;
             case "idle":
-                if (spriteNumber == 1) {
+                if (iSpriteNumber == 1) {
                     image = idle1;
                 }
-                if (spriteNumber == 2) {
+                if (iSpriteNumber == 2) {
                     image = idle2;
                 }
                 break;

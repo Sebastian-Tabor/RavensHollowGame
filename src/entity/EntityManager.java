@@ -14,17 +14,18 @@ public class EntityManager {
     public int iWorldX, iWorldY;
     public int speed;
 
-    // Animations
-    public int spriteCounter = 0;
-    public int spriteNumber = 1;
+//ANIMATIONS
+    public int iSpriteCounter = 0;
+    public int iSpriteNumber = 1;
 
-    //Jump vars
-
-    //Collision
+//JUMPING
+    public int iJumpCounter = 0;
+    public boolean bCanJump;
+//COLLISION
     public Rectangle hitBox;
-    public boolean bCollisionVertical, bCollisionHorizontal = false;
+    public boolean bCollisionOn, bCollisionFloor = false;
 
-    //Direction animation
+//DIRECTION
     public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2;
     public String direction;
 

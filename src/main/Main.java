@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main {
-    public static  GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 
     public static void main(String[] args) {
         //Window
@@ -29,6 +28,7 @@ public class Main {
 
         window.pack();
         window.setVisible(true);
-        //Credits KaupenJoe, John Waskom, John Peterson, RyiSnow, Gh0stlyCy80rg, Rocket Smith, Josh Name
+
+        //Credits KaupenJoe, John Waskom, John Peterson, RyiSnow, Gh0stlyCy80rg, Rocket Smith, Josh Name, and most of all, Sarah Warren <3
     }
 }
