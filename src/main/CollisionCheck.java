@@ -1,6 +1,6 @@
 package main;
 
-import entity.EntityManager;
+import entity.Entity;
 
 public class CollisionCheck {
     GamePanel gp;
@@ -8,7 +8,7 @@ public class CollisionCheck {
         this.gp = gp;
 
     }
-    public void checkTile (EntityManager entity) {
+    public void checkTile (Entity entity) {
         int iEntityLeftWorldX = entity.iWorldX + entity.hitBox.x;
         int iEntityRightWorldX = entity.iWorldX + entity.hitBox.x + entity.hitBox.width;
         int iEntityTopWorldY = entity.iWorldY + entity.hitBox.y;
@@ -22,7 +22,7 @@ public class CollisionCheck {
 
         switch (entity.direction){
             case "jump":
-                iEntityTopRow = (iEntityTopWorldY - entity.speed)/gp.iTileSize;
+                iEntityTopRow = (iEntityTopWorldY - entity.iSpeed)/gp.iTileSize;
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
                 if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
@@ -30,7 +30,7 @@ public class CollisionCheck {
                 }
                 break;
             case "crouch", "idle":
-                iEntityBottomRow = (iEntityBottomWorldY + entity.speed)/gp.iTileSize;
+                iEntityBottomRow = (iEntityBottomWorldY + entity.iSpeed)/gp.iTileSize;
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
                 if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
@@ -39,7 +39,7 @@ public class CollisionCheck {
                 }
                 break;
             case "left":
-                iEntityLeftCol = (iEntityLeftWorldX - entity.speed)/gp.iTileSize;
+                iEntityLeftCol = (iEntityLeftWorldX - entity.iSpeed)/gp.iTileSize;
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
                 if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
@@ -47,7 +47,7 @@ public class CollisionCheck {
                 }
                 break;
             case "right":
-                iEntityRightCol = (iEntityRightWorldX + entity.speed)/gp.iTileSize;
+                iEntityRightCol = (iEntityRightWorldX + entity.iSpeed)/gp.iTileSize;
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
                 if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
@@ -55,8 +55,8 @@ public class CollisionCheck {
                 }
                 break;
             case "right jump":
-                iEntityLeftCol = (iEntityLeftWorldX - entity.speed)/gp.iTileSize;
-                iEntityRightCol = (iEntityRightWorldX + entity.speed)/gp.iTileSize;
+                iEntityLeftCol = (iEntityLeftWorldX - entity.iSpeed)/gp.iTileSize;
+                iEntityRightCol = (iEntityRightWorldX + entity.iSpeed)/gp.iTileSize;
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
                 iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
@@ -65,8 +65,8 @@ public class CollisionCheck {
                 }
                 break;
             case "left jump":
-                iEntityLeftCol = (iEntityLeftWorldX - entity.speed)/gp.iTileSize;
-                iEntityRightCol = (iEntityRightWorldX + entity.speed)/gp.iTileSize;
+                iEntityLeftCol = (iEntityLeftWorldX - entity.iSpeed)/gp.iTileSize;
+                iEntityRightCol = (iEntityRightWorldX + entity.iSpeed)/gp.iTileSize;
                 iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
                 iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
                 iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];

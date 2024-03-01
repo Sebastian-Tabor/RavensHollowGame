@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Player extends EntityManager {
+public class Player extends Entity {
     final GamePanel gp;
     final KeyBinds keyBinds;
     public final int iScreenX;
@@ -24,24 +24,17 @@ public class Player extends EntityManager {
     //PLAYER HITBOX
         hitBox = new Rectangle(8, 0, 48, 64);
     //PLAYER POS METHOD IMPLEMENTATION
-        if (gp.bEnterLevel){
-            setPosStartLevel();
-        } else {setDefaultValues();}
+        setDefaultValues();
     //PLAYER IMAGE METHOD IMPLEMENTATION
         getPlayerImage();
     }
 
-//SETTING PLAYER POSITION
+//SETTING PLAYER VALUES POSITION
     public void setDefaultValues() {
-        iWorldX = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenColumns));
-        iWorldY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
-        speed = 10;
-        direction = "idle";
-    }
-    public void setPosStartLevel() {
         iWorldX = (gp.iTileSize * (int)(0.1 * gp.iMaxScreenColumns));
         iWorldY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
-        speed = 10;
+        iSpeed = 10;
+        iRecoveryTime = 60;
         direction = "idle";
     }
 
@@ -76,8 +69,10 @@ public class Player extends EntityManager {
                 direction = "right";
             }
             if (KeyBinds.bUpPressed) {
+                bCanJump = false;
                 direction = "jump";
             } else if (KeyBinds.bSpacePressed) {
+                bCanJump = false;
                 direction = "jump";
             } else if (KeyBinds.bDownPressed) {
                 direction = "crouch";
@@ -99,10 +94,10 @@ public class Player extends EntityManager {
             direction = "idle";
         }
     //CAN JUMP
-        if (iJumpCounter > 30) {
-            bCanJump = false;
-        }
         if (bCollisionFloor) {
+            bFalling = false;
+        }
+        if (bCollisionFloor && !bFalling) {
             bCanJump = true;
         }
     //COLLISION CHECK
@@ -114,32 +109,30 @@ public class Player extends EntityManager {
             switch (direction) {
                 case "jump":
                     if (bCanJump) {
-                        iWorldY -= 2 * speed;
-                        iJumpCounter++;
+                        jump(this);
                     }
                     break;
                 case "crouch", "idle":
-                    iWorldY += 2 * speed;
+//REMOVE THIS B4 FINAL
+                    iWorldY += 2 * iSpeed;
                     break;
                 case "left jump":
+                    moveLeft(this);
                     if (bCanJump) {
-                        iWorldY -= 2 * speed;
-                        iJumpCounter++;
+                        jump(this);
                     }
-                    iWorldX -= speed;
                     break;
                 case "right jump":
+                    moveRight(this);
                     if (bCanJump) {
-                        iWorldY -= 2 * speed;
-                        iJumpCounter++;
+                        jump(this);
                     }
-                    iWorldX += speed;
                     break;
                 case "left":
-                    iWorldX -= speed;
+                    moveLeft(this);
                     break;
                 case "right":
-                    iWorldX += speed;
+                    moveRight(this);
                     break;
             }
         }

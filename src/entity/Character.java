@@ -1,6 +1,6 @@
 package entity;
 
-public class Character extends EntityManager {
+public class Character extends Entity {
     //entity.Character stats
 
     //Characters
