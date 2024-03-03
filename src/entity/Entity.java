@@ -41,6 +41,5 @@ public class Entity {
                 iWorldY -= entity.iSpeed/5;
                 bCanJump = false;
         }
-        bCanJump = true;
     }
 }

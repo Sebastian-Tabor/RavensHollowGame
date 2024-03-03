@@ -28,7 +28,7 @@ public class TileManager {
             tile[1].image = ImageIO.read(new File("./res/tiles/gabe.png"));
             tile[1].collision = true;
 
-        }catch(IOException e){
+        } catch(IOException e){
             e.printStackTrace();
         }
     }
