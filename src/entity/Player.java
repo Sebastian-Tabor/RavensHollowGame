@@ -32,7 +32,7 @@ public class Player extends Entity {
 //SETTING PLAYER VALUES POSITION
     public void setDefaultValues() {
         iWorldX = (gp.iTileSize * (int)(0.1 * gp.iMaxScreenColumns));
-        iWorldY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
+        iWorldY = (gp.iTileSize * (int)(0.3 * gp.iMaxScreenRows));
         iSpeed = 10;
         iRecoveryTime = 120;
         direction = "idle";
@@ -70,30 +70,39 @@ public class Player extends Entity {
                 direction = "right";
                 moveRight(this);
             }
-            if (KeyBinds.bUpPressed && this.bCanJump()) {
+            if (KeyBinds.bUpPressed) {
                 jump(this);
                 direction = "jump";
-            } else if (KeyBinds.bSpacePressed && this.bCanJump()) {
+            } else if (KeyBinds.bSpacePressed) {
                 jump(this);
                 direction = "jump";
             } else if (KeyBinds.bDownPressed) {
                 direction = "crouch";
             }
-            // ADD JUMP LEFT AND JUMP RIGHT
+            if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed || KeyBinds.bLeftPressed && KeyBinds.bSpacePressed) {
+                direction = "left jump";
+            }
+            if (KeyBinds.bRightPressed && KeyBinds.bUpPressed || KeyBinds.bRightPressed && KeyBinds.bSpacePressed) {
+                direction = "right jump";
+            }
         }
         else {
             direction = "idle";
         }
     //COLLISION CHECK
         gp.cCheck.checkCollision(this);
-    //CAN JUMP
+    //JUMP CONDITIONS
         if (bCollisionFloor) {
-            bFalling = false;
+            iJumpCooldown--;
+            if (iJumpCooldown < 0) {
+                iJumpCooldown = 0;
+            }
+        } else {
+            this.iWorldY -= iJump;
+            iJump--;
+            iWorldY --;
         }
-    //PLAYER RESET
-        if (iWorldY > gp.floor) {
-            iWorldY = 780;
-        }
+        bFalling = iJump <= 0;
     //SPRITE COUNTER
         iSpriteCounter++;
         if (iSpriteCounter > 12) {

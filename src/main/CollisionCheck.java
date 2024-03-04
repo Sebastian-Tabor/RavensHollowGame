@@ -9,15 +9,14 @@ public class CollisionCheck {
 
     }
     public void checkCollision(Entity entity) {
-        final int iSenseRange = 10;
         int iEntityLeftWorldX = entity.iWorldX + entity.hitBox.x;
         int iEntityRightWorldX = entity.iWorldX + entity.hitBox.x + entity.hitBox.width;
         int iEntityTopWorldY = entity.iWorldY + entity.hitBox.y;
         int iEntityBottomWorldY = entity.iWorldY + entity.hitBox.y + entity.hitBox.height;
-        int iEntityLeftCol = (iEntityLeftWorldX - iSenseRange)/gp.iTileSize;
-        int iEntityRightCol = (iEntityRightWorldX + iSenseRange)/gp.iTileSize;
-        int iEntityTopRow = (iEntityTopWorldY - iSenseRange)/gp.iTileSize;
-        int iEntityBottomRow = (iEntityBottomWorldY + iSenseRange)/gp.iTileSize;
+        int iEntityLeftCol = (iEntityLeftWorldX - entity.iSenseRange)/gp.iTileSize;
+        int iEntityRightCol = (iEntityRightWorldX + entity.iSenseRange)/gp.iTileSize;
+        int iEntityTopRow = (iEntityTopWorldY - entity.iSenseRange)/gp.iTileSize;
+        int iEntityBottomRow = (iEntityBottomWorldY + entity.iSenseRange)/gp.iTileSize;
         int iTileNum1, iTileNum2, iTileNum3, iTileNum4;
 
 
@@ -30,6 +29,6 @@ public class CollisionCheck {
         entity.bCollisionRight = gp.tileManager.tile[iTileNum2].collision || gp.tileManager.tile[iTileNum4].collision;
         entity.bCollisionTop = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision;
         entity.bCollisionBottom = gp.tileManager.tile[iTileNum2].collision || gp.tileManager.tile[iTileNum4].collision;
-        entity.bCollisionFloor = gp.tileManager.tile[iTileNum1].collision && gp.tileManager.tile[iTileNum4].collision;
+        entity.bCollisionFloor = gp.tileManager.tile[iTileNum3].collision && gp.tileManager.tile[iTileNum4].collision;
     }
 }

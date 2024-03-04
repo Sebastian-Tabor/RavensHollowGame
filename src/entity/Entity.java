@@ -1,5 +1,7 @@
 package entity;
 
+import main.CollisionCheck;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -19,11 +21,13 @@ public class Entity {
     public int iSpriteNumber = 1;
 
 //JUMPING
-    public int iJump = 0;
+    public int iJump;
     public int iJumpCooldown;
+    public boolean bCanJump;
     public boolean bFalling = false;
     public int iRecoveryTime;
 //COLLISION
+    public int iSenseRange = 10;
     public Rectangle hitBox;
     public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionFloor = false;
 
@@ -33,13 +37,7 @@ public class Entity {
         bCollisionTop = Boolean;
         bCollisionBottom = Boolean;
     }
-    public boolean bCanJump() {
-        if (iJumpCooldown == 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
 //DIRECTION
     public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2;
@@ -56,10 +54,11 @@ public class Entity {
         }
     }
     public void jump(Entity entity) {
-        if (!bCollisionTop) {
-            for (int counter = 0; counter <= iRecoveryTime; counter++) {
-                iWorldY -= entity.iSpeed/30;
-            }
+        if (bCanJump) {
+            iJumpCooldown = 30;
+            entity.iWorldY -= (1 + iSenseRange);
+            iJump = 30;
+            bCanJump = false;
         }
     }
 }
