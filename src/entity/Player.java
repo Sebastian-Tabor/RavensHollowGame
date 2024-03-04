@@ -34,8 +34,9 @@ public class Player extends Entity {
         iWorldX = (gp.iTileSize * (int)(0.1 * gp.iMaxScreenColumns));
         iWorldY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
         iSpeed = 10;
-        iRecoveryTime = 60;
+        iRecoveryTime = 120;
         direction = "idle";
+        setCollision(false);
     }
 
 //PLAYER IMAGE METHOD
@@ -59,84 +60,40 @@ public class Player extends Entity {
 
 //UPDATE
     public void update() {
-
-    //KEYBIND MAPPING
+    //MOVEMENT AND KEYBINDS
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bSpacePressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
                 direction = "left";
+                moveLeft(this);
             }
             if (KeyBinds.bRightPressed) {
                 direction = "right";
+                moveRight(this);
             }
-            if (KeyBinds.bUpPressed) {
-                bCanJump = false;
+            if (KeyBinds.bUpPressed && this.bCanJump()) {
+                jump(this);
                 direction = "jump";
-            } else if (KeyBinds.bSpacePressed) {
-                bCanJump = false;
+            } else if (KeyBinds.bSpacePressed && this.bCanJump()) {
+                jump(this);
                 direction = "jump";
             } else if (KeyBinds.bDownPressed) {
                 direction = "crouch";
             }
-            if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed ) {
-                direction = "left jump";
-            }
-            if (KeyBinds.bRightPressed && KeyBinds.bUpPressed ) {
-                direction = "right jump";
-            }
-            if (KeyBinds.bLeftPressed && KeyBinds.bSpacePressed) {
-                direction = "left jump";
-            }
-            if (KeyBinds.bRightPressed && KeyBinds.bSpacePressed ) {
-                direction = "right jump";
-            }
+            // ADD JUMP LEFT AND JUMP RIGHT
         }
         else {
             direction = "idle";
         }
+    //COLLISION CHECK
+        gp.cCheck.checkCollision(this);
     //CAN JUMP
         if (bCollisionFloor) {
             bFalling = false;
         }
-        if (bCollisionFloor && !bFalling) {
-            bCanJump = true;
+    //PLAYER RESET
+        if (iWorldY > gp.floor) {
+            iWorldY = 780;
         }
-    //COLLISION CHECK
-        bCollisionOn = false;
-        bCollisionFloor = false;
-        gp.cCheck.checkTile(this);
-
-        if (!bCollisionOn) {
-            switch (direction) {
-                case "jump":
-                    if (bCanJump) {
-                        jump(this);
-                    }
-                    break;
-                case "crouch", "idle":
-//REMOVE THIS B4 FINAL
-                    iWorldY += 2 * iSpeed;
-                    break;
-                case "left jump":
-                    moveLeft(this);
-                    if (bCanJump) {
-                        jump(this);
-                    }
-                    break;
-                case "right jump":
-                    moveRight(this);
-                    if (bCanJump) {
-                        jump(this);
-                    }
-                    break;
-                case "left":
-                    moveLeft(this);
-                    break;
-                case "right":
-                    moveRight(this);
-                    break;
-            }
-        }
-
     //SPRITE COUNTER
         iSpriteCounter++;
         if (iSpriteCounter > 12) {

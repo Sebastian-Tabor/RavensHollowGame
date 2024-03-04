@@ -8,11 +8,9 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    // Game status booleans
-    public boolean bScrollerLevel = true;
-    public boolean bEnterLevel = true;
-
-    //Frame setting vars
+//FLOOR
+    public final int floor = 800;
+//Frame setting vars
     public final int iOriginalTileSize = 64;
     public final int iScale = 1;
     public final int iTileSize = iOriginalTileSize * iScale;
@@ -67,7 +65,6 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        //repainting Player character on each loop
         Graphics2D g2 = (Graphics2D) g;
         tileManager.draw(g2);
         player.draw(g2);

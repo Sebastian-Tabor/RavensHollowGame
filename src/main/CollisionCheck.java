@@ -8,72 +8,28 @@ public class CollisionCheck {
         this.gp = gp;
 
     }
-    public void checkTile (Entity entity) {
+    public void checkCollision(Entity entity) {
+        final int iSenseRange = 10;
         int iEntityLeftWorldX = entity.iWorldX + entity.hitBox.x;
         int iEntityRightWorldX = entity.iWorldX + entity.hitBox.x + entity.hitBox.width;
         int iEntityTopWorldY = entity.iWorldY + entity.hitBox.y;
         int iEntityBottomWorldY = entity.iWorldY + entity.hitBox.y + entity.hitBox.height;
+        int iEntityLeftCol = (iEntityLeftWorldX - iSenseRange)/gp.iTileSize;
+        int iEntityRightCol = (iEntityRightWorldX + iSenseRange)/gp.iTileSize;
+        int iEntityTopRow = (iEntityTopWorldY - iSenseRange)/gp.iTileSize;
+        int iEntityBottomRow = (iEntityBottomWorldY + iSenseRange)/gp.iTileSize;
+        int iTileNum1, iTileNum2, iTileNum3, iTileNum4;
 
-        int iEntityLeftCol = iEntityLeftWorldX/gp.iTileSize;
-        int iEntityRightCol = iEntityRightWorldX/gp.iTileSize;
-        int iEntityTopRow = iEntityTopWorldY/gp.iTileSize;
-        int iEntityBottomRow = iEntityBottomWorldY/gp.iTileSize;
-        int iTileNum1, iTileNum2, iTileNum3;
 
-        switch (entity.direction){
-            case "jump":
-                iEntityTopRow = (iEntityTopWorldY - entity.iSpeed)/gp.iTileSize;
-                iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
-                iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
-                if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
-                    entity.bCollisionOn = true;
-                }
-                break;
-            case "crouch", "idle":
-                iEntityBottomRow = (iEntityBottomWorldY + entity.iSpeed)/gp.iTileSize;
-                iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
-                iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
-                if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
-                    entity.bCollisionOn = true;
-                    entity.bCollisionFloor = true;
-                }
-                break;
-            case "left":
-                iEntityLeftCol = (iEntityLeftWorldX - entity.iSpeed)/gp.iTileSize;
-                iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
-                iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
-                if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
-                    entity.bCollisionOn = true;
-                }
-                break;
-            case "right":
-                iEntityRightCol = (iEntityRightWorldX + entity.iSpeed)/gp.iTileSize;
-                iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
-                iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
-                if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision){
-                    entity.bCollisionOn = true;
-                }
-                break;
-            case "right jump":
-                iEntityLeftCol = (iEntityLeftWorldX - entity.iSpeed)/gp.iTileSize;
-                iEntityRightCol = (iEntityRightWorldX + entity.iSpeed)/gp.iTileSize;
-                iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
-                iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
-                iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
-                if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision || gp.tileManager.tile[iTileNum3].collision){
-                    entity.bCollisionOn = true;
-                }
-                break;
-            case "left jump":
-                iEntityLeftCol = (iEntityLeftWorldX - entity.iSpeed)/gp.iTileSize;
-                iEntityRightCol = (iEntityRightWorldX + entity.iSpeed)/gp.iTileSize;
-                iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
-                iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
-                iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
-                if (gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision || gp.tileManager.tile[iTileNum3].collision){
-                    entity.bCollisionOn = true;
-                }
-                break;
-        }
+        iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
+        iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
+        iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
+        iTileNum4 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
+
+        entity.bCollisionLeft = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum3].collision;
+        entity.bCollisionRight = gp.tileManager.tile[iTileNum2].collision || gp.tileManager.tile[iTileNum4].collision;
+        entity.bCollisionTop = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision;
+        entity.bCollisionBottom = gp.tileManager.tile[iTileNum2].collision || gp.tileManager.tile[iTileNum4].collision;
+        entity.bCollisionFloor = gp.tileManager.tile[iTileNum1].collision && gp.tileManager.tile[iTileNum4].collision;
     }
 }
