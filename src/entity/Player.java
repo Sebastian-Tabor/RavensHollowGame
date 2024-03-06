@@ -34,7 +34,7 @@ public class Player extends Entity {
         iWorldX = (gp.iTileSize * (int)(0.1 * gp.iMaxScreenColumns));
         iWorldY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
         iSpeed = 10;
-        iRecoveryTime = 15;
+        iRecoveryTime = 10;
         direction = "idle";
     }
 
