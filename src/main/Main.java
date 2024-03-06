@@ -22,6 +22,7 @@ public class Main {
         GamePanel gp = new GamePanel();
         window.add(gp);
         gp.requestFocus();
+        gp.setupGame();
         gp.startGameThread();
 
 

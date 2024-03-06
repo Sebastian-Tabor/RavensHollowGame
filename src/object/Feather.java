@@ -4,15 +4,18 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
-public class Feather extends Object{
+public class Feather extends Object {
 
     public Feather() {
         sName = "Feather";
         try {
-            biImage1 = ImageIO.read(new File("./res/objects/feather1.png"));
-            biImage2 = ImageIO.read(new File("./res/objects/feather2.png"));
-        } catch(IOException e){
-            e.printStackTrace();
+            if (iSpriteNumber == 1) {
+                biImage = ImageIO.read(new File("./res/objects/feather1.png"));
+            } else {
+                biImage = ImageIO.read(new File("./res/objects/feather2.png"));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -29,7 +29,7 @@ public class TileManager {
             tile[1].collision = true;
 
         } catch(IOException e){
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
     public void loadMap(){

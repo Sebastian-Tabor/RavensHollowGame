@@ -1,15 +1,13 @@
 package main;
 
 import entity.Player;
+import object.Object;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
-
-//FLOOR
-    public final int floor = 800;
 //Frame setting vars
     public final int iOriginalTileSize = 64;
     public final int iScale = 1;
@@ -29,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
 //CLASS OBJECT CREATION
     public CollisionCheck cCheck = new CollisionCheck(this);
+    public ObjectSetter oSetter = new ObjectSetter(this);
     public Player player = new Player(this, keyBinds);
     public Object[] obj = new Object[10];
 
@@ -45,7 +44,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.setAlignmentX(0);
         this.setAlignmentY(0);
     }
-
+    public void setupGame() {
+        oSetter.setObject();
+    }
     public void startGameThread(){gameThread = new Thread(this);gameThread.start();}
 
     @Override
@@ -58,17 +59,34 @@ public class GamePanel extends JPanel implements Runnable {
             update();
             //Draw
             repaint();
-            try {double dRemainingTimeMS = (dNextDrawTimeNS - System.nanoTime())/1000000; Thread.sleep((long) dRemainingTimeMS); if(dRemainingTimeMS < 0){dRemainingTimeMS = 0;} dNextDrawTimeNS += dDrawIntervalNS;}
-            catch (InterruptedException e) {throw new RuntimeException(e);}
+            try {
+                double dRemainingTimeMS = (dNextDrawTimeNS - System.nanoTime())/1000000;
+                Thread.sleep((long) dRemainingTimeMS);
+                if(dRemainingTimeMS < 0) dRemainingTimeMS = 0;
+
+                dNextDrawTimeNS += dDrawIntervalNS;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     public void update() {
         player.update();
+        for (Object object : obj) {
+            if (object != null) {
+                object.update();
+            }
+        }
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         tileManager.draw(g2);
+        for (Object object : obj) {
+            if (object != null) {
+                object.draw(g2, this);
+            }
+        }
         player.draw(g2);
         g2.dispose();
     }

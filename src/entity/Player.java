@@ -29,14 +29,13 @@ public class Player extends Entity {
         getPlayerImage();
     }
 
-//SETTING PLAYER VALUES POSITION
+//SETTING PLAYER VALUES
     public void setDefaultValues() {
         iWorldX = (gp.iTileSize * (int)(0.1 * gp.iMaxScreenColumns));
-        iWorldY = (gp.iTileSize * (int)(0.3 * gp.iMaxScreenRows));
+        iWorldY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
         iSpeed = 10;
-        iRecoveryTime = 120;
+        iRecoveryTime = 15;
         direction = "idle";
-        setCollision(false);
     }
 
 //PLAYER IMAGE METHOD
@@ -56,18 +55,23 @@ public class Player extends Entity {
             crouch2 = ImageIO.read(new File("./res/player/crouch2.png"));
             idle1 = ImageIO.read(new File("./res/player/idle1.png"));
             idle2 = ImageIO.read(new File("./res/player/idle2.png"));
-        } catch (IOException e) {e.printStackTrace();}}
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 //UPDATE
     public void update() {
-    //MOVEMENT AND KEYBINDS
+    //KEYBIND MOVEMENT
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bSpacePressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
                 direction = "left";
+                iVelocityX = -iSpeed;
                 moveLeft(this);
             }
             if (KeyBinds.bRightPressed) {
                 direction = "right";
+                iVelocityX = iSpeed;
                 moveRight(this);
             }
             if (KeyBinds.bUpPressed) {
@@ -81,28 +85,56 @@ public class Player extends Entity {
             }
             if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed || KeyBinds.bLeftPressed && KeyBinds.bSpacePressed) {
                 direction = "left jump";
+                iVelocityX = -iSpeed;
             }
             if (KeyBinds.bRightPressed && KeyBinds.bUpPressed || KeyBinds.bRightPressed && KeyBinds.bSpacePressed) {
                 direction = "right jump";
+                iVelocityX = iSpeed;
             }
         }
         else {
             direction = "idle";
         }
     //COLLISION CHECK
+        bCollisionDetected = false;
         gp.cCheck.checkCollision(this);
-    //JUMP CONDITIONS
-        if (bCollisionFloor) {
+    //STUCK PREVENTION
+        if (bStuckTopLeft) {
+            iWorldY++;
+            iWorldX++;
+        }
+        if (bStuckTopRight) {
+            iWorldY++;
+            iWorldX--;
+        }
+        if (bStuckBotLeft) {
+            iWorldY--;
+            iWorldX++;
+        }
+        if (bStuckBotRight) {
+            iWorldY--;
+            iWorldX--;
+        }
+    //POSSIBLE IMPLEMENTS JUMP INTERFACE?
+        //JUMP CONDITIONS
+        if (bCollisionBottom) {
+            iVelocityY = 0;
             iJumpCooldown--;
             if (iJumpCooldown < 0) {
                 iJumpCooldown = 0;
+                bCanJump = true;
             }
         } else {
-            this.iWorldY -= iJump;
-            iJump--;
-            iWorldY --;
+        //JUMPING/FALLING MOVEMENT
+            this.iWorldY -= iVelocityY;
+            iVelocityY --;
+        //GRAVITY
+            if (iVelocityY < -10) iVelocityY = -10;
+        //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
+            if (bCollisionTop) iVelocityY = -5;
         }
-        bFalling = iJump <= 0;
+    //SET FALLING
+        bFalling = iVelocityY <= 0;
     //SPRITE COUNTER
         iSpriteCounter++;
         if (iSpriteCounter > 12) {
@@ -175,6 +207,6 @@ public class Player extends Entity {
                 }
                 break;
         }
-            g2.drawImage(image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
+        g2.drawImage(image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
     }
 }
