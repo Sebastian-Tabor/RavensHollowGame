@@ -2,13 +2,15 @@ package main;
 
 import entity.Entity;
 
+import java.awt.*;
+
 public class CollisionCheck {
     GamePanel gp;
     public CollisionCheck (GamePanel gp) {
         this.gp = gp;
 
     }
-    public void checkCollision(Entity entity) {
+    public void checkTile(Entity entity) {
         int iEntityLeftWorldX = entity.iWorldX + entity.hitBox.x;
         int iEntityRightWorldX = entity.iWorldX + entity.hitBox.x + entity.hitBox.width;
         int iEntityTopWorldY = entity.iWorldY + entity.hitBox.y;
@@ -41,5 +43,30 @@ public class CollisionCheck {
         entity.bStuckTopRight = gp.tileManager.tile[iTileNum2].collision && gp.tileManager.tile[iTileNum6].collision;
         entity.bStuckBotLeft = gp.tileManager.tile[iTileNum3].collision && gp.tileManager.tile[iTileNum7].collision;
         entity.bStuckBotRight = gp.tileManager.tile[iTileNum4].collision && gp.tileManager.tile[iTileNum8].collision;
+    }
+
+    public int checkObject(Entity entity, boolean player) {
+         int index = 999;
+         for (int i = 0; i < gp.obj.length; i++) {
+             if (gp.obj[i] != null) {
+                 entity.hitBox.x = entity.iWorldX + entity.hitBox.x;
+                 entity.hitBox.y = entity.iWorldY + entity.hitBox.y;
+                 gp.obj[i].hitBox.x = gp.obj[i].iWorldX + gp.obj[i].hitBox.x;
+                 gp.obj[i].hitBox.y = gp.obj[i].iWorldY + gp.obj[i].hitBox.y;
+                 entity.hitBoxLeftSense = new Rectangle(entity.hitBox.x - entity.iSpeed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+                 entity.hitBoxRightSense = new Rectangle(entity.hitBox.x + entity.iSpeed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+                 entity.hitBoxTopSense = new Rectangle(entity.hitBox.x, entity.hitBox.y - entity.iSpeed, entity.hitBox.width, entity.hitBox.height);
+                 entity.hitBoxBotSense = new Rectangle(entity.hitBox.x, entity.hitBox.y + entity.iSpeed, entity.hitBox.width, entity.hitBox.height);
+
+                 if (entity.hitBoxLeftSense.intersects(gp.obj[i].hitBox) || entity.hitBoxRightSense.intersects(gp.obj[i].hitBox) || entity.hitBoxTopSense.intersects(gp.obj[i].hitBox) || entity.hitBoxBotSense.intersects(gp.obj[i].hitBox)){
+                     if (player) index = i;
+                 }
+                 entity.hitBox.x = entity.iHitBoxDefaultX;
+                 entity.hitBox.y = entity.iHitBoxDefaultY;
+                 gp.obj[i].hitBox.x = gp.obj[i].iHitBoxDefaultX;
+                 gp.obj[i].hitBox.y = gp.obj[i].iHitBoxDefaultY;
+             }
+         }
+         return index;
     }
 }

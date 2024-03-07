@@ -1,6 +1,7 @@
 package entity;
 import main.GamePanel;
 import main.KeyBinds;
+import object.Object;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,7 +23,9 @@ public class Player extends Entity {
         iScreenX = (gp.iScreenWidth/2 - gp.iTileSize/2);
         iScreenY = (gp.iScreenHeight/2 - gp.iTileSize/2);
     //PLAYER HITBOX
-        hitBox = new Rectangle(8, 0, 48, 64);
+        hitBox = new Rectangle(8, 2, 48, 60);
+        iHitBoxDefaultX = hitBox.x;
+        iHitBoxDefaultY = hitBox.y;
     //PLAYER POS METHOD IMPLEMENTATION
         setDefaultValues();
     //PLAYER IMAGE METHOD IMPLEMENTATION
@@ -97,7 +100,9 @@ public class Player extends Entity {
         }
     //COLLISION CHECK
         bCollisionDetected = false;
-        gp.cCheck.checkCollision(this);
+        gp.cCheck.checkTile(this);
+        int iObjectIndex = gp.cCheck.checkObject(this, true);
+        pickupObject(iObjectIndex);
     //STUCK PREVENTION
         if (bStuckTopLeft) {
             iWorldY++;
@@ -144,6 +149,23 @@ public class Player extends Entity {
                 iSpriteNumber = 2;}
         iSpriteCounter = 0;
         }
+    }
+
+//OBJECT METHODS
+    public void pickupObject(int index) {
+        if(index != 999 && gp.obj[index].bStorable){
+            String sObjectName = gp.obj[index].sName;
+            switch (sObjectName) {
+                case "Feather":
+                    iSpeed += 5;
+                    gp.obj[index] = null;
+                    break;
+                case "Bone":
+                    gp.obj[index] = null;
+                    break;
+            }
+        }
+
     }
 
 //DRAW METHOD

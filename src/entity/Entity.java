@@ -27,10 +27,10 @@ public class Entity {
     public int iRecoveryTime;
 //COLLISION
     public int iSenseRange = 5;
-    public Rectangle hitBox;
+    public Rectangle hitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
+    public int iHitBoxDefaultX, iHitBoxDefaultY;
     public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected = false;
     public boolean bStuckTopLeft, bStuckTopRight, bStuckBotLeft, bStuckBotRight = false;
-
 //DIRECTION
     public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2;
     public String direction;
