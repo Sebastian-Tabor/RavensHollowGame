@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
-//Frame setting vars
+//FRAME SETTING VARIABLES
     public final int iOriginalTileSize = 64;
     public final int iScale = 1;
     public final int iTileSize = iOriginalTileSize * iScale;
@@ -16,25 +16,22 @@ public class GamePanel extends JPanel implements Runnable {
     public final int iMaxScreenRows = 22;
     public final int iScreenWidth = iMaxScreenColumns * iTileSize;
     public final int iScreenHeight = iMaxScreenRows * iTileSize;
-
-    //Map size
+//MAP SIZE
     public final int iMaxMapCol = 90;
     public final int iMaxMapRow = 22;
-    public final int iMapHeight = iTileSize * iMaxMapCol;
-    public final int iMapWidth = iTileSize * iMaxMapRow;
     TileManager tileManager = new TileManager(this);
     KeyBinds keyBinds = new KeyBinds();
     Thread gameThread;
 //CLASS OBJECT CREATION
     public CollisionCheck cCheck = new CollisionCheck(this);
     public ObjectSetter oSetter = new ObjectSetter(this);
+    public Sound sound = new Sound();
     public Player player = new Player(this, keyBinds);
+    public Hare hare = new Hare(this);
     public Object[] obj = new Object[10];
-
-    //FPS
+//FPS
     int iFPS = 60;
-
-    //Keybind objects
+//Keybind objects
     public GamePanel() {
         this.setPreferredSize(new Dimension(iScreenWidth,iScreenHeight));
         this.setBackground(Color.black);
@@ -46,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void setupGame() {
         oSetter.setObject();
+        playMusic(1);
     }
     public void startGameThread(){gameThread = new Thread(this);gameThread.start();}
 
@@ -72,6 +70,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void update() {
         player.update();
+        hare.update();
         for (Object object : obj) {
             if (object != null) {
                 object.update();
@@ -89,5 +88,17 @@ public class GamePanel extends JPanel implements Runnable {
         }
         player.draw(g2);
         g2.dispose();
+    }
+    public void playMusic(int track) {
+        sound.setFile(track);
+        sound.playSound();
+        sound.loopSound();
+    }
+    public void stopMusic(int track) {
+        sound.stopSound();
+    }
+    public void playSoundEffect(int track) {
+        sound.setFile(track);
+        sound.playSound();
     }
 }

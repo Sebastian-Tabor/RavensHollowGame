@@ -150,14 +150,14 @@ public class Player extends Entity {
         iSpriteCounter = 0;
         }
     }
-
 //OBJECT METHODS
     public void pickupObject(int index) {
         if(index != 999 && gp.obj[index].bStorable){
             String sObjectName = gp.obj[index].sName;
             switch (sObjectName) {
                 case "Feather":
-                    iSpeed += 5;
+                    iSpeed += 1;
+                    gp.playSoundEffect(0);
                     gp.obj[index] = null;
                     break;
                 case "Bone":
@@ -167,7 +167,6 @@ public class Player extends Entity {
         }
 
     }
-
 //DRAW METHOD
     public void draw(Graphics2D g2) {
         BufferedImage image = null;

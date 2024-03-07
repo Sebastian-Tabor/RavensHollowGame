@@ -7,7 +7,7 @@ import java.awt.*;
 public class Main {
 
     public static void main(String[] args) {
-        //Window
+        //WINDOW
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setUndecorated(false);
@@ -18,14 +18,12 @@ public class Main {
         window.setMinimumSize(new Dimension(640, 480));
 
 
-        //Adding GamePanel
+        //GAMEPANEL SETUP
         GamePanel gp = new GamePanel();
         window.add(gp);
         gp.requestFocus();
         gp.setupGame();
         gp.startGameThread();
-
-
 
         window.pack();
         window.setVisible(true);
