@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import entity.Player;
 import object.Object;
 import tile.TileManager;
@@ -19,16 +20,24 @@ public class GamePanel extends JPanel implements Runnable {
 //MAP SIZE
     public final int iMaxMapCol = 90;
     public final int iMaxMapRow = 22;
+//CLASS OBJECT CREATION
     TileManager tileManager = new TileManager(this);
     KeyBinds keyBinds = new KeyBinds();
-    Thread gameThread;
-//CLASS OBJECT CREATION
     public CollisionCheck cCheck = new CollisionCheck(this);
-    public ObjectSetter oSetter = new ObjectSetter(this);
-    public Sound sound = new Sound();
+    public AssetSetter aSetter = new AssetSetter(this);
+    public Sound music = new Sound();
+    public Sound soundeffect = new Sound();
     public Player player = new Player(this, keyBinds);
-    public Hare hare = new Hare(this);
     public Object[] obj = new Object[10];
+    public Entity[] npc = new Entity[5];
+    public UserInterface ui = new UserInterface(this);
+    Thread gameThread;
+//GAME STATE
+    public int iGameState;
+    public final int titleState = 0;
+    public final int playState = 1;
+    public final int pauseState = 2;
+    public final int endState = 3;
 //FPS
     int iFPS = 60;
 //Keybind objects
@@ -42,8 +51,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.setAlignmentY(0);
     }
     public void setupGame() {
-        oSetter.setObject();
+        aSetter.setObject();
+        aSetter.setNPC();
         playMusic(1);
+        stopMusic();
     }
     public void startGameThread(){gameThread = new Thread(this);gameThread.start();}
 
@@ -61,7 +72,6 @@ public class GamePanel extends JPanel implements Runnable {
                 double dRemainingTimeMS = (dNextDrawTimeNS - System.nanoTime())/1000000;
                 Thread.sleep((long) dRemainingTimeMS);
                 if(dRemainingTimeMS < 0) dRemainingTimeMS = 0;
-
                 dNextDrawTimeNS += dDrawIntervalNS;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -69,13 +79,18 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update() {
-        player.update();
-        hare.update();
         for (Object object : obj) {
             if (object != null) {
                 object.update();
             }
         }
+        for (Entity entity : npc) {
+            if (entity != null) {
+                entity.update();
+            }
+        }
+        player.update();
+        ui.update();
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -86,19 +101,30 @@ public class GamePanel extends JPanel implements Runnable {
                 object.draw(g2, this);
             }
         }
+        for (Entity entity : npc) {
+            if (entity != null) {
+                entity.draw(g2);
+            }
+        }
+        //PLAYER
         player.draw(g2);
+        //UI
+        ui.draw(g2);
         g2.dispose();
     }
     public void playMusic(int track) {
-        sound.setFile(track);
-        sound.playSound();
-        sound.loopSound();
+        music.setFile(track);
+        music.playSound();
+        music.loopSound();
     }
-    public void stopMusic(int track) {
-        sound.stopSound();
+    public void stopMusic() {
+        music.stopSound();
     }
     public void playSoundEffect(int track) {
-        sound.setFile(track);
-        sound.playSound();
+        soundeffect.setFile(track);
+        soundeffect.playSound();
+    }
+    public void stopSound() {
+        soundeffect.stopSound();
     }
 }

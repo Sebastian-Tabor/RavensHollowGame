@@ -1,7 +1,8 @@
 package entity;
 import main.GamePanel;
 import main.KeyBinds;
-import object.Object;
+import main.UtilityTool;
+import tile.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,18 +11,17 @@ import java.io.File;
 import java.io.IOException;
 
 public class Player extends Entity {
-    final GamePanel gp;
     final KeyBinds keyBinds;
-    public final int iScreenX;
-    public final int iScreenY;
+    public final int iScreenPosX;
+    public final int iScreenPosY;
 
 //PLAYER OBJECT
     public Player(GamePanel gp, KeyBinds keyBinds) {
-        this.gp = gp;
+        super (gp);
         this.keyBinds = keyBinds;
     //PLAYER POS ON SCREEN
-        iScreenX = (gp.iScreenWidth/2 - gp.iTileSize/2);
-        iScreenY = (gp.iScreenHeight/2 - gp.iTileSize/2);
+        iScreenPosX = (gp.iScreenWidth/2 - gp.iTileSize/2);
+        iScreenPosY = (gp.iScreenHeight/2 - gp.iTileSize/2);
     //PLAYER HITBOX
         hitBox = new Rectangle(8, 2, 48, 60);
         iHitBoxDefaultX = hitBox.x;
@@ -40,27 +40,36 @@ public class Player extends Entity {
         iRecoveryTime = 10;
         direction = "idle";
     }
+    public BufferedImage setup(String imageName) {
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage scaledImage = null;
+        try {
+            scaledImage = ImageIO.read(new File( imageName + ".png"));
+            scaledImage = uTool.scaleImage(scaledImage, gp.iTileSize, gp.iTileSize);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return scaledImage;
+    }
 
 //PLAYER IMAGE METHOD
     public void getPlayerImage() {
-        try {
-            left1 = ImageIO.read(new File("./res/player/left1.png"));
-            left2 = ImageIO.read(new File("./res/player/left2.png"));
-            right1 = ImageIO.read(new File("./res/player/right1.png"));
-            right2 = ImageIO.read(new File("./res/player/right2.png"));
-            jump1 = ImageIO.read(new File("./res/player/jump1.png"));
-            jump2 = ImageIO.read(new File("./res/player/jump2.png"));
-            leftjump1 = ImageIO.read(new File("./res/player/leftjump1.png"));
-            leftjump2 = ImageIO.read(new File("./res/player/leftjump2.png"));
-            rightjump1 = ImageIO.read(new File("./res/player/rightjump1.png"));
-            rightjump2 = ImageIO.read(new File("./res/player/rightjump2.png"));
-            crouch1 = ImageIO.read(new File("./res/player/crouch1.png"));
-            crouch2 = ImageIO.read(new File("./res/player/crouch2.png"));
-            idle1 = ImageIO.read(new File("./res/player/idle1.png"));
-            idle2 = ImageIO.read(new File("./res/player/idle2.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+            left1 = setup("./res/player/left1");
+            left2 = setup("./res/player/left2");
+            right1 = setup("./res/player/right1");
+            right2 = setup("./res/player/right2");
+            jump1 = setup("./res/player/jump1");
+            jump2 = setup("./res/player/jump2");
+            leftjump1 = setup("./res/player/leftjump1");
+            leftjump2 = setup("./res/player/leftjump2");
+            rightjump1 = setup("./res/player/rightjump1");
+            rightjump2 = setup("./res/player/rightjump2");
+            crouch1 = setup("./res/player/crouch1");
+            crouch2 = setup("./res/player/crouch2");
+            idle1 = setup("./res/player/idle1");
+            idle2 = setup("./res/player/idle2");
+
     }
 
 //UPDATE
@@ -70,18 +79,18 @@ public class Player extends Entity {
             if (KeyBinds.bLeftPressed) {
                 direction = "left";
                 iVelocityX = -iSpeed;
-                moveLeft(this);
+                moveLeft();
             }
             if (KeyBinds.bRightPressed) {
                 direction = "right";
                 iVelocityX = iSpeed;
-                moveRight(this);
+                moveRight();
             }
             if (KeyBinds.bUpPressed) {
-                jump(this);
+                jump();
                 direction = "jump";
             } else if (KeyBinds.bSpacePressed) {
-                jump(this);
+                jump();
                 direction = "jump";
             } else if (KeyBinds.bDownPressed) {
                 direction = "crouch";
@@ -228,6 +237,6 @@ public class Player extends Entity {
                 }
                 break;
         }
-        g2.drawImage(image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
+        g2.drawImage(image, iScreenPosX, iScreenPosY, gp.iTileSize, gp.iTileSize, null);
     }
 }

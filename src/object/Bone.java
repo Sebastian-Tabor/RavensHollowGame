@@ -10,9 +10,9 @@ public class Bone extends Object{
         sName = "Bone";
         try {
             if (iSpriteNumber == 1) {
-                biImage = ImageIO.read(new File("./res/objects/bone1.png"));
+                image = ImageIO.read(new File("./res/objects/bone1.png"));
             } else {
-                biImage = ImageIO.read(new File("./res/objects/bone2.png"));
+                image = ImageIO.read(new File("./res/objects/bone2.png"));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

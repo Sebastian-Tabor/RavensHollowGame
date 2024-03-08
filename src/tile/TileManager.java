@@ -1,9 +1,11 @@
 package tile;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class TileManager {
@@ -20,15 +22,21 @@ public class TileManager {
         loadMap();
     }
     public void getTileImage() {
+
+            setup(0, "rocket", false);
+            setup(1, "gabe", true);
+
+    }
+    public void setup(int index, String imageName, boolean collision) {
+        UtilityTool uTool = new UtilityTool();
+
         try {
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(new File("./res/tiles/rocket.png"));
+            tile[index] = new Tile();
+            tile[index].image = ImageIO.read(new File("./res/tiles/" + imageName + ".png"));
+            tile[index].image = uTool.scaleImage(tile[index].image, gp.iTileSize, gp.iTileSize);
+            tile[index].collision = collision;
 
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(new File("./res/tiles/gabe.png"));
-            tile[1].collision = true;
-
-        } catch(IOException e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -68,10 +76,10 @@ public class TileManager {
 
                 int iMapX = iMapCol * gp.iTileSize;
                 int iMapY = iMapRow * gp.iTileSize;
-                int iScreenX = iMapX - gp.player.iWorldX + gp.player.iScreenX;
-                int iScreenY = iMapY - gp.player.iWorldY + gp.player.iScreenY;
+                int iScreenX = iMapX - gp.player.iWorldX + gp.player.iScreenPosX;
+                int iScreenY = iMapY - gp.player.iWorldY + gp.player.iScreenPosY;
 
-                if (iMapX + gp.iTileSize > gp.player.iWorldX - gp.player.iScreenX && iMapX - gp.iTileSize < gp.player.iWorldX + gp.player.iScreenX) {
+                if (iMapX + gp.iTileSize > gp.player.iWorldX - gp.player.iScreenPosX && iMapX - gp.iTileSize < gp.player.iWorldX + gp.player.iScreenPosX) {
                     g2.drawImage(tile[iTileNum].image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
                 }
 
