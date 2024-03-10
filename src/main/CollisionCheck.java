@@ -11,18 +11,19 @@ public class CollisionCheck {
 
     }
     public void checkTile(Entity entity) {
-        int iEntityLeftWorldX = entity.iWorldX + entity.hitBox.x;
-        int iEntityRightWorldX = entity.iWorldX + entity.hitBox.x + entity.hitBox.width;
-        int iEntityTopWorldY = entity.iWorldY + entity.hitBox.y;
-        int iEntityBottomWorldY = entity.iWorldY + entity.hitBox.y + entity.hitBox.height;
-        int iEntityHLeftCol = (iEntityLeftWorldX - entity.iSenseRange) / gp.iTileSize;
-        int iEntityHRightCol = (iEntityRightWorldX + entity.iSenseRange) / gp.iTileSize;
-        int iEntityHTopRow = iEntityTopWorldY / gp.iTileSize;
-        int iEntityHBottomRow = iEntityBottomWorldY / gp.iTileSize;
-        int iEntityVLeftCol = iEntityLeftWorldX / gp.iTileSize;
-        int iEntityVRightCol = iEntityRightWorldX / gp.iTileSize;
-        int iEntityVTopRow = (iEntityTopWorldY - entity.iSenseRange) / gp.iTileSize;
-        int iEntityVBottomRow = (iEntityBottomWorldY + entity.iSenseRange) / gp.iTileSize;
+
+        int iEntLeftWorldX = entity.iWorldX + entity.hitBox.x;
+        int iEntRightWorldX = entity.iWorldX + entity.hitBox.x + entity.hitBox.width;
+        int iEntTopWorldY = entity.iWorldY + entity.hitBox.y;
+        int iEntBotWorldY = entity.iWorldY + entity.hitBox.y + entity.hitBox.height;
+        int iEntityHLeftCol = (iEntLeftWorldX - entity.iSenseRange) / gp.iTileSize;
+        int iEntityHRightCol = (iEntRightWorldX + entity.iSenseRange) / gp.iTileSize;
+        int iEntityHTopRow = iEntTopWorldY / gp.iTileSize;
+        int iEntityHBottomRow = iEntBotWorldY / gp.iTileSize;
+        int iEntityVLeftCol = iEntLeftWorldX / gp.iTileSize;
+        int iEntityVRightCol = iEntRightWorldX / gp.iTileSize;
+        int iEntityVTopRow = (iEntTopWorldY - entity.iSenseRange) / gp.iTileSize;
+        int iEntityVBottomRow = (iEntBotWorldY + entity.iSenseRange) / gp.iTileSize;
         int iTileNum1, iTileNum2, iTileNum3, iTileNum4, iTileNum5, iTileNum6, iTileNum7, iTileNum8;
 
         iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityHLeftCol][iEntityHTopRow];
@@ -49,10 +50,13 @@ public class CollisionCheck {
          int index = 999;
          for (int i = 0; i < gp.obj.length; i++) {
              if (gp.obj[i] != null) {
+
                  entity.hitBox.x = entity.iWorldX + entity.hitBox.x;
                  entity.hitBox.y = entity.iWorldY + entity.hitBox.y;
+
                  gp.obj[i].hitBox.x = gp.obj[i].iWorldX + gp.obj[i].hitBox.x;
                  gp.obj[i].hitBox.y = gp.obj[i].iWorldY + gp.obj[i].hitBox.y;
+
                  entity.hitBoxLeftSense = new Rectangle(entity.hitBox.x - entity.iSpeed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
                  entity.hitBoxRightSense = new Rectangle(entity.hitBox.x + entity.iSpeed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
                  entity.hitBoxTopSense = new Rectangle(entity.hitBox.x, entity.hitBox.y - entity.iSpeed, entity.hitBox.width, entity.hitBox.height);

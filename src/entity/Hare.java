@@ -1,26 +1,23 @@
-package main;
+package entity;
 
-import entity.Entity;
+import main.GamePanel;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.Random;
 
 public class Hare extends Entity {
 
     public Hare (GamePanel gp) {
         super (gp);
-        hitBox = new Rectangle(8, 2, 48, 60);
-        iHitBoxDefaultX = hitBox.x;
-        iHitBoxDefaultY = hitBox.y;
         direction = "idle";
         iSpeed = 12;
     //GET IMAGE
         getHareImage();
     }
+//HARE IMAGE SETUP METHOD
     public BufferedImage setup(String imageName) {
         UtilityTool uTool = new UtilityTool();
         BufferedImage scaledImage = null;
@@ -32,6 +29,7 @@ public class Hare extends Entity {
         }
         return scaledImage;
     }
+//HARE IMAGES
     public void getHareImage() {
 
             left1 = setup("./res/entities/hare/left1");
@@ -50,7 +48,9 @@ public class Hare extends Entity {
             idle2 = setup("./res/entities/hare/idle2");
 
     }
+//HARE SET ACTION
     public void setAction() {
+
         Random random = new Random();
         int iCounter = random.nextInt(7);
 

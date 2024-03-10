@@ -8,35 +8,67 @@ import java.io.IOException;
 
 public class UserInterface {
     public GamePanel gp;
+    public Graphics2D g2;
     Font defaultFont;
-    public BufferedImage image;
-    public boolean bMessageOn = false;
+    public BufferedImage displayedImage, titleImage, playImage, pauseImage, endImage;
 
     public UserInterface(GamePanel gp) {
         this.gp = gp;
         setFonts();
-        setImage();
+        setImages();
     }
-
+//UPDATE
     public void update(){
 
     }
-
+//DRAW
     public void draw(Graphics2D g2){
-        g2.drawImage(image, 0 ,0,gp.iScreenWidth,gp.iScreenHeight,null);
-        // if (bMessageOn) {
-        //    g2.drawString(message, 0, 0);
-        //}
+        this.g2 = g2;
+        if (gp.iGameState == gp.titleState) {
+            drawTitleScreen();
+        }
+        if (gp.iGameState == gp.playState){
+            drawPlayScreen();
+        }
+        if (gp.iGameState == gp.pauseState){
+            drawPauseScreen();
+        }
+        if (gp.iGameState == gp.endState){
+            drawEndScreen();
+        }
+        g2.drawImage(displayedImage, 0, 0, gp.iScreenWidth, gp.iScreenHeight, null);
     }
-
+//FONTS
     public void setFonts(){
         defaultFont = new Font("Arial", Font.PLAIN, 40);
     }
-    public void setImage() {
+//IMAGES
+    public void setImages() {
         try {
-            image = ImageIO.read(new File("./res/ui/ui1.png"));
+
+            titleImage = ImageIO.read(new File("./res/ui/titlescreen.png"));
+            playImage = ImageIO.read(new File("./res/ui/playscreen.png"));
+            pauseImage = ImageIO.read(new File("./res/ui/pausescreen.png"));
+            endImage = ImageIO.read(new File("./res/ui/endscreen.png"));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+//DRAW TITLE SCREEN
+    public void drawTitleScreen() {
+        displayedImage = titleImage;
+    }
+//DRAW PLAY SCREEN
+    public void drawPlayScreen() {
+        displayedImage = playImage;
+    }
+//DRAW PAUSE SCREEN
+    public void drawPauseScreen() {
+        displayedImage = pauseImage;
+    }
+//DRAW END SCREEN
+    public void drawEndScreen() {
+        displayedImage = endImage;
     }
 }

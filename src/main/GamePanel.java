@@ -21,8 +21,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int iMaxMapCol = 90;
     public final int iMaxMapRow = 22;
 //CLASS OBJECT CREATION
-    TileManager tileManager = new TileManager(this);
-    KeyBinds keyBinds = new KeyBinds();
+    public TileManager tileManager = new TileManager(this);
+    public KeyBinds keyBinds = new KeyBinds(this);
     public CollisionCheck cCheck = new CollisionCheck(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public Sound music = new Sound();
@@ -37,10 +37,11 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
-    public final int endState = 3;
+    public final int dialougeState = 3;
+    public final int endState = 4;
 //FPS
     int iFPS = 60;
-//Keybind objects
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(iScreenWidth,iScreenHeight));
         this.setBackground(Color.black);
@@ -55,6 +56,8 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setNPC();
         playMusic(1);
         stopMusic();
+        iGameState = playState;
+
     }
     public void startGameThread(){gameThread = new Thread(this);gameThread.start();}
 
@@ -79,28 +82,33 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update() {
-        for (Object object : obj) {
-            if (object != null) {
-                object.update();
+        if (iGameState == playState) {
+            for (Object object : obj) {
+                if (object != null) {
+                    object.update();
+                }
             }
-        }
-        for (Entity entity : npc) {
-            if (entity != null) {
-                entity.update();
+            for (Entity entity : npc) {
+                if (entity != null) {
+                    entity.update();
+                }
             }
+            player.update();
+            ui.update();
         }
-        player.update();
-        ui.update();
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        //TILES
         tileManager.draw(g2);
+        //OBJECT
         for (Object object : obj) {
             if (object != null) {
                 object.draw(g2, this);
             }
         }
+        //NPC
         for (Entity entity : npc) {
             if (entity != null) {
                 entity.draw(g2);

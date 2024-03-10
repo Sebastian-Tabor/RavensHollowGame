@@ -1,5 +1,6 @@
 package main;
 
+import entity.Hare;
 import object.Feather;
 
 public class AssetSetter {

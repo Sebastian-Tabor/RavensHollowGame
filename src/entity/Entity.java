@@ -4,6 +4,7 @@ import main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Entity {
     public GamePanel gp;
@@ -12,33 +13,48 @@ public class Entity {
     public int iSpriteNumber = 1;
 //JUMPING
     public int iJumpCooldown;
+    public int iRecoveryTime;
     public boolean bCanJump = true;
     public boolean bFalling = false;
-    public int iRecoveryTime;
 //COLLISION
     public int iSenseRange = 5;
-    public Rectangle hitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
     public int iHitBoxDefaultX, iHitBoxDefaultY;
-    public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected = false;
     public boolean bStuckTopLeft, bStuckTopRight, bStuckBotLeft, bStuckBotRight = false;
+    public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected = false;
+    public Rectangle hitBox, fullHitBox, halfHitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
 //MOVEMENT
-    public int iMovementCounter = 0;
-    public int iWorldX, iWorldY;
     public int iSpeed;
     public int iVelocityY;
     public int iVelocityX;
-    public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2;
+    public int iWorldX, iWorldY;
+    public int iMovementCounter = 0;
     public String direction;
-
+    public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2;
+//CONSTRUCTOR
     public Entity(GamePanel gp) {
         this.gp = gp;
+        halfHitBox = new Rectangle(8, 32, 48, 30);
+        fullHitBox = new Rectangle(8, 2, 48, 60);
+        hitBox = fullHitBox;
+        iHitBoxDefaultX = hitBox.x;
+        iHitBoxDefaultY = hitBox.y;
     }
+//SET ACTION ERROR MESSAGE
     public void setAction() {
-        System.out.println("Undefined setAction in subclass");
+        throw new RuntimeException("setAction not defined in subclass");
     }
+//UPDATE
     public void update() {
+    //RANDOMIZED MOVEMENT COUNTER
+        iMovementCounter++;
+        if (iMovementCounter == 30) {
+            iMovementCounter = 0;
+            setAction();
+        }
+    //SETTING COLLISION VECTORS
         bCollisionDetected = false;
         gp.cCheck.checkTile(this);
+    //MOVEMENT ACTIONS
         switch (direction) {
             case "left":
                 iVelocityX = -iSpeed;
@@ -62,6 +78,14 @@ public class Entity {
                 jump();
                 break;
         }
+    //COLLISION
+        if (direction.equals("crouch")) {
+            hitBox = halfHitBox;
+        } else {
+            hitBox = fullHitBox;
+        }
+        bCollisionDetected = false;
+        gp.cCheck.checkTile(this);
     //STUCK PREVENTION
         if (bStuckTopLeft) {
             iWorldY++;
@@ -89,12 +113,12 @@ public class Entity {
             }
         }
         else {
-    //JUMPING/FALLING MOVEMENT
-            this.iWorldY -= iVelocityY;
+        //JUMPING/FALLING MOVEMENT
+            iWorldY -= iVelocityY;
             iVelocityY --;
-    //GRAVITY
+        //GRAVITY
             if (iVelocityY < -10) iVelocityY = -10;
-    //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
+        //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
             if (bCollisionTop) iVelocityY = -5;
         }
     //SET FALLING
@@ -109,14 +133,17 @@ public class Entity {
             iSpriteCounter = 0;
         }
     }
+//DRAW
     public void draw(Graphics2D g2) {
+
         BufferedImage image = null;
         int iScreenX = iWorldX - gp.player.iWorldX + gp.player.iScreenPosX;
         int iScreenY = iWorldY - gp.player.iWorldY + gp.player.iScreenPosY;
+
         if (iWorldX + gp.iTileSize > gp.player.iWorldX - gp.player.iScreenPosX &&
-                iWorldX - gp.iTileSize < gp.player.iWorldX + gp.player.iScreenPosX &&
-                iWorldY + gp.iTileSize < gp.player.iWorldY - gp.player.iScreenPosY &&
-                iWorldY - gp.iTileSize < gp.player.iWorldY + gp.player.iScreenPosY) {
+            iWorldX - gp.iTileSize < gp.player.iWorldX + gp.player.iScreenPosX &&
+            iWorldY + gp.iTileSize > gp.player.iWorldY - gp.player.iScreenPosY &&
+            iWorldY - gp.iTileSize < gp.player.iWorldY + gp.player.iScreenPosY) {
             switch (direction) {
                 case "left":
                     if (iSpriteNumber == 1) {
@@ -196,23 +223,5 @@ public class Entity {
             iVelocityY = iSpeed + 10;
             bCanJump = false;
         }
-    }
-    public void leftJump() {
-        if (bCanJump && !bCollisionTop && bCollisionBottom) {
-            iJumpCooldown = iRecoveryTime;
-            iWorldY -= 1 + iSenseRange;
-            iVelocityY = iSpeed + 10;
-            bCanJump = false;
-        }
-        moveLeft();
-    }
-    public void rightJump() {
-        if (bCanJump && !bCollisionTop && bCollisionBottom) {
-            iJumpCooldown = iRecoveryTime;
-            iWorldY -= 1 + iSenseRange;
-            iVelocityY = iSpeed + 10;
-            bCanJump = false;
-        }
-        moveRight();
     }
 }

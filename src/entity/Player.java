@@ -22,10 +22,6 @@ public class Player extends Entity {
     //PLAYER POS ON SCREEN
         iScreenPosX = (gp.iScreenWidth/2 - gp.iTileSize/2);
         iScreenPosY = (gp.iScreenHeight/2 - gp.iTileSize/2);
-    //PLAYER HITBOX
-        hitBox = new Rectangle(8, 2, 48, 60);
-        iHitBoxDefaultX = hitBox.x;
-        iHitBoxDefaultY = hitBox.y;
     //PLAYER POS METHOD IMPLEMENTATION
         setDefaultValues();
     //PLAYER IMAGE METHOD IMPLEMENTATION
@@ -40,6 +36,7 @@ public class Player extends Entity {
         iRecoveryTime = 10;
         direction = "idle";
     }
+//IMAGE SETUP METHOD
     public BufferedImage setup(String imageName) {
         UtilityTool uTool = new UtilityTool();
         BufferedImage scaledImage = null;
@@ -51,8 +48,7 @@ public class Player extends Entity {
         }
         return scaledImage;
     }
-
-//PLAYER IMAGE METHOD
+//PLAYER IMAGES
     public void getPlayerImage() {
 
             left1 = setup("./res/player/left1");
@@ -71,11 +67,27 @@ public class Player extends Entity {
             idle2 = setup("./res/player/idle2");
 
     }
+//OBJECT METHODS
+    public void pickupObject(int index) {
+        if(index != 999){
+            String sObjectName = gp.obj[index].sName;
+            switch (sObjectName) {
+                case "Feather":
+                    iSpeed += 1;
+                    gp.playSoundEffect(0);
+                    gp.obj[index] = null;
+                    break;
+                case "Bone":
+                    gp.obj[index] = null;
+                    break;
+            }
+        }
 
+    }
 //UPDATE
     public void update() {
     //KEYBIND MOVEMENT
-        if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bSpacePressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
+        if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
                 direction = "left";
                 iVelocityX = -iSpeed;
@@ -89,17 +101,14 @@ public class Player extends Entity {
             if (KeyBinds.bUpPressed) {
                 jump();
                 direction = "jump";
-            } else if (KeyBinds.bSpacePressed) {
-                jump();
-                direction = "jump";
             } else if (KeyBinds.bDownPressed) {
                 direction = "crouch";
             }
-            if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed || KeyBinds.bLeftPressed && KeyBinds.bSpacePressed) {
+            if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed) {
                 direction = "left jump";
                 iVelocityX = -iSpeed;
             }
-            if (KeyBinds.bRightPressed && KeyBinds.bUpPressed || KeyBinds.bRightPressed && KeyBinds.bSpacePressed) {
+            if (KeyBinds.bRightPressed && KeyBinds.bUpPressed) {
                 direction = "right jump";
                 iVelocityX = iSpeed;
             }
@@ -108,6 +117,11 @@ public class Player extends Entity {
             direction = "idle";
         }
     //COLLISION CHECK
+        if (direction.equals("crouch")) {
+            hitBox = halfHitBox;
+        } else {
+            hitBox = fullHitBox;
+        }
         bCollisionDetected = false;
         gp.cCheck.checkTile(this);
         int iObjectIndex = gp.cCheck.checkObject(this, true);
@@ -130,7 +144,7 @@ public class Player extends Entity {
             iWorldX--;
         }
     //POSSIBLE IMPLEMENTS JUMP INTERFACE?
-        //JUMP CONDITIONS
+    //JUMP CONDITIONS
         if (bCollisionBottom) {
             iVelocityY = 0;
             iJumpCooldown--;
@@ -158,23 +172,6 @@ public class Player extends Entity {
                 iSpriteNumber = 2;}
         iSpriteCounter = 0;
         }
-    }
-//OBJECT METHODS
-    public void pickupObject(int index) {
-        if(index != 999 && gp.obj[index].bStorable){
-            String sObjectName = gp.obj[index].sName;
-            switch (sObjectName) {
-                case "Feather":
-                    iSpeed += 1;
-                    gp.playSoundEffect(0);
-                    gp.obj[index] = null;
-                    break;
-                case "Bone":
-                    gp.obj[index] = null;
-                    break;
-            }
-        }
-
     }
 //DRAW METHOD
     public void draw(Graphics2D g2) {

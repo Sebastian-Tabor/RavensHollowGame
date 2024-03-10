@@ -18,7 +18,6 @@ public class Main {
         window.setLocation(0,0);
         window.setMinimumSize(new Dimension(640, 480));
 
-
         //GAMEPANEL SETUP
         GamePanel gp = new GamePanel();
         window.add(gp);
