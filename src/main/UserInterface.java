@@ -1,5 +1,7 @@
 package main;
 
+import entity.Entity;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -29,6 +31,9 @@ public class UserInterface {
         }
         if (gp.iGameState == gp.playState){
             drawPlayScreen();
+        }
+        if (gp.iGameState == gp.dialogueState){
+            drawDialogueScreen();
         }
         if (gp.iGameState == gp.pauseState){
             drawPauseScreen();
@@ -63,6 +68,7 @@ public class UserInterface {
     public void drawPlayScreen() {
         displayedImage = playImage;
     }
+    public void drawDialogueScreen() {}
 //DRAW PAUSE SCREEN
     public void drawPauseScreen() {
         displayedImage = pauseImage;
@@ -71,4 +77,5 @@ public class UserInterface {
     public void drawEndScreen() {
         displayedImage = endImage;
     }
+
 }
