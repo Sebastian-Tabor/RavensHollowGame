@@ -37,7 +37,9 @@ public class Player extends Entity {
         iSpeed = 10;
         iRecoveryTime = 10;
         iHealth = 10;
+        iHealthMax = 10;
         iUltimate = 20;
+        iUltimateMax = 20;
         iArmor = 0;
         direction = "idle";
     }

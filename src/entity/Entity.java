@@ -31,7 +31,9 @@ public class Entity {
     public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2;
 //STAT TRACKERS
     public int iHealth;
+    public int iHealthMax;
     public int iUltimate;
+    public int iUltimateMax;
     public int iArmor;
 //CONSTRUCTOR
     public Entity(GamePanel gp) {
