@@ -4,7 +4,6 @@ import main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 public class Entity {
     public GamePanel gp;
@@ -30,10 +29,14 @@ public class Entity {
     public int iMovementCounter = 0;
     public String direction;
     public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2;
+//STAT TRACKERS
+    public int iHealth;
+    public int iUltimate;
+    public int iArmor;
 //CONSTRUCTOR
     public Entity(GamePanel gp) {
         this.gp = gp;
-        halfHitBox = new Rectangle(8, 32, 48, 30);
+        halfHitBox = new Rectangle(8, 30, 48, 30);
         fullHitBox = new Rectangle(8, 2, 48, 60);
         hitBox = fullHitBox;
         iHitBoxDefaultX = hitBox.x;
@@ -54,6 +57,7 @@ public class Entity {
     //SETTING COLLISION VECTORS
         bCollisionDetected = false;
         gp.cCheck.checkTile(this);
+        hitBox = fullHitBox;
     //MOVEMENT ACTIONS
         switch (direction) {
             case "left":
@@ -77,13 +81,13 @@ public class Entity {
                 moveRight();
                 jump();
                 break;
+            case "crouch":
+                hitBox = halfHitBox;
+                break;
+            case "idle":
+                break;
         }
     //COLLISION
-        if (direction.equals("crouch")) {
-            hitBox = halfHitBox;
-        } else {
-            hitBox = fullHitBox;
-        }
         bCollisionDetected = false;
         gp.cCheck.checkTile(this);
     //STUCK PREVENTION
@@ -113,14 +117,14 @@ public class Entity {
             }
         }
         else {
-        //JUMPING/FALLING MOVEMENT
-            iWorldY -= iVelocityY;
+            //JUMPING/FALLING MOVEMENT
+            this.iWorldY -= iVelocityY;
             iVelocityY --;
-        //GRAVITY
-            if (iVelocityY < -10) iVelocityY = -10;
-        //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
-            if (bCollisionTop) iVelocityY = -5;
         }
+        //MAX GRAVITY
+        if (iVelocityY < -10) iVelocityY = -10;
+        //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
+        if (bCollisionTop) iVelocityY = -5;
     //SET FALLING
         bFalling = iVelocityY <= 0;
     //SPRITE COUNTER

@@ -2,13 +2,12 @@ package entity;
 import main.GamePanel;
 import main.KeyBinds;
 import main.UtilityTool;
-import tile.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
+
 
 public class Player extends Entity {
     final KeyBinds keyBinds;
@@ -34,6 +33,9 @@ public class Player extends Entity {
         iWorldY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
         iSpeed = 10;
         iRecoveryTime = 10;
+        iHealth = 10;
+        iUltimate = 20;
+        iArmor = 0;
         direction = "idle";
     }
 //IMAGE SETUP METHOD
@@ -79,6 +81,12 @@ public class Player extends Entity {
                     break;
                 case "Bone":
                     gp.obj[index] = null;
+                    //sound effect
+                    break;
+                case "Arrow":
+                    gp.obj[index] = null;
+                    //sound effect
+                    iHealth --;
                     break;
             }
         }
@@ -103,6 +111,7 @@ public class Player extends Entity {
                 direction = "jump";
             } else if (KeyBinds.bDownPressed) {
                 direction = "crouch";
+                hitBox = halfHitBox;
             }
             if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed) {
                 direction = "left jump";
@@ -115,13 +124,9 @@ public class Player extends Entity {
         }
         else {
             direction = "idle";
-        }
-    //COLLISION CHECK
-        if (direction.equals("crouch")) {
-            hitBox = halfHitBox;
-        } else {
             hitBox = fullHitBox;
         }
+    //COLLISION CHECK
         bCollisionDetected = false;
         gp.cCheck.checkTile(this);
         int iObjectIndex = gp.cCheck.checkObject(this, true);
@@ -152,15 +157,16 @@ public class Player extends Entity {
                 iJumpCooldown = 0;
                 bCanJump = true;
             }
-        } else {
+        }
+        else {
         //JUMPING/FALLING MOVEMENT
             this.iWorldY -= iVelocityY;
             iVelocityY --;
-        //GRAVITY
-            if (iVelocityY < -10) iVelocityY = -10;
-        //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
-            if (bCollisionTop) iVelocityY = -5;
         }
+    //MAX GRAVITY
+        if (iVelocityY < -10) iVelocityY = -10;
+    //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
+        if (bCollisionTop) iVelocityY = -5;
     //SET FALLING
         bFalling = iVelocityY <= 0;
     //SPRITE COUNTER

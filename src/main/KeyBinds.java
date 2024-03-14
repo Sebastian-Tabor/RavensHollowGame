@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyBinds implements KeyListener {
 
-    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bInteractPressed, bUltPressed;
+    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bInteractPressed, bUltPressed, bInput;
     GamePanel gp;
     public KeyBinds(GamePanel gp) {
         this.gp = gp;
@@ -17,12 +17,13 @@ public class KeyBinds implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE){bUpPressed = true;}
-        if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {bLeftPressed = true;}
-        if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){bDownPressed = true;}
-        if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT){bRightPressed = true;}
-        if (code == KeyEvent.VK_R){bUltPressed = true;}
-        if (code == KeyEvent.VK_E){bInteractPressed = true;}
+        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = true;
+        if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = true;
+        if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = true;
+        if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bRightPressed = true;
+        if (code == KeyEvent.VK_R) bUltPressed = true;
+        if (code == KeyEvent.VK_E) bInteractPressed = true;
+        if (gp.iGameState == gp.titleState) bInput = true;
 
         if (code == KeyEvent.VK_ESCAPE) {
             if (gp.iGameState == gp.playState){

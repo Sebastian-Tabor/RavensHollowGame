@@ -42,4 +42,7 @@ public class AssetSetter {
         gp.npc[0].iWorldX = gp.iTileSize * 10;
         gp.npc[0].iWorldY = gp.iTileSize * 10;
     }
+    public void setProjectile() {
+
+    }
 }
