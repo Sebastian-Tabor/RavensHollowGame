@@ -23,24 +23,25 @@ public class SceneManager {
 //DRAW METHODS
     public void drawForeground(Graphics2D g2){
 
-        int x = gp.player.iStartPosX - gp.player.iWorldX;
-        int y = gp.player.iStartPosY - gp.player.iWorldY;
+        int x = gp.player.iScreenPosX - gp.player.iWorldX;
+        int y = gp.player.iScreenPosY  - gp.player.iWorldY;
 
         g2.drawImage(scene[gp.iScene].foreground, x ,y,null);
 
     }
     public void drawMidground(Graphics2D g2){
 
-        int x = gp.player.iStartPosX - gp.player.iWorldX;
-        int y = gp.player.iStartPosY - gp.player.iWorldY;
+        int x = gp.player.iScreenPosX - gp.player.iWorldX;
+        int y = gp.player.iScreenPosY  - gp.player.iWorldY;
 
         g2.drawImage(scene[gp.iScene].midground, x ,y,null);
 
     }
     public void drawBackground(Graphics2D g2){
 
-        int x = gp.player.iStartPosX - gp.player.iWorldX;
-        int y = gp.player.iStartPosY - gp.player.iWorldY;
+
+        int x = gp.player.iScreenPosX - gp.player.iWorldX;
+        int y = gp.player.iScreenPosY  - gp.player.iWorldY;
 
         g2.drawImage(scene[gp.iScene].background, x, y, null);
 
