@@ -33,6 +33,10 @@ public class KeyBinds implements KeyListener {
                 gp.iGameState = gp.playState;
             }
         }
+
+    //TEMP KEYS DELETE BEFORE PUBLISHING
+        if (code == KeyEvent.VK_1) gp.iScene = 0;
+        if (code == KeyEvent.VK_2) gp.iScene = 1;
     }
 
     @Override

@@ -1,11 +1,10 @@
-package tile;
+package world;
 
 import main.GamePanel;
 import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class TileManager {
@@ -23,8 +22,8 @@ public class TileManager {
     }
     public void getTileImage() {
 
-            setup(0, "rocket", false);
-            setup(1, "gabe", true);
+            setup(0, "blank", false);
+            setup(1, "cross", true);
 
     }
     public void setup(int index, String imageName, boolean collision) {
@@ -32,7 +31,7 @@ public class TileManager {
 
         try {
             tile[index] = new Tile();
-            tile[index].image = ImageIO.read(new File("./res/tiles/" + imageName + ".png"));
+            tile[index].image = ImageIO.read(new File("./res/world/" + imageName + ".png"));
             tile[index].image = uTool.scaleImage(tile[index].image, gp.iTileSize, gp.iTileSize);
             tile[index].collision = collision;
 

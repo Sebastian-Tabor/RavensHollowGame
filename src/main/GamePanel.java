@@ -3,7 +3,8 @@ package main;
 import entity.Entity;
 import entity.Player;
 import object.Object;
-import tile.TileManager;
+import world.SceneManager;
+import world.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,20 +22,24 @@ public class GamePanel extends JPanel implements Runnable {
 //MAP SIZE
     public final int iMaxMapCol = 90;
     public final int iMaxMapRow = 22;
+    public final int iMapWidth = iTileSize * iMaxMapCol;
+    public final int iMapHeight = iTileSize * iMaxMapRow;
 //CLASS OBJECT CREATION
     public KeyBinds keyBinds = new KeyBinds(this);
     public Sound music = new Sound();
     public Sound soundeffect = new Sound();
     public Player player = new Player(this, keyBinds);
     public Object[] obj = new Object[5];
-    public Object[] projectile = new Object[10];
     public Entity[] npc = new Entity[5];
+    public Object[] projectile = new Object[10];
     public AssetSetter aSetter = new AssetSetter(this);
     public TileManager tileManager = new TileManager(this);
+    public SceneManager sceneManager = new SceneManager(this);
     public UserInterface ui = new UserInterface(this);
     public CollisionCheck cCheck = new CollisionCheck(this);
     Thread gameThread;
 //GAME STATE
+    public int iScene = 0;
     public int iGameState;
     public final int titleState = 0;
     public final int playState = 1;
@@ -119,9 +124,11 @@ public class GamePanel extends JPanel implements Runnable {
             ui.draw(g2);
         }
         else {
+            //OBJECT
+            sceneManager.drawBackground(g2);
+            sceneManager.drawMidground(g2);
             //TILES
             tileManager.draw(g2);
-            //OBJECT
             for (Object object : obj) {
                 if (object != null) {
                     object.draw(g2, this);
@@ -140,6 +147,8 @@ public class GamePanel extends JPanel implements Runnable {
             }
             //PLAYER
             player.draw(g2);
+            //FOREGROUND
+            sceneManager.drawForeground(g2);
             //UI
             ui.draw(g2);
             g2.dispose();

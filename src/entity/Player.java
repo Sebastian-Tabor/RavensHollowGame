@@ -13,6 +13,9 @@ public class Player extends Entity {
     final KeyBinds keyBinds;
     public final int iScreenPosX;
     public final int iScreenPosY;
+    public final int iStartPosX = gp.iTileSize * 17;
+    public final int iStartPosY = gp.iTileSize * 11;
+
 
 //PLAYER OBJECT
     public Player(GamePanel gp, KeyBinds keyBinds) {
@@ -29,8 +32,8 @@ public class Player extends Entity {
 
 //SETTING PLAYER VALUES
     public void setDefaultValues() {
-        iWorldX = (gp.iTileSize * (int)(0.1 * gp.iMaxScreenColumns));
-        iWorldY = (gp.iTileSize * (int)(0.5 * gp.iMaxScreenRows));
+        iWorldX = iStartPosX;
+        iWorldY = iStartPosY;
         iSpeed = 10;
         iRecoveryTime = 10;
         iHealth = 10;
@@ -43,8 +46,10 @@ public class Player extends Entity {
         UtilityTool uTool = new UtilityTool();
         BufferedImage scaledImage = null;
         try {
+
             scaledImage = ImageIO.read(new File( imageName + ".png"));
             scaledImage = uTool.scaleImage(scaledImage, gp.iTileSize, gp.iTileSize);
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
