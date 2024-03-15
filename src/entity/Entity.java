@@ -18,11 +18,12 @@ public class Entity {
 //COLLISION
     public int iSenseRange = 5;
     public int iHitBoxDefaultX, iHitBoxDefaultY;
-    public boolean bStuckTopLeft, bStuckTopRight, bStuckBotLeft, bStuckBotRight = false;
+    public boolean bStuckLeft, bStuckRight, bStuckTop, bStuckBot = false;
     public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected = false;
-    public Rectangle hitBox, fullHitBox, halfHitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
+    public Rectangle hitBox, fullHitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
 //MOVEMENT
     public int iSpeed;
+    public int iSpeedOriginal;
     public int iVelocityY;
     public int iVelocityX;
     public int iWorldX, iWorldY;
@@ -38,7 +39,6 @@ public class Entity {
 //CONSTRUCTOR
     public Entity(GamePanel gp) {
         this.gp = gp;
-        halfHitBox = new Rectangle(8, 30, 48, 30);
         fullHitBox = new Rectangle(8, 2, 48, 60);
         hitBox = fullHitBox;
         iHitBoxDefaultX = hitBox.x;
@@ -84,7 +84,17 @@ public class Entity {
                 jump();
                 break;
             case "crouch":
-                hitBox = halfHitBox;
+                iSpeed = iSpeed/2;
+                break;
+            case "left crouch":
+                iSpeed = iSpeed/2;
+                iVelocityX = -iSpeed;
+                moveLeft();
+                break;
+            case "right crouch":
+                iSpeed = iSpeed/2;
+                iVelocityX = iSpeed;
+                moveRight();
                 break;
             case "idle":
                 break;
@@ -93,19 +103,19 @@ public class Entity {
         bCollisionDetected = false;
         gp.cCheck.checkTile(this);
     //STUCK PREVENTION
-        if (bStuckTopLeft) {
+        if (bStuckLeft) {
             iWorldY++;
             iWorldX++;
         }
-        if (bStuckTopRight) {
+        if (bStuckRight) {
             iWorldY++;
             iWorldX--;
         }
-        if (bStuckBotLeft) {
+        if (bStuckTop) {
             iWorldY--;
             iWorldX++;
         }
-        if (bStuckBotRight) {
+        if (bStuckBot) {
             iWorldY--;
             iWorldX--;
         }

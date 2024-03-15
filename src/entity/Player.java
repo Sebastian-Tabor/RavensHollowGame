@@ -34,11 +34,12 @@ public class Player extends Entity {
     public void setDefaultValues() {
         iWorldX = iStartPosX;
         iWorldY = iStartPosY;
-        iSpeed = 10;
+        iSpeedOriginal = 10;
+        iSpeed = iSpeedOriginal;
         iRecoveryTime = 10;
         iHealth = 10;
         iHealthMax = 10;
-        iUltimate = 20;
+        iUltimate = 0;
         iUltimateMax = 20;
         iArmor = 0;
         direction = "idle";
@@ -105,33 +106,74 @@ public class Player extends Entity {
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
                 direction = "left";
-                iVelocityX = -iSpeed;
-                moveLeft();
             }
             if (KeyBinds.bRightPressed) {
                 direction = "right";
-                iVelocityX = iSpeed;
-                moveRight();
             }
             if (KeyBinds.bUpPressed) {
-                jump();
                 direction = "jump";
-            } else if (KeyBinds.bDownPressed) {
+            }
+            if (KeyBinds.bDownPressed) {
                 direction = "crouch";
-                hitBox = halfHitBox;
+            }
+            if (KeyBinds.bDownPressed && KeyBinds.bLeftPressed) {
+                direction = "left crouch";
+            }
+            if (KeyBinds.bDownPressed && KeyBinds.bRightPressed) {
+                direction = "right crouch";
             }
             if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed) {
                 direction = "left jump";
-                iVelocityX = -iSpeed;
             }
             if (KeyBinds.bRightPressed && KeyBinds.bUpPressed) {
                 direction = "right jump";
-                iVelocityX = iSpeed;
             }
         }
         else {
             direction = "idle";
             hitBox = fullHitBox;
+        }
+    //MOVEMENT ACTIONS
+        switch (direction) {
+            case "left":
+                iVelocityX = -iSpeed;
+                moveLeft();
+                break;
+            case "right":
+                iVelocityX = iSpeed;
+                moveRight();
+                break;
+            case "jump":
+                jump();
+                break;
+            case "left jump":
+                iVelocityX = -iSpeed;
+                moveLeft();
+                jump();
+                break;
+            case "right jump":
+                iVelocityX = iSpeed;
+                moveRight();
+                jump();
+                break;
+            case "crouch":
+                iSpeed = iSpeed/2;
+                break;
+            case "left crouch":
+                iSpeed = iSpeed/2;
+                iVelocityX = -iSpeed;
+                moveLeft();
+                break;
+            case "right crouch":
+                iSpeed = iSpeed/2;
+                iVelocityX = iSpeed;
+                moveRight();
+                break;
+            case "idle":
+                break;
+        }
+        if (!direction.equals("crouch") && !direction.equals("crouch left") && !direction.equals("crouch right")) {
+            iSpeed = iSpeedOriginal;
         }
     //COLLISION CHECK
         bCollisionDetected = false;
@@ -139,21 +181,17 @@ public class Player extends Entity {
         int iObjectIndex = gp.cCheck.checkObject(this, true);
         pickupObject(iObjectIndex);
     //STUCK PREVENTION
-        if (bStuckTopLeft) {
-            iWorldY++;
-            iWorldX++;
+        if (bStuckLeft) {
+            ++iWorldX;
         }
-        if (bStuckTopRight) {
-            iWorldY++;
-            iWorldX--;
+        if (bStuckRight) {
+            --iWorldX;
         }
-        if (bStuckBotLeft) {
-            iWorldY--;
-            iWorldX++;
+        if (bStuckTop) {
+            ++iWorldY;
         }
-        if (bStuckBotRight) {
-            iWorldY--;
-            iWorldX--;
+        if (bStuckBot) {
+           --iWorldY;
         }
     //POSSIBLE IMPLEMENTS JUMP INTERFACE?
     //JUMP CONDITIONS

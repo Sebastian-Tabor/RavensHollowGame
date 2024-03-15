@@ -1,5 +1,6 @@
 package main;
 import entity.Entity;
+import object.Object;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,16 +14,15 @@ public class UserInterface {
     public Graphics2D g2;
     public String text;
     public BufferedImage displayedImage, titleImage, playImage, pauseImage, endImage, loadingImage;
+    public int commandNumber;
+
 
     public UserInterface(GamePanel gp) {
         this.gp = gp;
         setFonts();
         setImages();
     }
-//UPDATE
-    public void update(){
 
-    }
 //DRAW
     public void draw(Graphics2D g2){
         this.g2 = g2;
@@ -52,6 +52,7 @@ public class UserInterface {
             throw new RuntimeException(e);
         }
     }
+
 //DRAW TITLE SCREEN
     public void drawTitleScreen() {
         text = "Title";
@@ -67,19 +68,43 @@ public class UserInterface {
     }
 //DRAW PAUSE SCREEN
     public void drawPauseScreen() {
+        int x;
+        int y;
         displayedImage = pauseImage;
         g2.setColor(new Color(0,0,0,70));
         g2.fillRect(0,0, gp.iScreenWidth, gp.iScreenHeight);
         g2.drawImage(displayedImage, 0, 0, gp.iScreenWidth, gp.iScreenHeight, null);
 
-        text = "Pause";
+        text = "Paused";
         g2.setColor(Color.white);
         g2.drawString(text, getXCenterString(text), getYCenterString(text));
 
+        //RESUME
+        text = "Resume";
+        x = 192;
+        y = 540 - gp.iTileSize;
+        g2.setColor(Color.white);
+        g2.drawString(text, x, y);
+        if (commandNumber == 0) {
+            g2.drawString(">", x - gp.iTileSize, y);
+            g2.drawString("<", (int)(x + g2.getFontMetrics().getStringBounds(text, g2).getWidth() + gp.iTileSize), y );
+            if (KeyBinds.bEnterPressed) {
+                gp.iGameState = gp.playState;
+            }
+        }
+        //QUIT
         text = "Quit";
-        int x = gp.iTileSize;
-        int y = getYCenterString(text);
-        g2.drawString(text, x ,y);
+        y += gp.iTileSize;
+        g2.setColor(Color.white);
+        g2.drawString(text, x, y);
+        if (commandNumber == 1) {
+            g2.drawString(">", x - gp.iTileSize, y);
+            g2.drawString("<", (int)(x + g2.getFontMetrics().getStringBounds(text, g2).getWidth() + gp.iTileSize), y );
+            if (KeyBinds.bEnterPressed) {
+                System.exit(0);
+            }
+        }
+
     }
 //DRAW LOADING SCREEN
     public void drawLoadingScreen() {
@@ -94,26 +119,24 @@ public class UserInterface {
         g2.drawString(text, getXCenterString(text), getYCenterString(text));
         displayedImage = endImage;
     }
+
 //FONT METHODS
     public int getXCenterString(String text){
-        int length = getStringWidth(text);
+        int length = getBufferedStringWidth(text);
         return gp.iScreenWidth/2 - length/2;
     }
     public int getYCenterString(String text){
-        int length = getStringHeight(text);
+        int length = getBufferedStringHeight(text);
         return gp.iScreenHeight/2 - length/2;
     }
+    public int getBufferedStringWidth(String text){
+        return (int) (g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 6);
+    }
+    public int getBufferedStringHeight(String text){
+        return (int) (g2.getFontMetrics().getStringBounds(text, g2).getHeight() + 6);
+    }
 
-    public int getStringWidth(String text){
-        return (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-    }
-    public int getStringHeight(String text){
-        return (int) g2.getFontMetrics().getStringBounds(text, g2).getHeight();
-    }
-//CLICKBOX METHODS
-    public Point mouseLocation(){
-        return MouseInfo.getPointerInfo().getLocation();
-    }
+
 //STAT BARS
     public void drawPlayerBars(){
         drawHealthBar(gp.player, "bottom health", Color.red);

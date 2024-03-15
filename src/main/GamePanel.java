@@ -107,7 +107,6 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
             player.update();
-            ui.update();
         }
         if (iGameState == titleState) {
             if (KeyBinds.bInput) {
@@ -124,10 +123,10 @@ public class GamePanel extends JPanel implements Runnable {
             ui.draw(g2);
         }
         else {
-            //OBJECT
+        //OBJECT
             sceneManager.drawBackground(g2);
             sceneManager.drawMidground(g2);
-            //TILES
+        //TILES
             tileManager.draw(g2);
             for (Object object : obj) {
                 if (object != null) {
@@ -139,17 +138,17 @@ public class GamePanel extends JPanel implements Runnable {
                     object.update();
                 }
             }
-            //NPC
+        //NPC
             for (Entity entity : npc) {
                 if (entity != null) {
                     entity.draw(g2);
                 }
             }
-            //PLAYER
+        //PLAYER
             player.draw(g2);
-            //FOREGROUND
+        //FOREGROUND
             sceneManager.drawForeground(g2);
-            //UI
+        //UI
             ui.draw(g2);
             g2.dispose();
         }
@@ -165,8 +164,5 @@ public class GamePanel extends JPanel implements Runnable {
     public void playSoundEffect(int track) {
         soundeffect.setFile(track);
         soundeffect.playSound();
-    }
-    public void stopSound() {
-        soundeffect.stopSound();
     }
 }

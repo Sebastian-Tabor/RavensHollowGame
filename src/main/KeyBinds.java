@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 public class KeyBinds implements KeyListener, MouseListener{
 
-    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bInteractPressed, bUltPressed, bInput, bMouseClicked;
+    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bEPressed, bRPressed, bInput, bMousePressed, bEnterPressed;
     GamePanel gp;
     public KeyBinds(GamePanel gp) {
         this.gp = gp;
@@ -19,38 +19,40 @@ public class KeyBinds implements KeyListener, MouseListener{
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = true;
-        if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = true;
-        if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = true;
-        if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bRightPressed = true;
-        if (code == KeyEvent.VK_R) bUltPressed = true;
-        if (code == KeyEvent.VK_E) bInteractPressed = true;
+
         if (gp.iGameState == gp.titleState) bInput = true;
 
-        if (code == KeyEvent.VK_ESCAPE) {
-            if (gp.iGameState == gp.playState){
-                gp.iGameState = gp.pauseState;
-            }
-            else if (gp.iGameState == gp.pauseState){
-                gp.iGameState = gp.playState;
-            }
+        else if (gp.iGameState == gp.playState) {
+            if (code == KeyEvent.VK_ESCAPE) {gp.iGameState = gp.pauseState;}
+            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = true;
+            if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = true;
+            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = true;
+            if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bRightPressed = true;
+            if (code == KeyEvent.VK_R) bRPressed = true;
+            if (code == KeyEvent.VK_E) bEPressed = true;
+
+            //TEMP KEYS DELETE BEFORE PUBLISHING
+            if (code == KeyEvent.VK_1) gp.iScene = 0;
+            if (code == KeyEvent.VK_2) gp.iScene = 1;
         }
-
-    //TEMP KEYS DELETE BEFORE PUBLISHING
-        if (code == KeyEvent.VK_1) gp.iScene = 0;
-        if (code == KeyEvent.VK_2) gp.iScene = 1;
+        else if (gp.iGameState == gp.pauseState) {
+            if (code == KeyEvent.VK_ESCAPE) gp.iGameState = gp.playState;
+            if (code == KeyEvent.VK_ENTER) bEnterPressed = true;
+            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) --gp.ui.commandNumber;
+            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) ++gp.ui.commandNumber;
+        }
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
-        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE){bUpPressed = false;}
-        if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {bLeftPressed = false;}
-        if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){bDownPressed = false;}
-        if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT){bRightPressed = false;}
-        if (code == KeyEvent.VK_R){bUltPressed = false;}
-        if (code == KeyEvent.VK_E){bInteractPressed = false;}
-
+            bInput = false;
+            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = false;
+            if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = false;
+            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = false;
+            if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bRightPressed = false;
+            if (code == KeyEvent.VK_R) bRPressed = false;
+            if (code == KeyEvent.VK_E) bEPressed = false;
+            if (code == KeyEvent.VK_ENTER) bEnterPressed = false;
     }
 
     @Override
@@ -59,18 +61,10 @@ public class KeyBinds implements KeyListener, MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        int code = e.getButton();
-        if (code == MouseEvent.BUTTON1) {
-            bMouseClicked = true;
-        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        int code = e.getButton();
-        if (code == MouseEvent.BUTTON1) {
-            bMouseClicked = false;
-        }
     }
 
     @Override

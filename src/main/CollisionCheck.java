@@ -40,10 +40,23 @@ public class CollisionCheck {
         entity.bCollisionTop = gp.tileManager.tile[iTileNum5].collision || gp.tileManager.tile[iTileNum6].collision;
         entity.bCollisionBottom = gp.tileManager.tile[iTileNum7].collision || gp.tileManager.tile[iTileNum8].collision;
         entity.bCollisionDetected = entity.bCollisionLeft || entity.bCollisionRight || entity.bCollisionTop || entity.bCollisionBottom;
-        entity.bStuckTopLeft = gp.tileManager.tile[iTileNum1].collision && gp.tileManager.tile[iTileNum5].collision;
-        entity.bStuckTopRight = gp.tileManager.tile[iTileNum2].collision && gp.tileManager.tile[iTileNum6].collision;
-        entity.bStuckBotLeft = gp.tileManager.tile[iTileNum3].collision && gp.tileManager.tile[iTileNum7].collision;
-        entity.bStuckBotRight = gp.tileManager.tile[iTileNum4].collision && gp.tileManager.tile[iTileNum8].collision;
+
+        int iStuckLeftCol = (iEntLeftWorldX + 1) / gp.iTileSize;
+        int iStuckRightCol = (iEntRightWorldX - 1) / gp.iTileSize;
+        int iStuckTopRow = (iEntTopWorldY + 1)/ gp.iTileSize;
+        int iStuckBottomRow = (iEntBotWorldY - 1)/ gp.iTileSize;
+
+        int iStuckTileNum1, iStuckTileNum2, iStuckTileNum3, iStuckTileNum4;
+
+        iStuckTileNum1 = gp.tileManager.iiMapTileNumber[iStuckLeftCol][iStuckTopRow];
+        iStuckTileNum2 = gp.tileManager.iiMapTileNumber[iStuckRightCol][iStuckTopRow];
+        iStuckTileNum3 = gp.tileManager.iiMapTileNumber[iStuckLeftCol][iStuckBottomRow];
+        iStuckTileNum4 = gp.tileManager.iiMapTileNumber[iStuckRightCol][iStuckBottomRow];
+
+        entity.bStuckLeft = gp.tileManager.tile[iStuckTileNum1].collision && gp.tileManager.tile[iStuckTileNum3].collision;
+        entity.bStuckRight = gp.tileManager.tile[iStuckTileNum2].collision && gp.tileManager.tile[iStuckTileNum4].collision;
+        entity.bStuckTop = gp.tileManager.tile[iStuckTileNum1].collision && gp.tileManager.tile[iStuckTileNum2].collision;
+        entity.bStuckBot = gp.tileManager.tile[iStuckTileNum3].collision && gp.tileManager.tile[iStuckTileNum4].collision;
     }
 
     public int checkObject(Entity entity, boolean player) {
@@ -72,5 +85,8 @@ public class CollisionCheck {
              }
          }
          return index;
+    }
+    public int distance(int x1, int y1, int x2, int y2){
+        return (int) Math.sqrt((double)(((y2/x2)^2)+(y1/x1)^2));
     }
 }
