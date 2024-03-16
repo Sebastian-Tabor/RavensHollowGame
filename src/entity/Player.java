@@ -73,6 +73,10 @@ public class Player extends Entity {
             rightjump2 = setup("./res/player/rightjump2");
             crouch1 = setup("./res/player/crouch1");
             crouch2 = setup("./res/player/crouch2");
+            leftcrouch1 = setup("./res/player/leftcrouch1");
+            leftcrouch2 = setup("./res/player/leftcrouch2");
+            rightcrouch1 = setup("./res/player/rightcrouch1");
+            rightcrouch2 = setup("./res/player/rightcrouch2");
             idle1 = setup("./res/player/idle1");
             idle2 = setup("./res/player/idle2");
 
@@ -83,9 +87,9 @@ public class Player extends Entity {
             String sObjectName = gp.obj[index].sName;
             switch (sObjectName) {
                 case "Feather":
-                    iSpeed += 1;
-                    gp.playSoundEffect(0);
                     gp.obj[index] = null;
+                    gp.playSoundEffect(0);
+                    iSpeed += 1;
                     break;
                 case "Bone":
                     gp.obj[index] = null;
@@ -176,10 +180,10 @@ public class Player extends Entity {
             iSpeed = iSpeedOriginal;
         }
     //COLLISION CHECK
-        bCollisionDetected = false;
         gp.cCheck.checkTile(this);
         int iObjectIndex = gp.cCheck.checkObject(this, true);
         pickupObject(iObjectIndex);
+        bCollisionDetected = false;
     //STUCK PREVENTION
         if (bStuckLeft) {
             ++iWorldX;
@@ -250,6 +254,22 @@ public class Player extends Entity {
                 }
                 if (iSpriteNumber == 2) {
                     image = crouch2;
+                }
+                break;
+            case "left crouch":
+                if (iSpriteNumber == 1) {
+                    image = leftcrouch1;
+                }
+                if (iSpriteNumber == 2) {
+                    image = leftcrouch2;
+                }
+                break;
+            case "right crouch":
+                if (iSpriteNumber == 1) {
+                    image = rightcrouch1;
+                }
+                if (iSpriteNumber == 2) {
+                    image = rightcrouch2;
                 }
                 break;
             case "jump":

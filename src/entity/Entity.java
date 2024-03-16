@@ -16,7 +16,6 @@ public class Entity {
     public boolean bCanJump = true;
     public boolean bFalling = false;
 //COLLISION
-    public int iSenseRange = 5;
     public int iHitBoxDefaultX, iHitBoxDefaultY;
     public boolean bStuckLeft, bStuckRight, bStuckTop, bStuckBot = false;
     public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected = false;
@@ -29,8 +28,8 @@ public class Entity {
     public int iWorldX, iWorldY;
     public int iMovementCounter = 0;
     public String direction;
-    public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2;
-//STAT TRACKERS
+    public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2, leftcrouch1, leftcrouch2, rightcrouch1, rightcrouch2;
+    //STAT TRACKERS
     public int iHealth;
     public int iHealthMax;
     public int iUltimate;
@@ -102,23 +101,6 @@ public class Entity {
     //COLLISION
         bCollisionDetected = false;
         gp.cCheck.checkTile(this);
-    //STUCK PREVENTION
-        if (bStuckLeft) {
-            iWorldY++;
-            iWorldX++;
-        }
-        if (bStuckRight) {
-            iWorldY++;
-            iWorldX--;
-        }
-        if (bStuckTop) {
-            iWorldY--;
-            iWorldX++;
-        }
-        if (bStuckBot) {
-            iWorldY--;
-            iWorldX--;
-        }
     //JUMP CONDITIONS
         if (bCollisionBottom) {
             iVelocityY = 0;
@@ -185,6 +167,22 @@ public class Entity {
                         image = crouch2;
                     }
                     break;
+                case "left crouch":
+                    if (iSpriteNumber == 1) {
+                        image = leftcrouch1;
+                    }
+                    if (iSpriteNumber == 2) {
+                        image = leftcrouch2;
+                    }
+                    break;
+                case "right crouch":
+                    if (iSpriteNumber == 1) {
+                        image = rightcrouch1;
+                    }
+                    if (iSpriteNumber == 2) {
+                        image = rightcrouch2;
+                    }
+                    break;
                 case "jump":
                     if (iSpriteNumber == 1) {
                         image = jump1;
@@ -235,7 +233,7 @@ public class Entity {
     public void jump() {
         if (bCanJump && !bCollisionTop && bCollisionBottom) {
             iJumpCooldown = iRecoveryTime;
-            iWorldY -= 1 + iSenseRange;
+            iWorldY -= iSpeed;
             iVelocityY = iSpeed + 10;
             bCanJump = false;
         }

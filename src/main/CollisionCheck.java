@@ -16,47 +16,38 @@ public class CollisionCheck {
         int iEntRightWorldX = entity.iWorldX + entity.hitBox.x + entity.hitBox.width;
         int iEntTopWorldY = entity.iWorldY + entity.hitBox.y;
         int iEntBotWorldY = entity.iWorldY + entity.hitBox.y + entity.hitBox.height;
-        int iEntityHLeftCol = (iEntLeftWorldX - entity.iSenseRange) / gp.iTileSize;
-        int iEntityHRightCol = (iEntRightWorldX + entity.iSenseRange) / gp.iTileSize;
-        int iEntityHTopRow = iEntTopWorldY / gp.iTileSize;
-        int iEntityHBottomRow = iEntBotWorldY / gp.iTileSize;
-        int iEntityVLeftCol = iEntLeftWorldX / gp.iTileSize;
-        int iEntityVRightCol = iEntRightWorldX / gp.iTileSize;
-        int iEntityVTopRow = (iEntTopWorldY - entity.iSenseRange) / gp.iTileSize;
-        int iEntityVBottomRow = (iEntBotWorldY + entity.iSenseRange) / gp.iTileSize;
-        int iTileNum1, iTileNum2, iTileNum3, iTileNum4, iTileNum5, iTileNum6, iTileNum7, iTileNum8;
+        int iEntityLeftCol;
+        int iEntityRightCol;
+        int iEntityTopRow = iEntTopWorldY / gp.iTileSize;
+        int iEntityBottomRow = iEntBotWorldY / gp.iTileSize;
+        int iEntityTTopRow = (iEntTopWorldY - entity.iSpeedOriginal) / gp.iTileSize;
+        int iEntityBBottomRow = (iEntBotWorldY + entity.iSpeedOriginal) / gp.iTileSize;
+        int iTileNum1, iTileNum2, iTileNum3, iTileNum4, iTileNum5, iTileNum6;
 
-        iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityHLeftCol][iEntityHTopRow];
-        iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityHRightCol][iEntityHTopRow];
-        iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityHLeftCol][iEntityHBottomRow];
-        iTileNum4 = gp.tileManager.iiMapTileNumber[iEntityHRightCol][iEntityHBottomRow];
-        iTileNum5 = gp.tileManager.iiMapTileNumber[iEntityVLeftCol][iEntityVTopRow];
-        iTileNum6 = gp.tileManager.iiMapTileNumber[iEntityVRightCol][iEntityVTopRow];
-        iTileNum7 = gp.tileManager.iiMapTileNumber[iEntityVLeftCol][iEntityVBottomRow];
-        iTileNum8 = gp.tileManager.iiMapTileNumber[iEntityVRightCol][iEntityVBottomRow];
 
-        entity.bCollisionLeft = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum3].collision;
-        entity.bCollisionRight = gp.tileManager.tile[iTileNum2].collision || gp.tileManager.tile[iTileNum4].collision;
-        entity.bCollisionTop = gp.tileManager.tile[iTileNum5].collision || gp.tileManager.tile[iTileNum6].collision;
-        entity.bCollisionBottom = gp.tileManager.tile[iTileNum7].collision || gp.tileManager.tile[iTileNum8].collision;
-        entity.bCollisionDetected = entity.bCollisionLeft || entity.bCollisionRight || entity.bCollisionTop || entity.bCollisionBottom;
+        iEntityLeftCol = (iEntLeftWorldX - entity.iSpeedOriginal) / gp.iTileSize;
+        iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
+        iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
 
-        int iStuckLeftCol = (iEntLeftWorldX + 1) / gp.iTileSize;
-        int iStuckRightCol = (iEntRightWorldX - 1) / gp.iTileSize;
-        int iStuckTopRow = (iEntTopWorldY + 1)/ gp.iTileSize;
-        int iStuckBottomRow = (iEntBotWorldY - 1)/ gp.iTileSize;
+        entity.bCollisionLeft = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision;
 
-        int iStuckTileNum1, iStuckTileNum2, iStuckTileNum3, iStuckTileNum4;
+        iEntityRightCol = (iEntRightWorldX + entity.iSpeedOriginal) / gp.iTileSize;
+        iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
+        iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
 
-        iStuckTileNum1 = gp.tileManager.iiMapTileNumber[iStuckLeftCol][iStuckTopRow];
-        iStuckTileNum2 = gp.tileManager.iiMapTileNumber[iStuckRightCol][iStuckTopRow];
-        iStuckTileNum3 = gp.tileManager.iiMapTileNumber[iStuckLeftCol][iStuckBottomRow];
-        iStuckTileNum4 = gp.tileManager.iiMapTileNumber[iStuckRightCol][iStuckBottomRow];
+        entity.bCollisionRight = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision;
 
-        entity.bStuckLeft = gp.tileManager.tile[iStuckTileNum1].collision && gp.tileManager.tile[iStuckTileNum3].collision;
-        entity.bStuckRight = gp.tileManager.tile[iStuckTileNum2].collision && gp.tileManager.tile[iStuckTileNum4].collision;
-        entity.bStuckTop = gp.tileManager.tile[iStuckTileNum1].collision && gp.tileManager.tile[iStuckTileNum2].collision;
-        entity.bStuckBot = gp.tileManager.tile[iStuckTileNum3].collision && gp.tileManager.tile[iStuckTileNum4].collision;
+        iEntityLeftCol = (iEntLeftWorldX) / gp.iTileSize;
+        iEntityRightCol = (iEntRightWorldX) / gp.iTileSize;
+        iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTTopRow];
+        iTileNum4 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTTopRow];
+        iTileNum5 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBBottomRow];
+        iTileNum6 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBBottomRow];
+
+        entity.bCollisionTop = gp.tileManager.tile[iTileNum3].collision || gp.tileManager.tile[iTileNum4].collision;
+        entity.bCollisionBottom = gp.tileManager.tile[iTileNum5].collision || gp.tileManager.tile[iTileNum6].collision;
+
+
     }
 
     public int checkObject(Entity entity, boolean player) {
@@ -85,8 +76,5 @@ public class CollisionCheck {
              }
          }
          return index;
-    }
-    public int distance(int x1, int y1, int x2, int y2){
-        return (int) Math.sqrt((double)(((y2/x2)^2)+(y1/x1)^2));
     }
 }

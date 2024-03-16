@@ -20,8 +20,9 @@ public class KeyBinds implements KeyListener, MouseListener{
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if (gp.iGameState == gp.titleState) bInput = true;
-
+        if (gp.iGameState == gp.titleState) {
+            if (code == KeyEvent.VK_ENTER) gp.iGameState = gp.playState;
+        }
         else if (gp.iGameState == gp.playState) {
             if (code == KeyEvent.VK_ESCAPE) {gp.iGameState = gp.pauseState;}
             if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = true;

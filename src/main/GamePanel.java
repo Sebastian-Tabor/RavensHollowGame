@@ -108,12 +108,6 @@ public class GamePanel extends JPanel implements Runnable {
             }
             player.update();
         }
-        if (iGameState == titleState) {
-            if (KeyBinds.bInput) {
-                iGameState = playState;
-                stopMusic();
-            }
-        }
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -153,6 +147,7 @@ public class GamePanel extends JPanel implements Runnable {
             g2.dispose();
         }
     }
+//SOUNDS
     public void playMusic(int track) {
         music.setFile(track);
         music.playSound();
