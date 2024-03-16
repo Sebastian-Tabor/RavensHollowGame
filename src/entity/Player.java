@@ -213,6 +213,7 @@ public class Player extends Entity {
         if (iVelocityY < iGravity) iVelocityY = iGravity;
     //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
         if (bCollisionTop) iVelocityY = -5;
+        preventStuck();
     //SET FALLING
         bFalling = iVelocityY <= 0;
     //SPRITE COUNTER
@@ -304,4 +305,5 @@ public class Player extends Entity {
         }
         g2.drawImage(image, iScreenPosX, iScreenPosY, gp.iTileSize, gp.iTileSize, null);
     }
+
 }

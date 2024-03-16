@@ -1,14 +1,16 @@
 package entity;
 
+import main.CollisionCheck;
 import main.GamePanel;
 import main.UtilityTool;
+import world.TileManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
     public GamePanel gp;
-    public UtilityTool utool = new UtilityTool();
+    public UtilityTool uTool = new UtilityTool();
 //ANIMATIONS
     public int iSpriteCounter = 0;
     public int iSpriteNumber = 1;
@@ -19,7 +21,6 @@ public class Entity {
     public boolean bFalling = false;
 //COLLISION
     public int iHitBoxDefaultX, iHitBoxDefaultY;
-    public boolean bStuckLeft, bStuckRight, bStuckTop, bStuckBot = false;
     public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected, bWouldBeStuck = false;
     public Rectangle hitBox, fullHitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
 //MOVEMENT
@@ -105,15 +106,7 @@ public class Entity {
     //COLLISION
         bCollisionDetected = false;
         gp.cCheck.checkTile(this);
-    //ANTISTUCK
-       //if (bWouldBeStuck){
-       //    int x1 = iWorldX;
-       //    int y1 = iWorldY;
-       //    int y2 =  iWorldY + hitBox.y + hitBox.height + iVelocityY;
-       //    int distance;
-       //    distance = utool.findDistance(x1, y1, x1, y2);
-       //    iWorldY += distance;
-       //}
+
     //JUMP CONDITIONS
         if (bCollisionBottom) {
             iVelocityY = 0;
@@ -130,6 +123,7 @@ public class Entity {
         }
     //MAX GRAVITY
         if (iVelocityY < iGravity) iVelocityY = iGravity;
+        preventStuck();
     //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
         if (bCollisionTop) iVelocityY = -5;
     //SET FALLING
@@ -249,6 +243,15 @@ public class Entity {
             iWorldY -= iSpeed;
             iVelocityY = iSpeed + 10;
             bCanJump = false;
+        }
+    }
+    //ANTISTUCK
+    public void preventStuck(){
+        int futureY = iWorldY + hitBox.y + hitBox.height + iVelocityY;
+        int distance = uTool.findDistance(iWorldX, iWorldY, iWorldX, futureY);
+        if (distance <= 0 && bFalling) {
+            iVelocityY = 0;
+            iWorldY += Math.abs(distance);
         }
     }
 }
