@@ -21,7 +21,10 @@ public class KeyBinds implements KeyListener, MouseListener{
         int code = e.getKeyCode();
 
         if (gp.iGameState == gp.titleState) {
-            if (code == KeyEvent.VK_ENTER) gp.iGameState = gp.playState;
+            if (code == KeyEvent.VK_ENTER) {
+                gp.iGameState = gp.playState;
+                gp.stopMusic();
+            }
         }
         else if (gp.iGameState == gp.playState) {
             if (code == KeyEvent.VK_ESCAPE) {gp.iGameState = gp.pauseState;}

@@ -1,12 +1,14 @@
 package entity;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
     public GamePanel gp;
+    public UtilityTool utool = new UtilityTool();
 //ANIMATIONS
     public int iSpriteCounter = 0;
     public int iSpriteNumber = 1;
@@ -18,11 +20,12 @@ public class Entity {
 //COLLISION
     public int iHitBoxDefaultX, iHitBoxDefaultY;
     public boolean bStuckLeft, bStuckRight, bStuckTop, bStuckBot = false;
-    public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected = false;
+    public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected, bWouldBeStuck = false;
     public Rectangle hitBox, fullHitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
 //MOVEMENT
     public int iSpeed;
     public int iSpeedOriginal;
+    public int iGravity;
     public int iVelocityY;
     public int iVelocityX;
     public int iWorldX, iWorldY;
@@ -42,6 +45,7 @@ public class Entity {
         hitBox = fullHitBox;
         iHitBoxDefaultX = hitBox.x;
         iHitBoxDefaultY = hitBox.y;
+        iGravity = -gp.iTileSize/10;
     }
 //SET ACTION ERROR MESSAGE
     public void setAction() {
@@ -101,6 +105,15 @@ public class Entity {
     //COLLISION
         bCollisionDetected = false;
         gp.cCheck.checkTile(this);
+    //ANTISTUCK
+       //if (bWouldBeStuck){
+       //    int x1 = iWorldX;
+       //    int y1 = iWorldY;
+       //    int y2 =  iWorldY + hitBox.y + hitBox.height + iVelocityY;
+       //    int distance;
+       //    distance = utool.findDistance(x1, y1, x1, y2);
+       //    iWorldY += distance;
+       //}
     //JUMP CONDITIONS
         if (bCollisionBottom) {
             iVelocityY = 0;
@@ -115,9 +128,9 @@ public class Entity {
             this.iWorldY -= iVelocityY;
             iVelocityY --;
         }
-        //MAX GRAVITY
-        if (iVelocityY < -10) iVelocityY = -10;
-        //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
+    //MAX GRAVITY
+        if (iVelocityY < iGravity) iVelocityY = iGravity;
+    //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
         if (bCollisionTop) iVelocityY = -5;
     //SET FALLING
         bFalling = iVelocityY <= 0;

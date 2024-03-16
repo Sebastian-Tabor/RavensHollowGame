@@ -34,7 +34,7 @@ public class Player extends Entity {
     public void setDefaultValues() {
         iWorldX = iStartPosX;
         iWorldY = iStartPosY;
-        iSpeedOriginal = 10;
+        iSpeedOriginal = 5;
         iSpeed = iSpeedOriginal;
         iRecoveryTime = 10;
         iHealth = 10;
@@ -185,18 +185,15 @@ public class Player extends Entity {
         pickupObject(iObjectIndex);
         bCollisionDetected = false;
     //STUCK PREVENTION
-        if (bStuckLeft) {
-            ++iWorldX;
-        }
-        if (bStuckRight) {
-            --iWorldX;
-        }
-        if (bStuckTop) {
-            ++iWorldY;
-        }
-        if (bStuckBot) {
-           --iWorldY;
-        }
+        //if (bWouldBeStuck && bFalling){
+        //    int x1 = iWorldX;
+        //    int y1 = iWorldY;
+        //    int y2 =  iWorldY + hitBox.y + hitBox.height + iVelocityY;
+        //    int distance;
+        //    distance = utool.findDistance(x1, y1, x1, y2);
+        //    iWorldY += distance;
+        //    iVelocityY = 0;
+        //}
     //POSSIBLE IMPLEMENTS JUMP INTERFACE?
     //JUMP CONDITIONS
         if (bCollisionBottom) {
@@ -213,7 +210,7 @@ public class Player extends Entity {
             iVelocityY --;
         }
     //MAX GRAVITY
-        if (iVelocityY < -10) iVelocityY = -10;
+        if (iVelocityY < iGravity) iVelocityY = iGravity;
     //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
         if (bCollisionTop) iVelocityY = -5;
     //SET FALLING

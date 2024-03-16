@@ -14,4 +14,11 @@ public class UtilityTool {
 
         return scaledImage;
     }
+    public int findDistance(int x1, int y1, int x2, int y2){
+        int a = (y1/x1)^2;
+        int b = (y2/x2)^2;
+        int c = a + b;
+        c = (int) Math.sqrt(c);
+        return c;
+    }
 }

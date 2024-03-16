@@ -9,8 +9,8 @@ public class Main {
     public static void main(String[] args) {
         //WINDOW
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setUndecorated(false);
-        window.setResizable(true);
+        window.setUndecorated(true);
+        window.setResizable(false);
         window.setTitle("Raven's Hollow");
         window.setIconImage(null);
         window.setLocation(0,0);
