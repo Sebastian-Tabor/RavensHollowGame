@@ -9,10 +9,14 @@ import java.net.URL;
 public class Sound {
     Clip clip;
     URL[] soundURL = new URL[30];
+    long lMusicLocation = 0;
+    boolean bMusicPlaying;
      public Sound() {
 
          soundURL[0] = getClass().getResource("../sound/teehee.wav");
          soundURL[1] = getClass().getResource("../sound/autumn.wav");
+         soundURL[2] = getClass().getResource("../sound/play0.wav");
+
      }
      public void setFile(int track){
         try {
@@ -24,13 +28,15 @@ public class Sound {
             throw new RuntimeException(e);
         }
      }
-     public void playSound(){
+     public void playSound() {
         clip.start();
+        bMusicPlaying = true;
      }
      public void loopSound(){
         clip.loop(Clip.LOOP_CONTINUOUSLY);
      }
      public void stopSound(){
         clip.stop();
+        bMusicPlaying = false;
      }
 }

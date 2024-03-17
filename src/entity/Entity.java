@@ -74,7 +74,7 @@ public class Entity {
                 iVelocityX = iSpeed;
                 moveRight();
                 break;
-            case"jump":
+            case "jump":
                 jump();
                 break;
             case "left jump":
@@ -103,11 +103,15 @@ public class Entity {
             case "idle":
                 break;
         }
-    //COLLISION
-        bCollisionDetected = false;
+        if (!direction.equals("crouch") && !direction.equals("crouch left") && !direction.equals("crouch right")) {
+            iSpeed = iSpeedOriginal;
+        }
+        //COLLISION CHECK
         gp.cCheck.checkTile(this);
         if (bWouldBeStuck) --iWorldY;
-    //JUMP CONDITIONS
+        bCollisionDetected = false;
+        //POSSIBLE IMPLEMENTS JUMP INTERFACE?
+        //JUMP CONDITIONS
         if (bCollisionBottom) {
             iVelocityY = 0;
             iJumpCooldown--;
@@ -121,13 +125,13 @@ public class Entity {
             this.iWorldY -= iVelocityY;
             iVelocityY --;
         }
-    //MAX GRAVITY
+        //MAX GRAVITY
         if (iVelocityY < iGravity) iVelocityY = iGravity;
-    //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
+        //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
         if (bCollisionTop) iVelocityY = -5;
-    //SET FALLING
+        //SET FALLING
         bFalling = iVelocityY < 0;
-    //SPRITE COUNTER
+        //SPRITE COUNTER
         iSpriteCounter++;
         if (iSpriteCounter > 12) {
             if (iSpriteNumber == 2){

@@ -52,7 +52,7 @@ public class Hare extends Entity {
     public void setAction() {
 
         Random random = new Random();
-        int iCounter = random.nextInt(7);
+        int iCounter = random.nextInt(9);
 
         switch (iCounter) {
             case 0:
@@ -74,6 +74,12 @@ public class Hare extends Entity {
                 direction = "crouch";
                 break;
             case 6:
+                direction = "left crouch";
+                break;
+            case 7:
+                direction = "right crouch";
+                break;
+            case 8:
                 direction = "idle";
                 //DO NOTHING
                 break;

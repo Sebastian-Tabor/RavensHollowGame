@@ -21,9 +21,6 @@ public class AssetSetter {
     public void setNPC() {
         gp.npc[0] = new Hare(gp);
         gp.npc[0].iWorldX = gp.iTileSize * 18;
-        gp.npc[0].iWorldY = gp.iTileSize * 11;
-    }
-    public void setProjectile() {
-
+        gp.npc[0].iWorldY = gp.iTileSize * 10;
     }
 }

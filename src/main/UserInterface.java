@@ -28,11 +28,21 @@ public class UserInterface {
         this.g2 = g2;
         g2.setFont(defaultFont);
         g2.setColor(Color.white);
-        if (gp.iGameState == gp.titleState) drawTitleScreen();
-        if (gp.iGameState == gp.playState) drawPlayScreen();
-        if (gp.iGameState == gp.loadingState) drawLoadingScreen();
-        if (gp.iGameState == gp.pauseState) drawPauseScreen();
-        if (gp.iGameState == gp.endState) drawEndScreen();
+        if (gp.iGameState == gp.titleState) {
+            drawTitleScreen();
+        }
+        if (gp.iGameState == gp.playState) {
+            drawPlayScreen();
+        }
+        if (gp.iGameState == gp.loadingState) {
+            drawLoadingScreen();
+        }
+        if (gp.iGameState == gp.pauseState) {
+            drawPauseScreen();
+        }
+        if (gp.iGameState == gp.endState) {
+            drawEndScreen();
+        }
     }
 //FONTS
     public void setFonts(){
@@ -90,6 +100,7 @@ public class UserInterface {
             g2.drawString("<", (int)(x + g2.getFontMetrics().getStringBounds(text, g2).getWidth() + gp.iTileSize), y );
             if (KeyBinds.bEnterPressed) {
                 gp.iGameState = gp.playState;
+                gp.resumeMusic();
             }
         }
         //QUIT

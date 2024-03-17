@@ -21,13 +21,15 @@ public class KeyBinds implements KeyListener, MouseListener{
         int code = e.getKeyCode();
 
         if (gp.iGameState == gp.titleState) {
-            if (code == KeyEvent.VK_ENTER) {
-                gp.iGameState = gp.playState;
-                gp.stopMusic();
-            }
+            gp.iGameState = gp.playState;
+            gp.stopMusic();
+            gp.playMusic(2);
         }
         else if (gp.iGameState == gp.playState) {
-            if (code == KeyEvent.VK_ESCAPE) {gp.iGameState = gp.pauseState;}
+            if (code == KeyEvent.VK_ESCAPE) {
+                gp.iGameState = gp.pauseState;
+                gp.stopMusic();
+            }
             if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = true;
             if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = true;
             if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = true;
@@ -40,7 +42,10 @@ public class KeyBinds implements KeyListener, MouseListener{
             if (code == KeyEvent.VK_2) gp.iScene = 1;
         }
         else if (gp.iGameState == gp.pauseState) {
-            if (code == KeyEvent.VK_ESCAPE) gp.iGameState = gp.playState;
+            if (code == KeyEvent.VK_ESCAPE) {
+                gp.iGameState = gp.playState;
+                gp.resumeMusic();
+            }
             if (code == KeyEvent.VK_ENTER) bEnterPressed = true;
             if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) --gp.ui.commandNumber;
             if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) ++gp.ui.commandNumber;
@@ -49,7 +54,6 @@ public class KeyBinds implements KeyListener, MouseListener{
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
-            bInput = false;
             if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = false;
             if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = false;
             if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = false;
