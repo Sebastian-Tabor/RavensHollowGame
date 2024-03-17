@@ -21,7 +21,7 @@ public class Entity {
     public boolean bFalling = false;
 //COLLISION
     public int iHitBoxDefaultX, iHitBoxDefaultY;
-    public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected, bWouldBeStuck = false;
+    public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected, bWouldBeStuck, bWouldBeStuckLeft, bWouldBeStuckRight= false;
     public Rectangle hitBox, fullHitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
 //MOVEMENT
     public int iSpeed;
@@ -106,7 +106,7 @@ public class Entity {
     //COLLISION
         bCollisionDetected = false;
         gp.cCheck.checkTile(this);
-
+        if (bWouldBeStuck) --iWorldY;
     //JUMP CONDITIONS
         if (bCollisionBottom) {
             iVelocityY = 0;
@@ -123,11 +123,10 @@ public class Entity {
         }
     //MAX GRAVITY
         if (iVelocityY < iGravity) iVelocityY = iGravity;
-        preventStuck();
     //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
         if (bCollisionTop) iVelocityY = -5;
     //SET FALLING
-        bFalling = iVelocityY <= 0;
+        bFalling = iVelocityY < 0;
     //SPRITE COUNTER
         iSpriteCounter++;
         if (iSpriteCounter > 12) {
@@ -243,15 +242,6 @@ public class Entity {
             iWorldY -= iSpeed;
             iVelocityY = iSpeed + 10;
             bCanJump = false;
-        }
-    }
-    //ANTISTUCK
-    public void preventStuck(){
-        int futureY = iWorldY + hitBox.y + hitBox.height + iVelocityY;
-        int distance = uTool.findDistance(iWorldX, iWorldY, iWorldX, futureY);
-        if (distance <= 0 && bFalling) {
-            iVelocityY = 0;
-            iWorldY += Math.abs(distance);
         }
     }
 }

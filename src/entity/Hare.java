@@ -13,7 +13,7 @@ public class Hare extends Entity {
     public Hare (GamePanel gp) {
         super (gp);
         direction = "idle";
-        iSpeed = 12;
+        iSpeed = 6;
     //GET IMAGE
         getHareImage();
     }

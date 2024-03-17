@@ -181,19 +181,10 @@ public class Player extends Entity {
         }
     //COLLISION CHECK
         gp.cCheck.checkTile(this);
+        if (bWouldBeStuck) --iWorldY;
         int iObjectIndex = gp.cCheck.checkObject(this, true);
         pickupObject(iObjectIndex);
         bCollisionDetected = false;
-    //STUCK PREVENTION
-        //if (bWouldBeStuck && bFalling){
-        //    int x1 = iWorldX;
-        //    int y1 = iWorldY;
-        //    int y2 =  iWorldY + hitBox.y + hitBox.height + iVelocityY;
-        //    int distance;
-        //    distance = utool.findDistance(x1, y1, x1, y2);
-        //    iWorldY += distance;
-        //    iVelocityY = 0;
-        //}
     //POSSIBLE IMPLEMENTS JUMP INTERFACE?
     //JUMP CONDITIONS
         if (bCollisionBottom) {
@@ -213,9 +204,8 @@ public class Player extends Entity {
         if (iVelocityY < iGravity) iVelocityY = iGravity;
     //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
         if (bCollisionTop) iVelocityY = -5;
-        preventStuck();
     //SET FALLING
-        bFalling = iVelocityY <= 0;
+        bFalling = iVelocityY < 0;
     //SPRITE COUNTER
         iSpriteCounter++;
         if (iSpriteCounter > 12) {
