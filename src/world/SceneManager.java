@@ -1,6 +1,7 @@
 package world;
 
 import main.GamePanel;
+import main.Main;
 import main.UtilityTool;
 
 import javax.imageio.ImageIO;
@@ -22,12 +23,18 @@ public class SceneManager {
     }
 //DRAW METHODS
     public void drawForeground(Graphics2D g2){
+        //int x1 = gp.player.iScreenPosX - gp.player.iWorldX;
+        //int y1 = gp.player.iScreenPosY  - gp.player.iWorldY;
+        //int x2 = scene[gp.iScene].background.getWidth();
+        //int y2 = scene[gp.iScene].background.getHeight();
 
-        int x = gp.player.iScreenPosX - gp.player.iWorldX;
-        int y = gp.player.iScreenPosY  - gp.player.iWorldY;
+        int sx1 = gp.player.iScreenPosX - gp.player.iWorldX;
+        int sy1 = gp.player.iScreenPosY  - gp.player.iWorldY;
+        //int sx2 = gp.iScreenWidth;
+        //int sy2 = gp.iScreenHeight;
 
-        g2.drawImage(scene[gp.iScene].foreground, x ,y,null);
-
+        g2.drawImage(scene[gp.iScene].foreground, sx1 ,sy1,null);
+        //g2.drawImage(scene[gp.iScene].background, x1, y1, x2, y2, sx1, sy1, sx2, sy2, null);
     }
     public void drawMidground(Graphics2D g2){
 

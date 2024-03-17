@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class KeyBinds implements KeyListener, MouseListener{
+public class KeyBinds implements KeyListener{
 
     public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bEPressed, bRPressed, bInput, bMousePressed, bEnterPressed;
     GamePanel gp;
@@ -61,27 +61,5 @@ public class KeyBinds implements KeyListener, MouseListener{
             if (code == KeyEvent.VK_R) bRPressed = false;
             if (code == KeyEvent.VK_E) bEPressed = false;
             if (code == KeyEvent.VK_ENTER) bEnterPressed = false;
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 }

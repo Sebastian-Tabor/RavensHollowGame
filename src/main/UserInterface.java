@@ -103,6 +103,7 @@ public class UserInterface {
                 gp.resumeMusic();
             }
         }
+
         //QUIT
         text = "Quit";
         y += gp.iTileSize;
@@ -115,7 +116,12 @@ public class UserInterface {
                 System.exit(0);
             }
         }
-
+        if (commandNumber > 1) {
+            commandNumber = 0;
+        }
+        if (commandNumber < 0) {
+            commandNumber = 1;
+        }
     }
 //DRAW LOADING SCREEN
     public void drawLoadingScreen() {
