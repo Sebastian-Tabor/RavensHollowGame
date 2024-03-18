@@ -9,11 +9,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class UserInterface {
-    Font defaultFont;
+    Font defaultFont, titleFont;
     public GamePanel gp;
     public Graphics2D g2;
     public String text;
-    public BufferedImage displayedImage, titleImage, playImage, pauseImage, endImage, loadingImage;
+    public BufferedImage displayedImage, titleImage, playImage, pauseImage, endImage, loadingImage, tempImage;
     public int commandNumber;
 
 
@@ -34,11 +34,14 @@ public class UserInterface {
         if (gp.iGameState == gp.playState) {
             drawPlayScreen();
         }
-        if (gp.iGameState == gp.loadingState) {
-            drawLoadingScreen();
-        }
         if (gp.iGameState == gp.pauseState) {
             drawPauseScreen();
+        }
+        if (gp.iGameState == gp.optionsState) {
+            drawOptionsScreen();
+        }
+        if (gp.iGameState == gp.loadingState) {
+            drawLoadingScreen();
         }
         if (gp.iGameState == gp.endState) {
             drawEndScreen();
@@ -47,6 +50,7 @@ public class UserInterface {
 //FONTS
     public void setFonts(){
         defaultFont = new Font("Arial", Font.PLAIN, 40);
+        titleFont = new Font("Arial", Font.BOLD, 80);
     }
 //IMAGES
     public void setImages() {
@@ -57,6 +61,7 @@ public class UserInterface {
             pauseImage = ImageIO.read(new File("./res/ui/pausescreen.png"));
             loadingImage = ImageIO.read(new File("./res/ui/loadingscreen.png"));
             endImage = ImageIO.read(new File("./res/ui/endscreen.png"));
+            tempImage = ImageIO.read(new File("./res/ui/tempimage.png"));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -80,52 +85,80 @@ public class UserInterface {
     public void drawPauseScreen() {
         int x;
         int y;
-        displayedImage = pauseImage;
+
         g2.setColor(new Color(0,0,0,60));
         g2.fillRect(0,0, gp.iScreenWidth, gp.iScreenHeight);
 
         g2.setColor(new Color(0,0,0,200));
         g2.fillRect(gp.iScreenWidth/4,gp.iScreenHeight/4, gp.iScreenWidth/2, gp.iScreenHeight/2);
 
-        g2.drawImage(displayedImage,0, 0, gp.iScreenWidth, gp.iScreenHeight, null);
+        displayedImage = pauseImage;
+        g2.drawImage(tempImage,gp.iScreenWidth/4,gp.iScreenHeight/4, gp.iTileSize, gp.iTileSize, null);
 
         text = "Paused";
+        g2.setFont(titleFont);
         x = getXCenterString(text);
         y = getYCenterString(text);
         g2.setColor(Color.white);
         g2.drawString(text, x, y - gp.iTileSize);
 
-        text = "Resume";
-        x = getXCenterString(text);
-        y = getYCenterString(text);
-        g2.setColor(Color.white);
-        g2.drawString(text, x, y);
-        if (commandNumber == 0) {
-            g2.drawString(">", x - gp.iTileSize, y);
-            g2.drawString("<", (int)(x + g2.getFontMetrics().getStringBounds(text, g2).getWidth() + gp.iTileSize), y );
-            if (KeyBinds.bEnterPressed) {
+        drawMenuTextOption("Resume", 0);
+            if (commandNumber == 0 && KeyBinds.bEnterPressed) {
                 gp.iGameState = gp.playState;
                 gp.resumeMusic();
             }
-        }
 
-        text = "Quit";
-        x = getXCenterString(text);
-        y = getYCenterString(text) + gp.iTileSize;
-        g2.setColor(Color.white);
-        g2.drawString(text, x, y);
-        if (commandNumber == 1) {
-            g2.drawString(">", x - gp.iTileSize, y);
-            g2.drawString("<", (int)(x + g2.getFontMetrics().getStringBounds(text, g2).getWidth() + gp.iTileSize), y );
-            if (KeyBinds.bEnterPressed) {
+        drawMenuTextOption("Options", 1);
+            if (commandNumber == 1 && KeyBinds.bEnterPressed) {
+                gp.iGameState = gp.optionsState;
+                commandNumber = 0;
+            }
+        drawMenuTextOption("Quit", 2);
+            if (commandNumber == 2 && KeyBinds.bEnterPressed) {
                 System.exit(0);
             }
-        }
-        if (commandNumber > 1) {
+        //LOOP
+        if (commandNumber > 2) {
             commandNumber = 0;
         }
         if (commandNumber < 0) {
-            commandNumber = 1;
+            commandNumber = 2;
+        }
+    }
+    public void drawOptionsScreen() {
+        text = "Loading";
+        g2.setFont(titleFont);
+        g2.drawString(text, getXCenterString(text), getYCenterString(text));
+
+        g2.setColor(new Color(0,0,0,200));
+        g2.fillRect(gp.iScreenWidth/4,gp.iScreenHeight/4, gp.iScreenWidth/2, gp.iScreenHeight/2);
+
+        drawMenuTextOption("Audio", 0);
+        if (commandNumber == 0 && KeyBinds.bEnterPressed) {
+            System.out.println("Implement audio options");
+            System.exit(0);
+        }
+        drawMenuTextOption("Hotkeys", 1);
+        if (commandNumber == 1 && KeyBinds.bEnterPressed) {
+            System.out.println("Implement hotkey options");
+            System.exit(0);
+        }
+        drawMenuTextOption("Accessibility", 1);
+        if (commandNumber == 2 && KeyBinds.bEnterPressed) {
+            System.out.println("Implement accessibility options");
+            System.exit(0);
+        }
+        drawMenuTextOption("Back", 2);
+        if (commandNumber == 3 && KeyBinds.bEnterPressed) {
+            gp.iGameState = gp.pauseState;
+            commandNumber = 0;
+        }
+        //LOOP
+        if (commandNumber > 2) {
+            commandNumber = 0;
+        }
+        if (commandNumber < 0) {
+            commandNumber = 2;
         }
     }
 //DRAW LOADING SCREEN
@@ -208,5 +241,19 @@ public class UserInterface {
                 break;
         }
         return p;
+    }
+    public void drawMenuTextOption(String text, int menuOptionNumber) {
+        text = text;
+        g2.setFont(defaultFont);
+        int x;
+        int y;
+        x = getXCenterString(text);
+        y = getYCenterString(text) + (gp.iTileSize * menuOptionNumber);
+        g2.setColor(Color.white);
+        g2.drawString(text, x, y);
+        if (commandNumber == menuOptionNumber) {
+            g2.drawString(">", x - gp.iTileSize, y);
+            g2.drawString("<", (int)(x + g2.getFontMetrics().getStringBounds(text, g2).getWidth() + gp.iTileSize), y );
+        }
     }
 }

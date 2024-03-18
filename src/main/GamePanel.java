@@ -5,12 +5,9 @@ import entity.Player;
 import object.Object;
 import world.SceneManager;
 import world.TileManager;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
+
 
 public class GamePanel extends JPanel implements Runnable {
 //FRAME SETTING VARIABLES
@@ -47,8 +44,9 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
-    public final int loadingState = 3;
-    public final int endState = 4;
+    public final int optionsState = 3;
+    public final int loadingState = 4;
+    public final int endState = 5;
 //FPS
     int iFPS = 60;
 

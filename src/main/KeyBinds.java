@@ -50,6 +50,14 @@ public class KeyBinds implements KeyListener{
             if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) --gp.ui.commandNumber;
             if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) ++gp.ui.commandNumber;
         }
+        else if (gp.iGameState == gp.optionsState) {
+            if (code == KeyEvent.VK_ESCAPE) {
+                gp.iGameState = gp.pauseState;
+            }
+            if (code == KeyEvent.VK_ENTER) bEnterPressed = true;
+            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) --gp.ui.commandNumber;
+            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) ++gp.ui.commandNumber;
+        }
     }
     @Override
     public void keyReleased(KeyEvent e) {
