@@ -7,14 +7,15 @@ import java.awt.event.MouseListener;
 
 public class KeyBinds implements KeyListener{
 
-    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bEPressed, bRPressed, bInput, bMousePressed, bEnterPressed;
+    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bEPressed, bRPressed, bInput, bMousePressed, bEnterPressed, bEscapePressed;
     GamePanel gp;
     public KeyBinds(GamePanel gp) {
         this.gp = gp;
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {} //not used yet
+    public void keyTyped(KeyEvent e) {
+    } //not used yet
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -26,10 +27,7 @@ public class KeyBinds implements KeyListener{
             gp.playMusic(2);
         }
         else if (gp.iGameState == gp.playState) {
-            if (code == KeyEvent.VK_ESCAPE) {
-                gp.iGameState = gp.pauseState;
-                gp.stopMusic();
-            }
+            if (code == KeyEvent.VK_ESCAPE) {bEscapePressed = true;}
             if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = true;
             if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = true;
             if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = true;
@@ -43,25 +41,22 @@ public class KeyBinds implements KeyListener{
         }
         else if (gp.iGameState == gp.pauseState) {
             if (code == KeyEvent.VK_ESCAPE) {
-                gp.iGameState = gp.playState;
-                gp.resumeMusic();
+                bEscapePressed = true;
             }
             if (code == KeyEvent.VK_ENTER) bEnterPressed = true;
-            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) --gp.ui.commandNumber;
-            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) ++gp.ui.commandNumber;
-        }
-        else if (gp.iGameState == gp.optionsState) {
-            if (code == KeyEvent.VK_ESCAPE) {
-                gp.iGameState = gp.pauseState;
+            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+                bUpPressed = true;
             }
-            if (code == KeyEvent.VK_ENTER) bEnterPressed = true;
-            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) --gp.ui.commandNumber;
-            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) ++gp.ui.commandNumber;
+            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+                bDownPressed = true;
+            }
         }
+
     }
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
+            if (code == KeyEvent.VK_ESCAPE) bEscapePressed = false;
             if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = false;
             if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = false;
             if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = false;

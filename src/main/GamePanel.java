@@ -44,9 +44,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
-    public final int optionsState = 3;
-    public final int loadingState = 4;
-    public final int endState = 5;
+    public final int loadingState = 3;
+    public final int endState = 4;
 //FPS
     int iFPS = 60;
 
@@ -60,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setAlignmentY(0);
     }
     public void setupGame() {
-        //KEEP THESE
+        music.iSoundVolume = 50;
         aSetter.setObject();
         aSetter.setNPC();
         playMusic(1);

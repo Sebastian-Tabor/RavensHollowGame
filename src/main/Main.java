@@ -28,4 +28,12 @@ public class Main {
 
         //Credits KaupenJoe, John Waskom, John Peterson, RyiSnow, Gh0stlyCy80rg, Rocket Smith, Josh Name, and most of all, Sarah Warren <3
     }
+    public void setFullscreen(){
+        window.setUndecorated(true);
+        window.setResizable(false);
+    }
+    public void setWindowed(){
+        window.setUndecorated(false);
+        window.setResizable(true);
+    }
 }
