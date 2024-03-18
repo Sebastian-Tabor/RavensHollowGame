@@ -28,12 +28,14 @@ public class Main {
 
         //Credits KaupenJoe, John Waskom, John Peterson, RyiSnow, Gh0stlyCy80rg, Rocket Smith, Josh Name, and most of all, Sarah Warren <3
     }
-    public void setFullscreen(){
+    public static void setFullscreen(GamePanel gp){
         window.setUndecorated(true);
         window.setResizable(false);
+        gp.bFullscreen = true;
     }
-    public void setWindowed(){
+    public static void setWindowed(GamePanel gp){
         window.setUndecorated(false);
         window.setResizable(true);
+        gp.bFullscreen = false;
     }
 }

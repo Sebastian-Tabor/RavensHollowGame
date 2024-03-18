@@ -19,6 +19,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int iMaxScreenRows = 17;
     public final int iScreenWidth = iMaxScreenColumns * iTileSize;
     public final int iScreenHeight = iMaxScreenRows * iTileSize;
+    public boolean bFullscreen = true;
 //MAP SIZE
     public final int iMaxMapCol = 90;
     public final int iMaxMapRow = 22;

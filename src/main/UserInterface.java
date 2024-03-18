@@ -130,8 +130,21 @@ public class UserInterface {
             commandNumber = 0;
             KeyBinds.bEnterPressed = false;
         }
-        drawCenterMenuTextOption("Quit", 2);
+        //DOESNT WORK RIGHT NOW
+        if (gp.bFullscreen) text = "Set Windowed";
+        else text = "Set Fullscreen";
+        drawCenterMenuTextOption(text, 2);
         if (commandNumber == 2 && KeyBinds.bEnterPressed) {
+            if (gp.bFullscreen) {
+                Main.setWindowed(gp);
+            }
+            else {
+                Main.setFullscreen(gp);
+            }
+            KeyBinds.bEnterPressed = false;
+        }
+        drawCenterMenuTextOption("Quit", 3);
+        if (commandNumber == 3 && KeyBinds.bEnterPressed) {
             System.exit(0);
         }
         //ALWAYS ADD THIS
@@ -149,11 +162,11 @@ public class UserInterface {
             KeyBinds.bEscapePressed = false;
         }
         //LOOP
-        if (commandNumber > 2) {
+        if (commandNumber > 3) {
             commandNumber = 0;
         }
         if (commandNumber < 0) {
-            commandNumber = 2;
+            commandNumber = 3;
         }
     }
     public void drawMenu1() {
