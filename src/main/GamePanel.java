@@ -6,8 +6,11 @@ import object.Object;
 import world.SceneManager;
 import world.TileManager;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class GamePanel extends JPanel implements Runnable {
 //FRAME SETTING VARIABLES
@@ -59,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setAlignmentY(0);
     }
     public void setupGame() {
+        //KEEP THESE
         aSetter.setObject();
         aSetter.setNPC();
         playMusic(1);

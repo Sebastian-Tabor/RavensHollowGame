@@ -81,18 +81,23 @@ public class UserInterface {
         int x;
         int y;
         displayedImage = pauseImage;
-        g2.setColor(new Color(0,0,0,70));
+        g2.setColor(new Color(0,0,0,60));
         g2.fillRect(0,0, gp.iScreenWidth, gp.iScreenHeight);
-        g2.drawImage(displayedImage, 0, 0, gp.iScreenWidth, gp.iScreenHeight, null);
+
+        g2.setColor(new Color(0,0,0,200));
+        g2.fillRect(gp.iScreenWidth/4,gp.iScreenHeight/4, gp.iScreenWidth/2, gp.iScreenHeight/2);
+
+        g2.drawImage(displayedImage,0, 0, gp.iScreenWidth, gp.iScreenHeight, null);
 
         text = "Paused";
+        x = getXCenterString(text);
+        y = getYCenterString(text);
         g2.setColor(Color.white);
-        g2.drawString(text, getXCenterString(text), getYCenterString(text));
+        g2.drawString(text, x, y - gp.iTileSize);
 
-        //RESUME
         text = "Resume";
-        x = 192;
-        y = 540 - gp.iTileSize;
+        x = getXCenterString(text);
+        y = getYCenterString(text);
         g2.setColor(Color.white);
         g2.drawString(text, x, y);
         if (commandNumber == 0) {
@@ -104,9 +109,9 @@ public class UserInterface {
             }
         }
 
-        //QUIT
         text = "Quit";
-        y += gp.iTileSize;
+        x = getXCenterString(text);
+        y = getYCenterString(text) + gp.iTileSize;
         g2.setColor(Color.white);
         g2.drawString(text, x, y);
         if (commandNumber == 1) {
@@ -152,7 +157,6 @@ public class UserInterface {
     public int getBufferedStringHeight(String text){
         return (int) (g2.getFontMetrics().getStringBounds(text, g2).getHeight() + 6);
     }
-
 
 //STAT BARS
     public void drawPlayerBars(){
