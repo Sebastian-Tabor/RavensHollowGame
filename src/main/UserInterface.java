@@ -135,12 +135,7 @@ public class UserInterface {
         else text = "Set Fullscreen";
         drawCenterMenuTextOption(text, 2);
         if (commandNumber == 2 && KeyBinds.bEnterPressed) {
-            if (gp.bFullscreen) {
-                Main.setWindowed(gp);
-            }
-            else {
-                Main.setFullscreen(gp);
-            }
+            gp.bFullscreen = !gp.bFullscreen;
             KeyBinds.bEnterPressed = false;
         }
         drawCenterMenuTextOption("Quit", 3);

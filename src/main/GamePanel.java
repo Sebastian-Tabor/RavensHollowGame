@@ -12,13 +12,13 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable {
 //FRAME SETTING VARIABLES
     Color bg = new Color(128,128,128);
-    public final int iOriginalTileSize = 64;
-    public final int iScale = 1;
-    public final int iTileSize = iOriginalTileSize * iScale;
-    public final int iMaxScreenColumns = 30;
-    public final int iMaxScreenRows = 17;
-    public final int iScreenWidth = iMaxScreenColumns * iTileSize;
-    public final int iScreenHeight = iMaxScreenRows * iTileSize;
+    public int iMaxScreenColumns = 30;
+    public int iMaxScreenRows = 17;
+    public int iOriginalTileSize = 64;
+    public int iScale = 1;
+    public int iTileSize = iOriginalTileSize * iScale;
+    public int iScreenWidth = iMaxScreenColumns * iTileSize;
+    public int iScreenHeight = iMaxScreenRows * iTileSize;
     public boolean bFullscreen = true;
 //MAP SIZE
     public final int iMaxMapCol = 90;
@@ -92,6 +92,14 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update() {
+        //if (bFullscreen) {
+        //    Main.window.setUndecorated(true);
+        //    Main.window.setResizable(false);
+        //}
+        //else {
+        //    Main.window.setUndecorated(false);
+        //    Main.window.setResizable(true);
+        //}
         if (iGameState == playState) {
             for (Object object : obj) {
                 if (object != null) {
