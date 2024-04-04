@@ -1,8 +1,8 @@
 package main;
 
-import entity.Entity;
+import entity.SuperEntity;
 import entity.Player;
-import object.Object;
+import object.SuperObject;
 import world.SceneManager;
 import world.TileManager;
 import javax.swing.*;
@@ -30,9 +30,10 @@ public class GamePanel extends JPanel implements Runnable {
     public Sound music = new Sound();
     public Sound soundeffect = new Sound();
     public Player player = new Player(this, keyBinds);
-    public Object[] obj = new Object[5];
-    public Entity[] npc = new Entity[5];
-    public Object[] projectile = new Object[10];
+    public SuperObject[] obj = new SuperObject[5];
+    public SuperEntity[] npc = new SuperEntity[5];
+    public SuperObject[] projectile = new SuperObject[10];
+    public SuperEntity[] monster = new SuperEntity[10];
     public AssetSetter aSetter = new AssetSetter(this);
     public TileManager tileManager = new TileManager(this);
     public SceneManager sceneManager = new SceneManager(this);
@@ -63,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
         music.iSoundVolume = 50;
         aSetter.setObject();
         aSetter.setNPC();
+        aSetter.setMonster();
         playMusic(1);
         iGameState = titleState;
 
@@ -101,17 +103,22 @@ public class GamePanel extends JPanel implements Runnable {
         //    Main.window.setResizable(true);
         //}
         if (iGameState == playState) {
-            for (Object object : obj) {
+            for (SuperObject object : obj) {
                 if (object != null) {
                     object.update();
                 }
             }
-            for (Object object : projectile) {
+            for (SuperObject object : projectile) {
                 if (object != null) {
                     object.update();
                 }
             }
-            for (Entity entity : npc) {
+            for (SuperEntity entity : npc) {
+                if (entity != null) {
+                    entity.update();
+                }
+            }
+            for (SuperEntity entity : monster) {
                 if (entity != null) {
                     entity.update();
                 }
@@ -132,18 +139,23 @@ public class GamePanel extends JPanel implements Runnable {
             sceneManager.drawMidground(g2);
         //TILES
             tileManager.draw(g2);
-            for (Object object : obj) {
+            for (SuperObject object : obj) {
                 if (object != null) {
                     object.draw(g2, this);
                 }
             }
-            for (Object object : projectile) {
+            for (SuperObject object : projectile) {
                 if (object != null) {
                     object.update();
                 }
             }
         //NPC
-            for (Entity entity : npc) {
+            for (SuperEntity entity : npc) {
+                if (entity != null) {
+                    entity.draw(g2);
+                }
+            }
+            for (SuperEntity entity : monster) {
                 if (entity != null) {
                     entity.draw(g2);
                 }

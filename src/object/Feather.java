@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
-public class Feather extends Object{
+public class Feather extends SuperObject {
     GamePanel gp;
     public Feather(GamePanel gp) {
         this.gp = gp;

@@ -1,5 +1,5 @@
 package main;
-import entity.Entity;
+import entity.SuperEntity;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -348,9 +348,9 @@ public class UserInterface {
         drawHealthBar(gp.player, "bottom health", Color.red);
         drawUltBar(gp.player, "bottom ult", Color.lightGray);
     }
-    public void drawHealthBar(Entity entity, String barType, Color color){
+    public void drawHealthBar(SuperEntity entity, String barType, Color color){
 
-        int width = 320;
+        int width = gp.iScreenWidth/4;
         int subWidth = (int)(0.96 * width) * (entity.iHealth / entity.iHealthMax);
         int subX = (int)(0.02 * width);
 
@@ -359,10 +359,13 @@ public class UserInterface {
         g2.fillRoundRect(p.x, p.y, width, 24, 10, 10);
         g2.setColor(color);
         g2.fillRoundRect(p.x + subX, p.y + 3, subWidth, 18, 10, 10);
+        g2.setFont(defaultFont);
+        g2.setColor(Color.white);
+        g2.drawString(String.valueOf(entity.iHealth), p.x, p.y);
     }
-    public void drawUltBar(Entity entity, String barType, Color color){
+    public void drawUltBar(SuperEntity entity, String barType, Color color){
 
-        int width = 300;
+        int width = gp.iScreenWidth/5;
         int subWidth = (int)(0.96 * width) * (entity.iUltimate / entity.iUltimateMax) ;
         int subX = (int)(0.02 * width);
 

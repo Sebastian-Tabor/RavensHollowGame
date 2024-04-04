@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Arrow extends Object {
+public class Arrow extends SuperObject {
 
     GamePanel gp;
     public Rectangle hitBox = new Rectangle(0, 0, 32, 16);

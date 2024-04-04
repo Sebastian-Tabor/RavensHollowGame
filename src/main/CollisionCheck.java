@@ -1,6 +1,8 @@
 package main;
 
-import entity.Entity;
+import entity.Player;
+import entity.SuperEntity;
+import org.w3c.dom.Entity;
 
 import java.awt.*;
 
@@ -10,7 +12,7 @@ public class CollisionCheck {
         this.gp = gp;
 
     }
-    public void checkTile(Entity entity) {
+    public void checkTile(SuperEntity entity) {
 
         int iEntLeftWorldX = entity.iWorldX + entity.hitBox.x;
         int iEntRightWorldX = entity.iWorldX + entity.hitBox.x + entity.hitBox.width;
@@ -55,7 +57,7 @@ public class CollisionCheck {
 
     }
 
-    public int checkObject(Entity entity, boolean player) {
+    public int checkObject(SuperEntity entity, boolean player) {
          int index = 999;
          for (int i = 0; i < gp.obj.length; i++) {
              if (gp.obj[i] != null) {
@@ -82,4 +84,52 @@ public class CollisionCheck {
          }
          return index;
     }
+    public int checkEntity(SuperEntity entity, SuperEntity[] target ) {
+        int index = 999;
+        for (int i = 0; i < target.length; i++) {
+            if (target[i] != null) {
+
+                entity.hitBox.x = entity.iWorldX + entity.hitBox.x;
+                entity.hitBox.y = entity.iWorldY + entity.hitBox.y;
+
+                target[i].hitBox.x = target[i].iWorldX + target[i].hitBox.x;
+                target[i].hitBox.y = target[i].iWorldY + target[i].hitBox.y;
+
+                entity.hitBoxLeftSense = new Rectangle(entity.hitBox.x - entity.iSpeed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+                entity.hitBoxRightSense = new Rectangle(entity.hitBox.x + entity.iSpeed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+                entity.hitBoxTopSense = new Rectangle(entity.hitBox.x, entity.hitBox.y - entity.iSpeed, entity.hitBox.width, entity.hitBox.height);
+                entity.hitBoxBotSense = new Rectangle(entity.hitBox.x, entity.hitBox.y + entity.iSpeed, entity.hitBox.width, entity.hitBox.height);
+
+                if (entity.hitBoxLeftSense.intersects(target[i].hitBox) || entity.hitBoxRightSense.intersects(target[i].hitBox) || entity.hitBoxTopSense.intersects(target[i].hitBox) || entity.hitBoxBotSense.intersects(target[i].hitBox)){
+                    if (target[i] != entity) {
+                        entity.bCollisionDetected = true;
+                        index = i;
+                    }
+                }
+                entity.hitBox.x = entity.iHitBoxDefaultX;
+                entity.hitBox.y = entity.iHitBoxDefaultY;
+                target[i].hitBox.x = target[i].iHitBoxDefaultX;
+                target[i].hitBox.y = target[i].iHitBoxDefaultY;
+            }
+        }
+        return index;
+    }
+    public void checkPlayer(SuperEntity entity) {
+        entity.hitBox.x = entity.iWorldX + entity.hitBox.x;
+        entity.hitBox.y = entity.iWorldY + entity.hitBox.y;
+        gp.player.hitBox.x = gp.player.iWorldX + gp.player.hitBox.x;
+        gp.player.hitBox.y = gp.player.iWorldY + gp.player.hitBox.y;
+        entity.hitBoxLeftSense = new Rectangle(entity.hitBox.x - entity.iSpeed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+        entity.hitBoxRightSense = new Rectangle(entity.hitBox.x + entity.iSpeed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+        entity.hitBoxTopSense = new Rectangle(entity.hitBox.x, entity.hitBox.y - entity.iSpeed, entity.hitBox.width, entity.hitBox.height);
+        entity.hitBoxBotSense = new Rectangle(entity.hitBox.x, entity.hitBox.y + entity.iSpeed, entity.hitBox.width, entity.hitBox.height);
+        if (entity.hitBoxLeftSense.intersects(gp.player.hitBox) || entity.hitBoxRightSense.intersects(gp.player.hitBox) || entity.hitBoxTopSense.intersects(gp.player.hitBox) || entity.hitBoxBotSense.intersects(gp.player.hitBox)){
+            entity.bCollisionDetected = true;
+        }
+        entity.hitBox.x = entity.iHitBoxDefaultX;
+        entity.hitBox.y = entity.iHitBoxDefaultY;
+        gp.player.hitBox.x = gp.player.iHitBoxDefaultX;
+        gp.player.hitBox.y = gp.player.iHitBoxDefaultY;
+    }
+
 }

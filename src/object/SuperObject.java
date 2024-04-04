@@ -6,7 +6,7 @@ import main.UtilityTool;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Object {
+public class SuperObject {
 //IMAGE AND STRING
      public BufferedImage image;
      public String sName;

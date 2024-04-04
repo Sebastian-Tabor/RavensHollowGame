@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class Player extends Entity {
+public class Player extends SuperEntity {
     final KeyBinds keyBinds;
     public final int iScreenPosX;
     public final int iScreenPosY;
@@ -104,6 +104,32 @@ public class Player extends Entity {
         }
 
     }
+    public void interactNPC(int index) {
+        if (index != 999) {
+            String name = gp.npc[index].sName;
+            switch (name) {
+                case "Carver":
+                    System.out.println("Heya!");
+                    break;
+                case "Bone":
+                    break;
+            }
+        }
+    }
+    public void interactMonster(int index) {
+        if(index != 999){
+            String name = gp.monster[index].sName;
+            switch (name) {
+                case "Dummy":
+                    System.out.println("dummy");
+                    damage(gp.monster[index].iCollisionDmg);
+                    break;
+                case "NotDummy":
+                    break;
+
+            }
+        }
+    }
 //UPDATE
     public void update() {
     //KEYBIND MOVEMENT
@@ -135,7 +161,6 @@ public class Player extends Entity {
         }
         else {
             direction = "idle";
-            hitBox = fullHitBox;
         }
     //MOVEMENT ACTIONS
         switch (direction) {
@@ -182,11 +207,23 @@ public class Player extends Entity {
     //COLLISION CHECK
         gp.cCheck.checkTile(this);
         if (bWouldBeStuck) --iWorldY;
+
         int iObjectIndex = gp.cCheck.checkObject(this, true);
         pickupObject(iObjectIndex);
+        int iNPCIndex = gp.cCheck.checkEntity(this, gp.npc);
+        interactNPC(iNPCIndex);
+        int iMonsterIndex = gp.cCheck.checkEntity(this, gp.monster);
+        interactMonster(iMonsterIndex);
+
         bCollisionDetected = false;
-    //POSSIBLE IMPLEMENTS JUMP INTERFACE?
-    //JUMP CONDITIONS
+        if (immunityCounter > 0) {
+            --immunityCounter;
+        }
+        if (immunityCounter <= 0) {
+            bImmune = false;
+            immunityCounter = 0;
+        }
+        //JUMP CONDITIONS
         if (bCollisionBottom) {
             iVelocityY = 0;
             iJumpCooldown--;
@@ -196,24 +233,25 @@ public class Player extends Entity {
             }
         }
         else {
-        //JUMPING/FALLING MOVEMENT
+            //JUMPING/FALLING MOVEMENT
             this.iWorldY -= iVelocityY;
             iVelocityY --;
         }
-    //MAX GRAVITY
+        //MAX GRAVITY
         if (iVelocityY < iGravity) iVelocityY = iGravity;
-    //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
+        //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
         if (bCollisionTop) iVelocityY = -5;
-    //SET FALLING
+        //SET FALLING
         bFalling = iVelocityY < 0;
-    //SPRITE COUNTER
-        iSpriteCounter++;
-        if (iSpriteCounter > 12) {
+
+        //SPRITE COUNTER
+        spriteCounter++;
+        if (spriteCounter > 12) {
             if (iSpriteNumber == 2){
                 iSpriteNumber = 1;}
             else if (iSpriteNumber == 1) {
                 iSpriteNumber = 2;}
-        iSpriteCounter = 0;
+        spriteCounter = 0;
         }
     }
 //DRAW METHOD
