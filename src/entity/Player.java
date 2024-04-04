@@ -25,6 +25,8 @@ public class Player extends SuperEntity {
     //PLAYER POS ON SCREEN
         iScreenPosX = (gp.iScreenWidth/2 - gp.iTileSize/2);
         iScreenPosY = (gp.iScreenHeight/2 - gp.iTileSize/2);
+        attackBox.width = hitBox.width + hitBox.width/2;
+        attackBox.height = hitBox.height;
     //PLAYER POS METHOD IMPLEMENTATION
         setDefaultValues();
     //PLAYER IMAGE METHOD IMPLEMENTATION
@@ -108,6 +110,11 @@ public class Player extends SuperEntity {
             }
         }
     }
+    public void meleeAttackMonster(int index){
+        if (bMeleeAttacking && index != 999){
+                damage(iMeleeDamage, index);
+        }
+    }
 //UPDATE
     public void update() {
     //KEYBIND MOVEMENT
@@ -156,7 +163,14 @@ public class Player extends SuperEntity {
         }
     //ATTACKING
         bAttacking = bMeleeAttacking || bRangedAttacking;
-
+        switch (facing){
+            case "left":
+                attackBox.x = -(hitBox.width/2);
+                break;
+            case "right":
+                attackBox.x = (hitBox.width/2);
+                break;
+        }
         if (KeyBinds.bMeleePressed && bCanAttack) {
             bCanAttack = false;
             bMeleeAttacking = true;
@@ -164,7 +178,11 @@ public class Player extends SuperEntity {
         if (bMeleeAttacking) {
             int iAttackIndex = gp.cCheck.checkEntityAttack(this, gp.monster);
             meleeAttackMonster(iAttackIndex);
-            attackCounter ++;
+            if (iAttackIndex != 999) {
+                System.out.println(gp.monster[iAttackIndex].sName);
+                System.out.println(gp.monster[iAttackIndex].iHealth);
+            }
+            attackCounter++;
         }
         if (attackCounter == 11) {
             attackCounter = 0;

@@ -136,22 +136,22 @@ public class CollisionCheck {
         for (int i = 0; i < target.length; i++) {
             if (target[i] != null) {
 
-                entity.hitBox.x = entity.iWorldX + entity.hitBox.x;
-                entity.hitBox.y = entity.iWorldY + entity.hitBox.y;
+                entity.attackBox.x = entity.iWorldX + entity.attackBox.x;
+                entity.attackBox.y = entity.iWorldY + entity.attackBox.y;
 
                 target[i].hitBox.x = target[i].iWorldX + target[i].hitBox.x;
                 target[i].hitBox.y = target[i].iWorldY + target[i].hitBox.y;
 
-                entity.hitBoxLeftSense = new Rectangle(entity.hitBox.x - (entity.iSpeed/2), entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
-                entity.hitBoxRightSense = new Rectangle(entity.hitBox.x + (entity.iSpeed/2), entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+                entity.hitBoxLeftSense = new Rectangle(entity.attackBox.x - (entity.hitBox.width/2), entity.attackBox.y, entity.attackBox.width, entity.attackBox.height);
+                entity.hitBoxRightSense = new Rectangle(entity.attackBox.x + (entity.hitBox.width/2), entity.attackBox.y, entity.attackBox.width, entity.attackBox.height);
 
-                if (entity.hitBoxLeftSense.intersects(target[i].hitBox) || entity.hitBoxRightSense.intersects(target[i].hitBox) || entity.hitBoxTopSense.intersects(target[i].hitBox) || entity.hitBoxBotSense.intersects(target[i].hitBox)){
+                if (entity.hitBoxLeftSense.intersects(target[i].hitBox) || entity.hitBoxRightSense.intersects(target[i].hitBox)){
                     if (target[i] != entity) {
                         index = i;
                     }
                 }
-                entity.hitBox.x = entity.iHitBoxDefaultX;
-                entity.hitBox.y = entity.iHitBoxDefaultY;
+                entity.attackBox.x = entity.iAttackBoxDefaultX;
+                entity.attackBox.y = entity.iAttackBoxDefaultY;
                 target[i].hitBox.x = target[i].iHitBoxDefaultX;
                 target[i].hitBox.y = target[i].iHitBoxDefaultY;
             }

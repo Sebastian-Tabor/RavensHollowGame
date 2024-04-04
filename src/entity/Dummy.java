@@ -16,6 +16,8 @@ public class Dummy extends SuperEntity {
             direction = "idle";
             iSpeedOriginal = 0;
             iCollisionDmg = 1;
+            iHealthMax = 10;
+            iHealth = iHealthMax;
             //GET IMAGE
             getImage();
         }

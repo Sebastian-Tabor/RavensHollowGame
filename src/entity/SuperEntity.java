@@ -22,7 +22,8 @@ public class SuperEntity {
     public boolean bRangedAttacking, bMeleeAttacking, bAttacking = false;
     public boolean bCanAttack = true;
     public int iMeleeDamage, iCollisionDmg;
-    public Rectangle attackBox = new Rectangle(0,0,96,64);
+    public Rectangle attackBox = new Rectangle(0,0,0,0);
+    public int iAttackBoxDefaultX, iAttackBoxDefaultY;
 //MOVEMENT
     public int iSpeed;
     public int iSpeedOriginal;
@@ -53,6 +54,8 @@ public class SuperEntity {
         hitBox = new Rectangle(8, 2, 48, 60);
         iHitBoxDefaultX = hitBox.x;
         iHitBoxDefaultY = hitBox.y;
+        iAttackBoxDefaultX = attackBox.x;
+        iAttackBoxDefaultY = attackBox.y;
         iGravity = -gp.iTileSize/10;
         direction = "left";
         moveState = "idle";
@@ -215,28 +218,22 @@ public class SuperEntity {
         }
     }
 //DAMAGE
-    public void damage(int amount) {
-        if (!bImmune){
-            iHealth -= amount;
-            immunityCounter = 60;
-            bImmune = true;
+    public void damage(int amount, int target) {
+        if (!gp.monster[target].bImmune){
+           gp.monster[target].iHealth -= amount;
+           gp.monster[target].immunityCounter = 60;
+           gp.monster[target].bImmune = true;
         }
     }
     public void collisionMonster(int index) {
         if(index != 999){
-            damage(gp.monster[index].iCollisionDmg);
+            damage(gp.monster[index].iCollisionDmg, index);
             if (facing.equals("left")){
-                iWorldX += iSpeed;
+                iWorldX += gp.iTileSize;
             }
             else {
-                iWorldX -= iSpeed;
+                iWorldX -= gp.iTileSize;
             }
-        }
-    }
-    public void meleeAttackMonster(int index){
-        if (bMeleeAttacking && index != 999){
-            gp.monster[index].iHealth -= iMeleeDamage;
-
         }
     }
 }
