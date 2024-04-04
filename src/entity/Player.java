@@ -101,7 +101,7 @@ public class Player extends SuperEntity {
             String name = gp.npc[index].sName;
             switch (name) {
                 case "Carver":
-                    System.out.println("Heya!");
+                    //Do nothing now
                     break;
                 case "Bone":
                     break;
@@ -148,7 +148,7 @@ public class Player extends SuperEntity {
                 jump();
                 break;
             case "crouch":
-                iSpeed = iSpeed/2;
+                iSpeed = iSpeedOriginal/2;
                 break;
         }
         if (!moveState.equals("crouch")) {

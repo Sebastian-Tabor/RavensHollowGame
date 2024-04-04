@@ -225,7 +225,7 @@ public class SuperEntity {
     public void collisionMonster(int index) {
         if(index != 999){
             damage(gp.monster[index].iCollisionDmg);
-            if (direction.equals("left") || direction.equals("left jump") || direction.equals("left crouch")){
+            if (facing.equals("left")){
                 iWorldX += iSpeed;
             }
             else {
