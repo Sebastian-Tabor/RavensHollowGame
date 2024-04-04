@@ -10,26 +10,35 @@ public class SuperEntity {
 //ANIMATIONS
     public int spriteCounter = 0;
     public int iSpriteNumber = 1;
+    public String facing;
 //COLLISION
     public int immunityCounter = 0;
     public int iHitBoxDefaultX, iHitBoxDefaultY;
     public boolean bImmune = false;
     public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected, bWouldBeStuck = false;
     public Rectangle hitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
+//ATTACKING
+    public int attackCounter, iFrameNumber = 0;
+    public boolean bRangedAttacking, bMeleeAttacking, bAttacking = false;
+    public boolean bCanAttack = true;
+    public int iMeleeDamage, iCollisionDmg;
+    public Rectangle attackBox = new Rectangle(0,0,96,64);
 //MOVEMENT
     public int iSpeed;
     public int iSpeedOriginal;
     public int iGravity;
-    public int iVelocityY;
     public int iVelocityX;
+    public int iVelocityY;
     public int iWorldX, iWorldY;
     public int iMovementCounter = 0;
     public int iJumpCooldown;
     public int iRecoveryTime;
     public boolean bCanJump = true;
     public boolean bFalling = false;
+    public String moveState;
     public String direction;
-    public BufferedImage jump1, jump2, leftjump1,leftjump2, rightjump1, rightjump2, crouch1, crouch2, right1, right2, left1, left2, idle1, idle2, leftcrouch1, leftcrouch2, rightcrouch1, rightcrouch2;
+    public BufferedImage attack1, attack2, attack3, attack4;
+    public BufferedImage jump1, jump2, crouch1, crouch2, right1, right2, idle1, idle2;
 //STAT TRACKERS/IDENTIFIERS
     public String sName;
     public int iHealth;
@@ -37,7 +46,6 @@ public class SuperEntity {
     public int iUltimate;
     public int iUltimateMax;
     public int iArmor;
-    public int iCollisionDmg;
 
 //CONSTRUCTOR
     public SuperEntity(GamePanel gp) {
@@ -46,6 +54,9 @@ public class SuperEntity {
         iHitBoxDefaultX = hitBox.x;
         iHitBoxDefaultY = hitBox.y;
         iGravity = -gp.iTileSize/10;
+        direction = "left";
+        moveState = "idle";
+        facing = "right";
     }
 //SET ACTION ERROR MESSAGE
     public void setAction() {
@@ -70,42 +81,24 @@ public class SuperEntity {
         switch (direction) {
             case "left":
                 iVelocityX = -iSpeed;
+                facing = direction;
                 moveLeft();
                 break;
             case "right":
                 iVelocityX = iSpeed;
+                facing = direction;
                 moveRight();
                 break;
+        }
+        switch (moveState) {
             case "jump":
-                jump();
-                break;
-            case "left jump":
-                iVelocityX = -iSpeed;
-                moveLeft();
-                jump();
-                break;
-            case "right jump":
-                iVelocityX = iSpeed;
-                moveRight();
                 jump();
                 break;
             case "crouch":
                 iSpeed = iSpeed/2;
                 break;
-            case "left crouch":
-                iSpeed = iSpeed/2;
-                iVelocityX = -iSpeed;
-                moveLeft();
-                break;
-            case "right crouch":
-                iSpeed = iSpeed/2;
-                iVelocityX = iSpeed;
-                moveRight();
-                break;
-            case "idle":
-                break;
         }
-        if (!direction.equals("crouch") && !direction.equals("crouch left") && !direction.equals("crouch right")) {
+        if (!moveState.equals("crouch")) {
             iSpeed = iSpeedOriginal;
         }
         //COLLISION CHECK
@@ -153,45 +146,21 @@ public class SuperEntity {
             iWorldX - gp.iTileSize < gp.player.iWorldX + gp.player.iScreenPosX &&
             iWorldY + gp.iTileSize > gp.player.iWorldY - gp.player.iScreenPosY &&
             iWorldY - gp.iTileSize < gp.player.iWorldY + gp.player.iScreenPosY) {
-            switch (direction) {
-                case "left":
-                    if (iSpriteNumber == 1) {
-                        image = left1;
-                    }
-                    if (iSpriteNumber == 2) {
-                        image = left2;
-                    }
-                    break;
-                case "right":
+            if (bAttacking) {
+                image = switch (iFrameNumber) {
+                    case 1 -> attack1;
+                    case 2 -> attack2;
+                    case 3 -> attack3;
+                    case 4 -> attack4;
+                    default -> image;
+                };
+            } else switch (moveState) {
+                case "moving":
                     if (iSpriteNumber == 1) {
                         image = right1;
                     }
                     if (iSpriteNumber == 2) {
                         image = right2;
-                    }
-                    break;
-                case "crouch":
-                    if (iSpriteNumber == 1) {
-                        image = crouch1;
-                    }
-                    if (iSpriteNumber == 2) {
-                        image = crouch2;
-                    }
-                    break;
-                case "left crouch":
-                    if (iSpriteNumber == 1) {
-                        image = leftcrouch1;
-                    }
-                    if (iSpriteNumber == 2) {
-                        image = leftcrouch2;
-                    }
-                    break;
-                case "right crouch":
-                    if (iSpriteNumber == 1) {
-                        image = rightcrouch1;
-                    }
-                    if (iSpriteNumber == 2) {
-                        image = rightcrouch2;
                     }
                     break;
                 case "jump":
@@ -202,20 +171,12 @@ public class SuperEntity {
                         image = jump2;
                     }
                     break;
-                case "left jump":
+                case "crouch":
                     if (iSpriteNumber == 1) {
-                        image = leftjump1;
+                        image = crouch1;
                     }
                     if (iSpriteNumber == 2) {
-                        image = leftjump2;
-                    }
-                    break;
-                case "right jump":
-                    if (iSpriteNumber == 1) {
-                        image = rightjump1;
-                    }
-                    if (iSpriteNumber == 2) {
-                        image = rightjump2;
+                        image = crouch2;
                     }
                     break;
                 case "idle":
@@ -227,7 +188,11 @@ public class SuperEntity {
                     }
                     break;
             }
-            g2.drawImage(image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
+            if (facing.equals("left")) {
+                g2.drawImage(image, iScreenX + gp.iTileSize, iScreenY, -gp.iTileSize, gp.iTileSize, null);
+            } else {
+                g2.drawImage(image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
+            }
         }
     }
 //MOVEMENT METHODS
@@ -249,13 +214,29 @@ public class SuperEntity {
             bCanJump = false;
         }
     }
-
 //DAMAGE
     public void damage(int amount) {
         if (!bImmune){
             iHealth -= amount;
             immunityCounter = 60;
             bImmune = true;
+        }
+    }
+    public void collisionMonster(int index) {
+        if(index != 999){
+            damage(gp.monster[index].iCollisionDmg);
+            if (direction.equals("left") || direction.equals("left jump") || direction.equals("left crouch")){
+                iWorldX += iSpeed;
+            }
+            else {
+                iWorldX -= iSpeed;
+            }
+        }
+    }
+    public void meleeAttackMonster(int index){
+        if (bMeleeAttacking && index != 999){
+            gp.monster[index].iHealth -= iMeleeDamage;
+
         }
     }
 }

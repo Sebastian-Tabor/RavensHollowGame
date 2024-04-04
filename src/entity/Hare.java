@@ -12,7 +12,8 @@ public class Hare extends SuperEntity {
 
     public Hare (GamePanel gp) {
         super (gp);
-        direction = "idle";
+        direction = "left";
+        moveState = "idle";
         iSpeedOriginal = 6;
     //GET IMAGE
         getHareImage();
@@ -32,16 +33,11 @@ public class Hare extends SuperEntity {
 //HARE IMAGES
     public void getHareImage() {
 
-            left1 = setup("./res/entities/hare/left1");
-            left2 = setup("./res/entities/hare/left2");
+
             right1 = setup("./res/entities/hare/right1");
             right2 = setup("./res/entities/hare/right2");
             jump1 = setup("./res/entities/hare/jump1");
             jump2 = setup("./res/entities/hare/jump2");
-            leftjump1 = setup("./res/entities/hare/leftjump1");
-            leftjump2 = setup("./res/entities/hare/leftjump2");
-            rightjump1 = setup("./res/entities/hare/rightjump1");
-            rightjump2 = setup("./res/entities/hare/rightjump2");
             crouch1 = setup("./res/entities/hare/crouch1");
             crouch2 = setup("./res/entities/hare/crouch2");
             idle1 = setup("./res/entities/hare/idle1");
@@ -57,40 +53,24 @@ public class Hare extends SuperEntity {
         switch (iCounter) {
             case 0:
                 direction = "left";
+                facing = direction;
                 moveLeft();
                 break;
             case 1:
                 direction = "right";
+                facing = direction;
                 moveRight();
                 break;
             case 2:
-                direction = "jump";
+                moveState = "jump";
                 jump();
                 break;
             case 3:
-                direction = "left jump";
-                moveLeft();
-                jump();
-                break;
-            case 4:
-                direction = "right jump";
-                moveRight();
-                jump();
-                break;
-            case 5:
-                direction = "crouch";
+                moveState = "crouch";
 
                 break;
-            case 6:
-                direction = "left crouch";
-                moveLeft();
-                break;
-            case 7:
-                direction = "right crouch";
-                moveRight();
-                break;
             case 8:
-                direction = "idle";
+                moveState = "idle";
                 //DO NOTHING
                 break;
 

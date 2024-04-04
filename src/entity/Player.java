@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.security.Key;
 
 
 public class Player extends SuperEntity {
@@ -42,17 +43,15 @@ public class Player extends SuperEntity {
         iUltimate = 0;
         iUltimateMax = 20;
         iArmor = 0;
-        direction = "idle";
+        moveState = "idle";
+        direction = "right";
+        facing = "right";
     }
 //IMAGE SETUP METHOD
     public BufferedImage setup(String imageName) {
-        UtilityTool uTool = new UtilityTool();
         BufferedImage scaledImage = null;
         try {
-
             scaledImage = ImageIO.read(new File( imageName + ".png"));
-            scaledImage = uTool.scaleImage(scaledImage, gp.iTileSize, gp.iTileSize);
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -61,25 +60,18 @@ public class Player extends SuperEntity {
 //PLAYER IMAGES
     public void getPlayerImage() {
 
-            left1 = setup("./res/player/left1");
-            left2 = setup("./res/player/left2");
             right1 = setup("./res/player/right1");
             right2 = setup("./res/player/right2");
             jump1 = setup("./res/player/jump1");
             jump2 = setup("./res/player/jump2");
-            leftjump1 = setup("./res/player/leftjump1");
-            leftjump2 = setup("./res/player/leftjump2");
-            rightjump1 = setup("./res/player/rightjump1");
-            rightjump2 = setup("./res/player/rightjump2");
             crouch1 = setup("./res/player/crouch1");
             crouch2 = setup("./res/player/crouch2");
-            leftcrouch1 = setup("./res/player/leftcrouch1");
-            leftcrouch2 = setup("./res/player/leftcrouch2");
-            rightcrouch1 = setup("./res/player/rightcrouch1");
-            rightcrouch2 = setup("./res/player/rightcrouch2");
             idle1 = setup("./res/player/idle1");
             idle2 = setup("./res/player/idle2");
-
+            attack1 = setup("./res/player/attack1");
+            attack2 = setup("./res/player/attack2");
+            attack3 = setup("./res/player/attack3");
+            attack4 = setup("./res/player/attack4");
     }
 //OBJECT METHODS
     public void pickupObject(int index) {
@@ -116,47 +108,23 @@ public class Player extends SuperEntity {
             }
         }
     }
-    public void interactMonster(int index) {
-        if(index != 999){
-            String name = gp.monster[index].sName;
-            switch (name) {
-                case "Dummy":
-                    System.out.println("dummy");
-                    damage(gp.monster[index].iCollisionDmg);
-                    break;
-                case "NotDummy":
-                    break;
-
-            }
-        }
-    }
 //UPDATE
     public void update() {
     //KEYBIND MOVEMENT
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
                 direction = "left";
+                moveState = "moving";
             }
             if (KeyBinds.bRightPressed) {
                 direction = "right";
+                moveState = "moving";
             }
             if (KeyBinds.bUpPressed) {
-                direction = "jump";
+                moveState = "jump";
             }
             if (KeyBinds.bDownPressed) {
-                direction = "crouch";
-            }
-            if (KeyBinds.bDownPressed && KeyBinds.bLeftPressed) {
-                direction = "left crouch";
-            }
-            if (KeyBinds.bDownPressed && KeyBinds.bRightPressed) {
-                direction = "right crouch";
-            }
-            if (KeyBinds.bLeftPressed && KeyBinds.bUpPressed) {
-                direction = "left jump";
-            }
-            if (KeyBinds.bRightPressed && KeyBinds.bUpPressed) {
-                direction = "right jump";
+                moveState = "crouch";
             }
         }
         else {
@@ -166,43 +134,48 @@ public class Player extends SuperEntity {
         switch (direction) {
             case "left":
                 iVelocityX = -iSpeed;
+                facing = direction;
                 moveLeft();
                 break;
             case "right":
                 iVelocityX = iSpeed;
+                facing = direction;
                 moveRight();
                 break;
+        }
+        switch (moveState) {
             case "jump":
-                jump();
-                break;
-            case "left jump":
-                iVelocityX = -iSpeed;
-                moveLeft();
-                jump();
-                break;
-            case "right jump":
-                iVelocityX = iSpeed;
-                moveRight();
                 jump();
                 break;
             case "crouch":
                 iSpeed = iSpeed/2;
                 break;
-            case "left crouch":
-                iSpeed = iSpeed/2;
-                iVelocityX = -iSpeed;
-                moveLeft();
-                break;
-            case "right crouch":
-                iSpeed = iSpeed/2;
-                iVelocityX = iSpeed;
-                moveRight();
-                break;
-            case "idle":
-                break;
         }
-        if (!direction.equals("crouch") && !direction.equals("crouch left") && !direction.equals("crouch right")) {
+        if (!moveState.equals("crouch")) {
             iSpeed = iSpeedOriginal;
+        }
+    //ATTACKING
+        bAttacking = bMeleeAttacking || bRangedAttacking;
+
+        if (KeyBinds.bMeleePressed && bCanAttack) {
+            bCanAttack = false;
+            bMeleeAttacking = true;
+        }
+        if (bMeleeAttacking) {
+            int iAttackIndex = gp.cCheck.checkEntityAttack(this, gp.monster);
+            meleeAttackMonster(iAttackIndex);
+            attackCounter ++;
+        }
+        if (attackCounter == 11) {
+            attackCounter = 0;
+            ++iFrameNumber;
+        }
+        if (iFrameNumber == 4) {
+            iFrameNumber = 0;
+            bMeleeAttacking = false;
+            bRangedAttacking = false;
+            bAttacking = false;
+            bCanAttack = true;
         }
     //COLLISION CHECK
         gp.cCheck.checkTile(this);
@@ -213,9 +186,11 @@ public class Player extends SuperEntity {
         int iNPCIndex = gp.cCheck.checkEntity(this, gp.npc);
         interactNPC(iNPCIndex);
         int iMonsterIndex = gp.cCheck.checkEntity(this, gp.monster);
-        interactMonster(iMonsterIndex);
+        collisionMonster(iMonsterIndex);
 
+        //Leave this here VV pls
         bCollisionDetected = false;
+        //Do not touch this ^^
         if (immunityCounter > 0) {
             --immunityCounter;
         }
@@ -257,45 +232,21 @@ public class Player extends SuperEntity {
 //DRAW METHOD
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
-        switch (direction) {
-            case "left":
-                if (iSpriteNumber == 1) {
-                    image = left1;
-                }
-                if (iSpriteNumber == 2) {
-                    image = left2;
-                }
-                break;
-            case "right":
+        if (bAttacking) {
+            image = switch (iFrameNumber) {
+                case 1 -> attack1;
+                case 2 -> attack2;
+                case 3 -> attack3;
+                case 4 -> attack4;
+                default -> image;
+            };
+        } else switch (moveState) {
+            case "moving":
                 if (iSpriteNumber == 1) {
                     image = right1;
                 }
                 if (iSpriteNumber == 2) {
                     image = right2;
-                }
-                break;
-            case "crouch":
-                if (iSpriteNumber == 1) {
-                    image = crouch1;
-                }
-                if (iSpriteNumber == 2) {
-                    image = crouch2;
-                }
-                break;
-            case "left crouch":
-                if (iSpriteNumber == 1) {
-                    image = leftcrouch1;
-                }
-                if (iSpriteNumber == 2) {
-                    image = leftcrouch2;
-                }
-                break;
-            case "right crouch":
-                if (iSpriteNumber == 1) {
-                    image = rightcrouch1;
-                }
-                if (iSpriteNumber == 2) {
-                    image = rightcrouch2;
                 }
                 break;
             case "jump":
@@ -306,20 +257,12 @@ public class Player extends SuperEntity {
                     image = jump2;
                 }
                 break;
-            case "left jump":
+            case "crouch":
                 if (iSpriteNumber == 1) {
-                    image = leftjump1;
+                    image = crouch1;
                 }
                 if (iSpriteNumber == 2) {
-                    image = leftjump2;
-                }
-                break;
-            case "right jump":
-                if (iSpriteNumber == 1) {
-                    image = rightjump1;
-                }
-                if (iSpriteNumber == 2) {
-                    image = rightjump2;
+                    image = crouch2;
                 }
                 break;
             case "idle":
@@ -331,7 +274,11 @@ public class Player extends SuperEntity {
                 }
                 break;
         }
-        g2.drawImage(image, iScreenPosX, iScreenPosY, gp.iTileSize, gp.iTileSize, null);
+        if (facing.equals("left")) {
+            g2.drawImage(image, iScreenPosX + gp.iTileSize, iScreenPosY, -gp.iTileSize, gp.iTileSize, null);
+        } else {
+            g2.drawImage(image, iScreenPosX, iScreenPosY, gp.iTileSize, gp.iTileSize, null);
+        }
     }
 
 }

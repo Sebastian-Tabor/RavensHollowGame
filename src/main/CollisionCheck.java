@@ -131,5 +131,31 @@ public class CollisionCheck {
         gp.player.hitBox.x = gp.player.iHitBoxDefaultX;
         gp.player.hitBox.y = gp.player.iHitBoxDefaultY;
     }
+    public int checkEntityAttack(SuperEntity entity, SuperEntity[] target ) {
+        int index = 999;
+        for (int i = 0; i < target.length; i++) {
+            if (target[i] != null) {
 
+                entity.hitBox.x = entity.iWorldX + entity.hitBox.x;
+                entity.hitBox.y = entity.iWorldY + entity.hitBox.y;
+
+                target[i].hitBox.x = target[i].iWorldX + target[i].hitBox.x;
+                target[i].hitBox.y = target[i].iWorldY + target[i].hitBox.y;
+
+                entity.hitBoxLeftSense = new Rectangle(entity.hitBox.x - (entity.iSpeed/2), entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+                entity.hitBoxRightSense = new Rectangle(entity.hitBox.x + (entity.iSpeed/2), entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+
+                if (entity.hitBoxLeftSense.intersects(target[i].hitBox) || entity.hitBoxRightSense.intersects(target[i].hitBox) || entity.hitBoxTopSense.intersects(target[i].hitBox) || entity.hitBoxBotSense.intersects(target[i].hitBox)){
+                    if (target[i] != entity) {
+                        index = i;
+                    }
+                }
+                entity.hitBox.x = entity.iHitBoxDefaultX;
+                entity.hitBox.y = entity.iHitBoxDefaultY;
+                target[i].hitBox.x = target[i].iHitBoxDefaultX;
+                target[i].hitBox.y = target[i].iHitBoxDefaultY;
+            }
+        }
+        return index;
+    }
 }

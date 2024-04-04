@@ -21,11 +21,9 @@ public class Dummy extends SuperEntity {
         }
         //HARE IMAGE SETUP METHOD
         public BufferedImage setup(String imageName) {
-            UtilityTool uTool = new UtilityTool();
             BufferedImage scaledImage = null;
             try {
                 scaledImage = ImageIO.read(new File(imageName + ".png"));
-                scaledImage = uTool.scaleImage(scaledImage, gp.iTileSize, gp.iTileSize);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

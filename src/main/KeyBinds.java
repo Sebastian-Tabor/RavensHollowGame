@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 public class KeyBinds implements KeyListener{
 
-    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bEPressed, bRPressed, bInput, bMousePressed, bEnterPressed, bEscapePressed;
+    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bEPressed, bRPressed, bMeleePressed, bEnterPressed, bEscapePressed;
     GamePanel gp;
     public KeyBinds(GamePanel gp) {
         this.gp = gp;
@@ -34,6 +34,7 @@ public class KeyBinds implements KeyListener{
             if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bRightPressed = true;
             if (code == KeyEvent.VK_R) bRPressed = true;
             if (code == KeyEvent.VK_E) bEPressed = true;
+            if (code == KeyEvent.VK_T) bMeleePressed = true;
 
             //TEMP KEYS DELETE BEFORE PUBLISHING
             if (code == KeyEvent.VK_1) gp.iScene = 0;
@@ -56,13 +57,14 @@ public class KeyBinds implements KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
-            if (code == KeyEvent.VK_ESCAPE) bEscapePressed = false;
-            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = false;
-            if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = false;
-            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = false;
-            if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bRightPressed = false;
-            if (code == KeyEvent.VK_R) bRPressed = false;
-            if (code == KeyEvent.VK_E) bEPressed = false;
-            if (code == KeyEvent.VK_ENTER) bEnterPressed = false;
+        if (code == KeyEvent.VK_ESCAPE) bEscapePressed = false;
+        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = false;
+        if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = false;
+        if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = false;
+        if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bRightPressed = false;
+        if (code == KeyEvent.VK_R) bRPressed = false;
+        if (code == KeyEvent.VK_E) bEPressed = false;
+        if (code == KeyEvent.VK_T) bMeleePressed = false;
+        if (code == KeyEvent.VK_ENTER) bEnterPressed = false;
     }
 }
