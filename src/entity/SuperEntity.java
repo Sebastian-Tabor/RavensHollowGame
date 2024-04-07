@@ -287,10 +287,12 @@ public class SuperEntity {
         deathCounter++;
         if (deathCounter == 11) {
             ++iFrameNumber;
+            deathCounter = 0;
         }
         if (iFrameNumber == 4) {
             bAlive = false;
             bDying = false;
         }
+        System.out.println(deathCounter);
     }
 }

@@ -315,6 +315,7 @@ public class Player extends SuperEntity {
         deathCounter++;
         if (deathCounter == 11) {
             ++iFrameNumber;
+            deathCounter = 0;
         }
         if (iFrameNumber == 4) {
             bAlive = false;
