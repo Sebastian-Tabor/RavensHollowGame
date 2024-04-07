@@ -14,6 +14,7 @@ public class Dummy extends SuperEntity {
         public Dummy (GamePanel gp) {
             super (gp);
             direction = "idle";
+            iType = 2;
             iSpeedOriginal = 0;
             iCollisionDmg = 1;
             iHealthMax = 10;

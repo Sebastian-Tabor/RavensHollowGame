@@ -33,6 +33,7 @@ public class Player extends SuperEntity {
     public void setDefaultValues() {
         iWorldX = iStartPosX;
         iWorldY = iStartPosY;
+        iType = 0;
         iSpeedOriginal = 5;
         iSpeed = iSpeedOriginal;
         iRecoveryTime = 10;
@@ -48,13 +49,13 @@ public class Player extends SuperEntity {
     }
 //IMAGE SETUP METHOD
     public BufferedImage setup(String imageName) {
-        BufferedImage scaledImage = null;
+        BufferedImage image = null;
         try {
-            scaledImage = ImageIO.read(new File( imageName + ".png"));
+            image = ImageIO.read(new File( imageName + ".png"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return scaledImage;
+        return image;
     }
 //PLAYER IMAGES
     public void getPlayerImage() {
@@ -263,9 +264,11 @@ public class Player extends SuperEntity {
                 break;
         }
         if (facing.equals("left")) {
-            g2.drawImage(image, iScreenPosX + gp.iTileSize, iScreenPosY, -gp.iTileSize, gp.iTileSize, null);
+            assert image != null;
+            g2.drawImage(image, iScreenPosX + gp.iTileSize, iScreenPosY, -image.getWidth(), image.getHeight(), null);
         } else {
-            g2.drawImage(image, iScreenPosX, iScreenPosY, gp.iTileSize, gp.iTileSize, null);
+            assert image != null;
+            g2.drawImage(image, iScreenPosX, iScreenPosY, image.getWidth(), image.getHeight(), null);
         }
     }
     //OBJECT METHODS

@@ -16,6 +16,7 @@ public class Hare extends SuperEntity {
         facing  = "right";
         moveState = "idle";
         iSpeedOriginal = 6;
+        iType = 1;
         iHealthMax = 10;
         iHealth = iHealthMax;
     //GET IMAGE

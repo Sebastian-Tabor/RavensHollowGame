@@ -46,6 +46,7 @@ public class SuperEntity {
     public BufferedImage jump1, jump2, crouch1, crouch2, right1, right2, idle1, idle2;
 //STAT TRACKERS/IDENTIFIERS
     public String sName;
+    public int iType;
     public int iHealth;
     public int iHealthMax;
     public int iUltimate;
@@ -147,6 +148,7 @@ public class SuperEntity {
                 iSpriteNumber = 2;}
             spriteCounter = 0;
         }
+        //DEATH
         if (bDying) {
             dyingAnimation();
         }
@@ -211,6 +213,23 @@ public class SuperEntity {
                         image = idle2;
                     }
                     break;
+            }
+            if (iHealth != iHealthMax && iType != 0) {
+
+                g2.setColor(Color.darkGray);
+                g2.fillRect(iScreenX-1, iScreenY-16, gp.iTileSize+2, 12);
+
+
+                int dScale = gp.iTileSize/iHealthMax;
+                int healthPercent = dScale*iHealth;
+
+                if (iType == 1) {
+                    g2.setColor(new Color(0, 155 ,20));
+                }
+                else {
+                    g2.setColor(new Color(155, 0 ,20));
+                }
+                g2.fillRect(iScreenX, iScreenY - 15, healthPercent, 10);
             }
             if (facing.equals("left")) {
                 g2.drawImage(image, iScreenX + gp.iTileSize, iScreenY, -gp.iTileSize, gp.iTileSize, null);
@@ -285,7 +304,7 @@ public class SuperEntity {
         bCanMove = false;
         bImmune = true;
         deathCounter++;
-        if (deathCounter == 11) {
+        if (deathCounter == 15) {
             ++iFrameNumber;
             deathCounter = 0;
         }
@@ -293,6 +312,5 @@ public class SuperEntity {
             bAlive = false;
             bDying = false;
         }
-        System.out.println(deathCounter);
     }
 }
