@@ -71,47 +71,10 @@ public class Player extends SuperEntity {
             attack2 = setup("./res/player/attack2");
             attack3 = setup("./res/player/attack3");
             attack4 = setup("./res/player/attack4");
-    }
-//OBJECT METHODS
-    public void pickupObject(int index) {
-        if(index != 999){
-            String sObjectName = gp.obj[index].sName;
-            switch (sObjectName) {
-                case "Feather":
-                    gp.obj[index] = null;
-                    gp.playSoundEffect(0);
-                    iSpeed += 1;
-                    break;
-                case "Bone":
-                    gp.obj[index] = null;
-                    //sound effect
-                    break;
-                case "Arrow":
-                    gp.obj[index] = null;
-                    //sound effect
-                    iHealth --;
-                    break;
-            }
-        }
-
-    }
-    public void interactNPC(int index) {
-        if (index != 999) {
-            String name = gp.npc[index].sName;
-            switch (name) {
-                case "Carver":
-                    //Do nothing now
-                    break;
-                case "Bone":
-                    break;
-            }
-        }
-    }
-
-    public void collisionMonster(int index) {
-        if(index != 999){
-            damagePlayer(gp.monster[index].iCollisionDmg);
-        }
+            dying1 = setup("./res/player/dying1");
+            dying2 = setup("./res/player/dying2");
+            dying3 = setup("./res/player/dying3");
+            dying4 = setup("./res/player/dying4");
     }
 //UPDATE
     public void update() {
@@ -246,6 +209,10 @@ public class Player extends SuperEntity {
                 iSpriteNumber = 2;}
         spriteCounter = 0;
         }
+        //DEATH ANIMATION
+        if (bDying){
+            dyingAnimation();
+        }
     }
 //DRAW METHOD
     public void draw(Graphics2D g2) {
@@ -256,6 +223,14 @@ public class Player extends SuperEntity {
                 case 2 -> attack2;
                 case 3 -> attack3;
                 case 4 -> attack4;
+                default -> image;
+            };
+        } else if (bDying) {
+            image = switch (iFrameNumber) {
+                case 1 -> dying1;
+                case 2 -> dying2;
+                case 3 -> dying3;
+                case 4 -> dying4;
                 default -> image;
             };
         } else switch (moveState) {
@@ -296,6 +271,60 @@ public class Player extends SuperEntity {
             g2.drawImage(image, iScreenPosX + gp.iTileSize, iScreenPosY, -gp.iTileSize, gp.iTileSize, null);
         } else {
             g2.drawImage(image, iScreenPosX, iScreenPosY, gp.iTileSize, gp.iTileSize, null);
+        }
+    }
+    //OBJECT METHODS
+    public void pickupObject(int index) {
+        if(index != 999){
+            String sObjectName = gp.obj[index].sName;
+            switch (sObjectName) {
+                case "Feather":
+                    gp.obj[index] = null;
+                    gp.playSoundEffect(0);
+                    iSpeed += 1;
+                    break;
+                case "Bone":
+                    gp.obj[index] = null;
+                    //sound effect
+                    break;
+                case "Arrow":
+                    gp.obj[index] = null;
+                    //sound effect
+                    iHealth --;
+                    break;
+            }
+        }
+
+    }
+    public void interactNPC(int index) {
+        if (index != 999) {
+            String name = gp.npc[index].sName;
+            switch (name) {
+                case "Carver":
+                    //Do nothing now
+                    break;
+                case "Bone":
+                    break;
+            }
+        }
+    }
+
+    public void collisionMonster(int index) {
+        if(index != 999){
+            damagePlayer(gp.monster[index].iCollisionDmg);
+        }
+    }
+    public void dyingAnimation(){
+        bCanMove = false;
+        bImmune = true;
+        deathCounter++;
+        if (deathCounter == 11) {
+            ++iFrameNumber;
+        }
+        if (iFrameNumber == 4) {
+            bAlive = false;
+            bDying = false;
+            System.exit(0);
         }
     }
 

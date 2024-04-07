@@ -149,14 +149,22 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
         //NPC
-            for (SuperEntity entity : npc) {
-                if (entity != null) {
-                    entity.draw(g2);
+            for (int i = 0; i < npc.length; i++) {
+                if (npc[i] != null) {
+                    if (npc[i].bAlive) {
+                        npc[i].draw(g2);
+                    } else {
+                        npc[i] = null;
+                    }
                 }
             }
-            for (SuperEntity entity : monster) {
-                if (entity != null) {
-                    entity.draw(g2);
+            for (int i = 0; i < monster.length; i++) {
+                if (monster[i] != null) {
+                    if (monster[i].bAlive) {
+                        monster[i].draw(g2);
+                    } else {
+                        monster[i] = null;
+                    }
                 }
             }
         //PLAYER

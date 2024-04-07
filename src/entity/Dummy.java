@@ -37,6 +37,10 @@ public class Dummy extends SuperEntity {
 
             idle1 = setup("./res/entities/hare/idle1");
             idle2 = setup("./res/entities/hare/idle2");
+            dying1 = setup("./res/entities/hare/dying1");
+            dying2 = setup("./res/entities/hare/dying2");
+            dying3 = setup("./res/entities/hare/dying3");
+            dying4 = setup("./res/entities/hare/dying4");
 
         }
         //HARE SET ACTION

@@ -12,7 +12,8 @@ public class SuperEntity {
     public int spriteCounter = 0;
     public int iSpriteNumber = 1;
     public int deathCounter = 0;
-    public boolean dying = false;
+    public boolean bDying = false;
+    public boolean bAlive = true;
 //COLLISION
     public int immunityCounter = 0;
     public boolean bImmune = false;
@@ -41,6 +42,7 @@ public class SuperEntity {
     public String moveState;
     public String direction;
     public BufferedImage attack1, attack2, attack3, attack4;
+    public BufferedImage dying1, dying2, dying3, dying4;
     public BufferedImage jump1, jump2, crouch1, crouch2, right1, right2, idle1, idle2;
 //STAT TRACKERS/IDENTIFIERS
     public String sName;
@@ -145,6 +147,10 @@ public class SuperEntity {
                 iSpriteNumber = 2;}
             spriteCounter = 0;
         }
+        //DEATH ANIMATION
+        if (bDying){
+            dyingAnimation();
+        }
     }
 //DRAW
     public void draw(Graphics2D g2) {
@@ -163,6 +169,14 @@ public class SuperEntity {
                     case 2 -> attack2;
                     case 3 -> attack3;
                     case 4 -> attack4;
+                    default -> image;
+                };
+            } else if (bDying) {
+                image = switch (iFrameNumber) {
+                    case 1 -> dying1;
+                    case 2 -> dying2;
+                    case 3 -> dying3;
+                    case 4 -> dying4;
                     default -> image;
                 };
             } else switch (moveState) {
@@ -233,7 +247,7 @@ public class SuperEntity {
            gp.player.bImmune = true;
         }
         if (gp.player.iHealth <= 0) {
-            gp.player.dying = true;
+            gp.player.bDying = true;
         }
     }
     public void meleeMonster(int target, SuperEntity source) {
@@ -244,7 +258,7 @@ public class SuperEntity {
                 gp.monster[target].bImmune = true;
             }
             if (gp.monster[target].iHealth <= 0) {
-                gp.monster[target].dying = true;
+                gp.monster[target].bDying = true;
             }
         }
     }
@@ -256,12 +270,20 @@ public class SuperEntity {
                 gp.npc[target].bImmune = true;
             }
             if (gp.npc[target].iHealth <= 0) {
-                gp.npc[target].dying = true;
+                gp.npc[target].bDying = true;
             }
         }
     }
     public void dyingAnimation(){
         bCanMove = false;
-
+        bImmune = true;
+        deathCounter++;
+        if (deathCounter == 11) {
+            ++iFrameNumber;
+        }
+        if (iFrameNumber == 4) {
+            bAlive = false;
+            bDying = false;
+        }
     }
 }
