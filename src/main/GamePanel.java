@@ -134,7 +134,6 @@ public class GamePanel extends JPanel implements Runnable {
             ui.draw(g2);
         }
         else {
-        //OBJECT
             sceneManager.drawBackground(g2);
             sceneManager.drawMidground(g2);
         //TILES

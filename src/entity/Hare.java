@@ -12,9 +12,12 @@ public class Hare extends SuperEntity {
 
     public Hare (GamePanel gp) {
         super (gp);
-        direction = "left";
+        direction = "idle";
+        facing  = "right";
         moveState = "idle";
         iSpeedOriginal = 6;
+        iHealthMax = 10;
+        iHealth = iHealthMax;
     //GET IMAGE
         getHareImage();
     }
@@ -71,6 +74,7 @@ public class Hare extends SuperEntity {
                 break;
             case 8:
                 moveState = "idle";
+                direction = "idle";
                 //DO NOTHING
                 break;
 

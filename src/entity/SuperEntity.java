@@ -8,22 +8,23 @@ import java.awt.image.BufferedImage;
 public class SuperEntity {
     public GamePanel gp;
 //ANIMATIONS
+    public String facing;
     public int spriteCounter = 0;
     public int iSpriteNumber = 1;
-    public String facing;
+    public int deathCounter = 0;
+    public boolean dying = false;
 //COLLISION
     public int immunityCounter = 0;
-    public int iHitBoxDefaultX, iHitBoxDefaultY;
     public boolean bImmune = false;
-    public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected, bWouldBeStuck = false;
+    public int iHitBoxDefaultX, iHitBoxDefaultY;
     public Rectangle hitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
+    public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected, bWouldBeStuck = false;
 //ATTACKING
-    public int attackCounter, iFrameNumber = 0;
-    public boolean bRangedAttacking, bMeleeAttacking, bAttacking = false;
     public boolean bCanAttack = true;
     public int iMeleeDamage, iCollisionDmg;
-    public Rectangle attackBox = new Rectangle(0,0,0,0);
-    public int iAttackBoxDefaultX, iAttackBoxDefaultY;
+    public int attackCounter, iFrameNumber = 0;
+    public Rectangle attackBox = new Rectangle();
+    public boolean bRangedAttacking, bMeleeAttacking, bAttacking = false;
 //MOVEMENT
     public int iSpeed;
     public int iSpeedOriginal;
@@ -34,6 +35,7 @@ public class SuperEntity {
     public int iMovementCounter = 0;
     public int iJumpCooldown;
     public int iRecoveryTime;
+    public boolean bCanMove = true;
     public boolean bCanJump = true;
     public boolean bFalling = false;
     public String moveState;
@@ -54,10 +56,8 @@ public class SuperEntity {
         hitBox = new Rectangle(8, 2, 48, 60);
         iHitBoxDefaultX = hitBox.x;
         iHitBoxDefaultY = hitBox.y;
-        iAttackBoxDefaultX = attackBox.x;
-        iAttackBoxDefaultY = attackBox.y;
         iGravity = -gp.iTileSize/10;
-        direction = "left";
+        direction = "right";
         moveState = "idle";
         facing = "right";
     }
@@ -108,6 +108,14 @@ public class SuperEntity {
         gp.cCheck.checkTile(this);
         if (bWouldBeStuck) --iWorldY;
         bCollisionDetected = false;
+        //IMMUNITY COUNTER
+        if (immunityCounter > 0) {
+            --immunityCounter;
+        }
+        if (immunityCounter <= 0) {
+            bImmune = false;
+            immunityCounter = 0;
+        }
         //JUMP CONDITIONS
         if (bCollisionBottom) {
             iVelocityY = 0;
@@ -200,17 +208,17 @@ public class SuperEntity {
     }
 //MOVEMENT METHODS
     public void moveLeft() {
-        if (!bCollisionLeft) {
+        if (!bCollisionLeft && bCanMove) {
             iWorldX += iVelocityX;
         }
     }
     public void moveRight() {
-        if (!bCollisionRight) {
+        if (!bCollisionRight && bCanMove) {
             iWorldX += iVelocityX;
         }
     }
     public void jump() {
-        if (bCanJump && !bCollisionTop && bCollisionBottom) {
+        if (bCanJump && !bCollisionTop && bCollisionBottom && bCanMove) {
             iJumpCooldown = iRecoveryTime;
             iWorldY -= iSpeed;
             iVelocityY = iSpeed + 10;
@@ -218,22 +226,42 @@ public class SuperEntity {
         }
     }
 //DAMAGE
-    public void damage(int amount, int target) {
-        if (!gp.monster[target].bImmune){
-           gp.monster[target].iHealth -= amount;
-           gp.monster[target].immunityCounter = 60;
-           gp.monster[target].bImmune = true;
+    public void damagePlayer(int amount) {
+        if (!gp.player.bImmune){
+           gp.player.iHealth -= amount;
+           gp.player.immunityCounter = 60;
+           gp.player.bImmune = true;
+        }
+        if (gp.player.iHealth <= 0) {
+            gp.player.dying = true;
         }
     }
-    public void collisionMonster(int index) {
-        if(index != 999){
-            damage(gp.monster[index].iCollisionDmg, index);
-            if (facing.equals("left")){
-                iWorldX += gp.iTileSize;
+    public void meleeMonster(int target, SuperEntity source) {
+        if (target != 999) {
+            if (!gp.monster[target].bImmune){
+                gp.monster[target].iHealth -= source.iMeleeDamage;
+                gp.monster[target].immunityCounter = 60;
+                gp.monster[target].bImmune = true;
             }
-            else {
-                iWorldX -= gp.iTileSize;
+            if (gp.monster[target].iHealth <= 0) {
+                gp.monster[target].dying = true;
             }
         }
+    }
+    public void meleeNPC(int target, SuperEntity source) {
+        if (target != 999) {
+            if (!gp.npc[target].bImmune) {
+                gp.npc[target].iHealth -= source.iMeleeDamage;
+                gp.npc[target].immunityCounter = 60;
+                gp.npc[target].bImmune = true;
+            }
+            if (gp.npc[target].iHealth <= 0) {
+                gp.npc[target].dying = true;
+            }
+        }
+    }
+    public void dyingAnimation(){
+        bCanMove = false;
+
     }
 }

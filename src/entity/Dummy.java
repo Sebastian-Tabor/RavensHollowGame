@@ -18,6 +18,7 @@ public class Dummy extends SuperEntity {
             iCollisionDmg = 1;
             iHealthMax = 10;
             iHealth = iHealthMax;
+            bImmune = false;
             //GET IMAGE
             getImage();
         }
@@ -43,19 +44,6 @@ public class Dummy extends SuperEntity {
 
             direction = "idle";
             //DO NOTHING
-        }
-        public void update() {
-            gp.cCheck.checkTile(this);
-            if (bWouldBeStuck) --iWorldY;
-            bCollisionDetected = false;
-            //JUMP CONDITIONS
-            if (bCollisionBottom) {
-                iVelocityY = 0;
-            }
-            else {
-                ++iWorldY;
-            }
-
         }
 }
 
