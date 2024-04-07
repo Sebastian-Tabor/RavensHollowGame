@@ -24,11 +24,13 @@ public class AssetSetter {
         gp.npc[0].sName = "Carver";
         gp.npc[0].iWorldX = gp.iTileSize * 18;
         gp.npc[0].iWorldY = gp.iTileSize * 10;
+        gp.npc[0].bAlive = true;
     }
     public void setMonster() {
         gp.monster[0] = new Dummy(gp);
         gp.monster[0].sName = "Dummy";
         gp.monster[0].iWorldX = gp.iTileSize * 19;
         gp.monster[0].iWorldY = gp.iTileSize * 11;
+        gp.monster[0].bAlive = true;
     }
 }

@@ -205,6 +205,9 @@ public class Player extends SuperEntity {
                 iSpriteNumber = 2;}
         spriteCounter = 0;
         }
+        if (bDying) {
+            dyingAnimation();
+        }
     }
 //DRAW METHOD
     public void draw(Graphics2D g2) {
@@ -218,7 +221,6 @@ public class Player extends SuperEntity {
                 default -> image;
             };
         } else if (bDying) {
-            dyingAnimation();
             image = switch (iFrameNumber) {
                 case 1 -> dying1;
                 case 2 -> dying2;
@@ -303,7 +305,7 @@ public class Player extends SuperEntity {
     }
 
     public void collisionMonster(int index) {
-        if(index != 999){
+        if(index != 999 && !bDying && bAlive){
             damagePlayer(gp.monster[index].iCollisionDmg);
         }
     }

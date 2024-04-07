@@ -147,6 +147,9 @@ public class SuperEntity {
                 iSpriteNumber = 2;}
             spriteCounter = 0;
         }
+        if (bDying) {
+            dyingAnimation();
+        }
     }
 //DRAW
     public void draw(Graphics2D g2) {
@@ -168,7 +171,6 @@ public class SuperEntity {
                     default -> image;
                 };
             } else if (bDying) {
-                dyingAnimation();
                 image = switch (iFrameNumber) {
                     case 1 -> dying1;
                     case 2 -> dying2;

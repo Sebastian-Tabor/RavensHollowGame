@@ -94,14 +94,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update() {
-        //if (bFullscreen) {
-        //    Main.window.setUndecorated(true);
-        //    Main.window.setResizable(false);
-        //}
-        //else {
-        //    Main.window.setUndecorated(false);
-        //    Main.window.setResizable(true);
-        //}
+
         if (iGameState == playState) {
             for (SuperObject object : obj) {
                 if (object != null) {
@@ -115,7 +108,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
             for (int i = 0; i < npc.length; i++) {
                 if (npc[i] != null) {
-                    if (npc[i].bAlive && !npc[i].bDying) {
+                    if (npc[i].bAlive) {
                         npc[i].update();
                     }
                     if (!npc[i].bAlive){
@@ -125,7 +118,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
             for (int i = 0; i < monster.length; i++) {
                 if (monster[i] != null) {
-                    if (monster[i].bAlive && !monster[i].bDying) {
+                    if (monster[i].bAlive) {
                         monster[i].update();
                     }
                     if (!monster[i].bAlive){
