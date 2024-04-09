@@ -75,9 +75,9 @@ public class UserInterface {
     }
 //DRAW PLAY SCREEN
     public void drawPlayScreen() {
-        displayedImage = playImage;
-        g2.drawImage(displayedImage, 0, 0, gp.iScreenWidth, gp.iScreenHeight, null);
-        drawPlayerBars();
+       // displayedImage = playImage;
+       // g2.drawImage(displayedImage, 0, 0, gp.iScreenWidth, gp.iScreenHeight, null);
+
         if (KeyBinds.bEscapePressed) {
             gp.iGameState = gp.pauseState;
             gp.stopMusic();
@@ -343,60 +343,7 @@ public class UserInterface {
         return (int) (g2.getFontMetrics().getStringBounds(text, g2).getHeight() + 6);
     }
 
-//STAT BARS
-    public void drawPlayerBars(){
-        drawHealthBar(gp.player, "bottom health", Color.red);
-        drawUltBar(gp.player, "bottom ult", Color.lightGray);
-    }
-    public void drawHealthBar(SuperEntity entity, String barType, Color color){
 
-        int width = gp.iScreenWidth/4;
-        int subWidth = (int)(0.96 * width) * (entity.iHealth / entity.iHealthMax);
-        int subX = (int)(0.02 * width);
-
-        Point p = getBarPosition(barType);
-        g2.setColor(Color.black);
-        g2.fillRoundRect(p.x, p.y, width, 24, 10, 10);
-        g2.setColor(color);
-        g2.fillRoundRect(p.x + subX, p.y + 3, subWidth, 18, 10, 10);
-        g2.setFont(defaultFont);
-        g2.setColor(Color.white);
-        g2.drawString(String.valueOf(entity.iHealth), p.x, p.y);
-    }
-    public void drawUltBar(SuperEntity entity, String barType, Color color){
-
-        int width = gp.iScreenWidth/5;
-        int subWidth = (int)(0.96 * width) * (entity.iUltimate / entity.iUltimateMax) ;
-        int subX = (int)(0.02 * width);
-
-        Point p = getBarPosition(barType);
-        g2.setColor(Color.black);
-        g2.fillRoundRect(p.x, p.y, width, 24, 5, 5);
-        g2.setColor(color);
-        g2.fillRoundRect(p.x + subX, p.y + 3, subWidth, 18, 5, 5);
-    }
-    public Point getBarPosition(String barType){
-        Point p = new Point();
-        switch (barType) {
-            case "top health":
-                p.x = (int)(0.4 * gp.iScreenWidth);
-                p.y = 108;
-                break;
-            case "top ult":
-                p.x = (int)(0.4 * gp.iScreenWidth);
-                p.y = 140;
-                break;
-            case "bottom health":
-                p.x = (int)(0.4 * gp.iScreenWidth);
-                p.y = 972;
-                break;
-            case "bottom ult":
-                p.x = (int)(0.4 * gp.iScreenWidth);
-                p.y = 1004;
-                break;
-        }
-        return p;
-    }
     public void drawCenterMenuTextOption(String text, int menuOptionNumber) {
         text = text;
         g2.setFont(defaultFont);

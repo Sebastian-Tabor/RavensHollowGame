@@ -34,7 +34,7 @@ public class Player extends SuperEntity {
         iWorldX = iStartPosX;
         iWorldY = iStartPosY;
         iType = 0;
-        iSpeedOriginal = 5;
+        iSpeedOriginal = 7;
         iSpeed = iSpeedOriginal;
         iRecoveryTime = 10;
         iHealth = 10;
@@ -263,11 +263,10 @@ public class Player extends SuperEntity {
                 }
                 break;
         }
+        assert image != null;
         if (facing.equals("left")) {
-            assert image != null;
             g2.drawImage(image, iScreenPosX + gp.iTileSize, iScreenPosY, -image.getWidth(), image.getHeight(), null);
         } else {
-            assert image != null;
             g2.drawImage(image, iScreenPosX, iScreenPosY, image.getWidth(), image.getHeight(), null);
         }
     }
@@ -323,7 +322,6 @@ public class Player extends SuperEntity {
         if (iFrameNumber == 4) {
             bAlive = false;
             bDying = false;
-            System.exit(0);
         }
     }
 

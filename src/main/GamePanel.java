@@ -17,8 +17,8 @@ public class GamePanel extends JPanel implements Runnable {
     public int iOriginalTileSize = 64;
     public int iScale = 1;
     public int iTileSize = iOriginalTileSize * iScale;
-    public int iScreenWidth = iMaxScreenColumns * iTileSize;
-    public int iScreenHeight = iMaxScreenRows * iTileSize;
+    public int iScreenWidth = 1920;
+    public int iScreenHeight = 1080;
     public boolean bFullscreen = true;
 //MAP SIZE
     public final int iMaxMapCol = 90;
@@ -127,7 +127,12 @@ public class GamePanel extends JPanel implements Runnable {
 
                 }
             }
-            player.update();
+
+            if (player.bAlive) {
+                player.update();
+            } else {
+                System.exit(0);
+            }
         }
     }
     public void paintComponent(Graphics g) {
