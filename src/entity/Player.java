@@ -215,19 +215,19 @@ public class Player extends SuperEntity {
         BufferedImage image = null;
         if (bAttacking) {
             image = switch (iFrameNumber) {
-                case 1 -> attack1;
-                case 2 -> attack2;
-                case 3 -> attack3;
-                case 4 -> attack4;
-                default -> image;
+                case 0 -> attack1;
+                case 1 -> attack2;
+                case 2 -> attack3;
+                case 3, 4 -> attack4;
+                default -> throw new IllegalStateException("Unexpected value: " + iFrameNumber);
             };
         } else if (bDying) {
             image = switch (iFrameNumber) {
-                case 1 -> dying1;
-                case 2 -> dying2;
-                case 3 -> dying3;
-                case 4 -> dying4;
-                default -> image;
+                case 0 -> dying1;
+                case 1 -> dying2;
+                case 2 -> dying3;
+                case 3, 4 -> dying4;
+                default -> throw new IllegalStateException("Unexpected value: " + iFrameNumber);
             };
         } else switch (moveState) {
             case "moving":
@@ -263,7 +263,6 @@ public class Player extends SuperEntity {
                 }
                 break;
         }
-        assert image != null;
         if (facing.equals("left")) {
             g2.drawImage(image, iScreenPosX + gp.iTileSize, iScreenPosY, -image.getWidth(), image.getHeight(), null);
         } else {

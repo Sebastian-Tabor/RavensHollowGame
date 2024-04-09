@@ -11,9 +11,11 @@ public class SuperEntity {
     public String facing;
     public int spriteCounter = 0;
     public int iSpriteNumber = 1;
+    public int barCounter = 0;
     public int deathCounter = 0;
     public boolean bDying = false;
     public boolean bAlive = true;
+    public boolean bShowBar = false;
 //COLLISION
     public int immunityCounter = 0;
     public boolean bImmune = false;
@@ -119,6 +121,13 @@ public class SuperEntity {
             bImmune = false;
             immunityCounter = 0;
         }
+        if (bShowBar) {
+            ++barCounter;
+        }
+        if (barCounter == 300) {
+            barCounter = 0;
+            bShowBar = false;
+        }
         //JUMP CONDITIONS
         if (bCollisionBottom) {
             iVelocityY = 0;
@@ -214,11 +223,9 @@ public class SuperEntity {
                     }
                     break;
             }
-            if (iHealth != iHealthMax && iType != 0) {
-
+            if (bShowBar) {
                 g2.setColor(Color.darkGray);
                 g2.fillRect(iScreenX-1, iScreenY-16, gp.iTileSize+2, 12);
-
 
                 int dScale = gp.iTileSize/iHealthMax;
                 int healthPercent = dScale*iHealth;
@@ -282,6 +289,7 @@ public class SuperEntity {
                 gp.monster[target].iHealth -= source.iMeleeDamage;
                 gp.monster[target].immunityCounter = 60;
                 gp.monster[target].bImmune = true;
+                gp.monster[target].bShowBar = true;
             }
             if (gp.monster[target].iHealth <= 0) {
                 gp.monster[target].bDying = true;
@@ -294,6 +302,7 @@ public class SuperEntity {
                 gp.npc[target].iHealth -= source.iMeleeDamage;
                 gp.npc[target].immunityCounter = 60;
                 gp.npc[target].bImmune = true;
+                gp.npc[target].bShowBar = true;
             }
             if (gp.npc[target].iHealth <= 0) {
                 gp.npc[target].bDying = true;
