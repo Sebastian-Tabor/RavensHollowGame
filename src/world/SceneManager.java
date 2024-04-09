@@ -14,6 +14,10 @@ public class SceneManager {
     public Scene[] scene;
     UtilityTool uTool = new UtilityTool();
     BufferedImage image;
+    int x;
+    int y;
+    int width;
+    int height;
 
     public SceneManager(GamePanel gp) {
         this.gp = gp;
@@ -24,10 +28,34 @@ public class SceneManager {
     }
 //DRAW METHODS
     public void drawForeground(Graphics2D g2){
+        x = gp.player.iWorldX - gp.player.iScreenPosX;
+        y = gp.player.iWorldY - gp.player.iScreenPosY;
+        width = gp.iScreenWidth;
+        height = gp.iScreenHeight;
+        image = scene[gp.iScene].foreground.getSubimage(x, y, width, height);
+        x = 0;
+        y = 0;
+        g2.drawImage(image, x, y, null);
     }
     public void drawMidground(Graphics2D g2){
+        x = gp.player.iWorldX - gp.player.iScreenPosX;
+        y = gp.player.iWorldY - gp.player.iScreenPosY;
+        width = gp.iScreenWidth;
+        height = gp.iScreenHeight;
+        image = scene[gp.iScene].midground.getSubimage(x, y, width, height);
+        x = 0;
+        y = 0;
+        g2.drawImage(image, x, y, null);
     }
     public void drawBackground(Graphics2D g2){
+        x = gp.player.iWorldX - gp.player.iScreenPosX;
+        y = gp.player.iWorldY - gp.player.iScreenPosY;
+        width = gp.iScreenWidth;
+        height = gp.iScreenHeight;
+        image = scene[gp.iScene].background.getSubimage(x, y, width, height);
+        x = 0;
+        y = 0;
+        g2.drawImage(image, x, y, null);
     }
 //SCENE CREATION
     public void getScene() {
