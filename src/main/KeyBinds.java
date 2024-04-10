@@ -2,12 +2,10 @@ package main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class KeyBinds implements KeyListener{
 
-    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bEPressed, bRPressed, bMeleePressed, bEnterPressed, bEscapePressed;
+    public static boolean bUpPressed, bDownPressed, bLeftPressed, bRightPressed, bEPressed, bRPressed, bEnterPressed, bEscapePressed;
     GamePanel gp;
     public KeyBinds(GamePanel gp) {
         this.gp = gp;
@@ -34,7 +32,6 @@ public class KeyBinds implements KeyListener{
             if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bRightPressed = true;
             if (code == KeyEvent.VK_R) bRPressed = true;
             if (code == KeyEvent.VK_E) bEPressed = true;
-            if (code == KeyEvent.VK_T) bMeleePressed = true;
 
             //TEMP KEYS DELETE BEFORE PUBLISHING
             if (code == KeyEvent.VK_1) gp.iScene = 0;
@@ -64,7 +61,7 @@ public class KeyBinds implements KeyListener{
         if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bRightPressed = false;
         if (code == KeyEvent.VK_R) bRPressed = false;
         if (code == KeyEvent.VK_E) bEPressed = false;
-        if (code == KeyEvent.VK_T) bMeleePressed = false;
         if (code == KeyEvent.VK_ENTER) bEnterPressed = false;
     }
+
 }

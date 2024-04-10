@@ -1,6 +1,7 @@
 package entity;
 import main.GamePanel;
 import main.KeyBinds;
+import main.MouseBinds;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,7 +15,7 @@ public class Player extends SuperEntity {
     public final int iScreenPosY;
     public final int iStartPosX = gp.iTileSize * 17;
     public final int iStartPosY = gp.iTileSize * 11;
-
+    public boolean bMouseIsLeft;
 
 //PLAYER OBJECT
     public Player(GamePanel gp, KeyBinds keyBinds) {
@@ -95,11 +96,18 @@ public class Player extends SuperEntity {
             if (KeyBinds.bDownPressed) {
                 moveState = "crouch";
             }
-        }
-        else {
+        } else {
             moveState = "idle";
             direction = "idle";
         }
+        if (MouseBinds.bMouseClicked) {
+            if (bMouseIsLeft) {
+                facing = "left";
+            } else {
+                facing = "right";
+            }
+        }
+        bMouseIsLeft = gp.mouseBinds.getMouseLocation().x < (gp.iScreenWidth / 2);
     //MOVEMENT ACTIONS
         switch (direction) {
             case "left":
@@ -121,6 +129,8 @@ public class Player extends SuperEntity {
             case "idle":
                 iVelocityX = 0;
                 break;
+            case "attacking", "moving":
+                break;
         }
         if (!moveState.equals("crouch")) {
             iSpeed = iSpeedOriginal;
@@ -128,14 +138,15 @@ public class Player extends SuperEntity {
     //ATTACKING
         bAttacking = bMeleeAttacking || bRangedAttacking;
 
-        if (KeyBinds.bMeleePressed && bCanAttack) {
+        if (MouseBinds.bMouse2Clicked && bCanAttack) {
+            moveState = "attacking";
             bCanAttack = false;
             bMeleeAttacking = true;
         }
         if (bMeleeAttacking) {
             attackCounter++;
         }
-        if (attackCounter == 11) {
+        if (attackCounter == 10) {
             attackCounter = 0;
             ++iFrameNumber;
         }
@@ -154,6 +165,7 @@ public class Player extends SuperEntity {
             bRangedAttacking = false;
             bAttacking = false;
             bCanAttack = true;
+
         }
     //COLLISION CHECK
         gp.cCheck.checkTile(this);
@@ -263,6 +275,7 @@ public class Player extends SuperEntity {
                 }
                 break;
         }
+        assert image != null;
         if (facing.equals("left")) {
             g2.drawImage(image, iScreenPosX + gp.iTileSize, iScreenPosY, -image.getWidth(), image.getHeight(), null);
         } else {

@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int iMapHeight = iTileSize * iMaxMapRow;
 //CLASS OBJECT CREATION
     public KeyBinds keyBinds = new KeyBinds(this);
+    public MouseBinds mouseBinds = new MouseBinds(this);
     public Sound music = new Sound();
     public Sound soundeffect = new Sound();
     public Player player = new Player(this, keyBinds);
@@ -56,6 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(bg);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyBinds);
+        this.addMouseListener(mouseBinds);
         this.setFocusable(true);
         this.setAlignmentX(0);
         this.setAlignmentY(0);
