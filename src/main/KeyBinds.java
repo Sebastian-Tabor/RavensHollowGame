@@ -20,8 +20,9 @@ public class KeyBinds implements KeyListener{
         int code = e.getKeyCode();
 
         if (gp.iGameState == gp.titleState) {
-            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) bUpPressed = true;
-            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = true;
+            if (code == KeyEvent.VK_ENTER) bEnterPressed = true;
+            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bUpPressed = true;
+            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bDownPressed = true;
         }
         else if (gp.iGameState == gp.playState) {
             if (code == KeyEvent.VK_ESCAPE) {bEscapePressed = true;}
@@ -53,11 +54,15 @@ public class KeyBinds implements KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
+        if (gp.iGameState == gp.pauseState || gp.iGameState == gp.titleState) {
+            if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bUpPressed = false;
+            if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bDownPressed = false;
+        }
         if (code == KeyEvent.VK_ESCAPE) bEscapePressed = false;
         if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE) bUpPressed = false;
         if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) bLeftPressed = false;
         if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = false;
-        if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) bRightPressed = false;
+        if (code == KeyEvent.VK_D || code == KeyEvent.VK_LEFT) bRightPressed = false;
         if (code == KeyEvent.VK_R) bRPressed = false;
         if (code == KeyEvent.VK_E) bEPressed = false;
         if (code == KeyEvent.VK_ENTER) bEnterPressed = false;

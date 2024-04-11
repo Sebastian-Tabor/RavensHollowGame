@@ -129,7 +129,7 @@ public class Player extends SuperEntity {
             case "idle":
                 iVelocityX = 0;
                 break;
-            case "attacking", "moving":
+            case "moving":
                 break;
         }
         if (!moveState.equals("crouch")) {
@@ -139,7 +139,6 @@ public class Player extends SuperEntity {
         bAttacking = bMeleeAttacking || bRangedAttacking;
 
         if (MouseBinds.bMouse2Clicked && bCanAttack) {
-            moveState = "attacking";
             bCanAttack = false;
             bMeleeAttacking = true;
         }

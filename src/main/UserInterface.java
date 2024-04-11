@@ -15,7 +15,7 @@ public class UserInterface {
     public String text;
     public BufferedImage displayedImage, titleImage, playImage, pauseImage, endImage, loadingImage, tempImage;
     public int menuState;
-    public int commandNumber;
+    public int commandNumber = 0;
     public int bClicked = 0;
     public String[] optionArray;
 
@@ -83,20 +83,42 @@ public class UserInterface {
         if (bClicked == 1){
             switch (commandNumber){
                 case 0 -> {
-                    if (!MouseBinds.bMouse1Clicked) {
+                    if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed) {
                         gp.iGameState = gp.playState;
                         gp.stopMusic();
                         gp.playMusic(2);
                         bClicked = 0;
+                        KeyBinds.bEnterPressed = false;
                     }
 
                 }
-                case 1 -> System.out.println("Create " + optionArray[commandNumber] + " function.");
+                case 1 -> {
+                    System.out.println("Create " + optionArray[commandNumber] + " function.");
+                    bClicked = 0;
+                }
                 case 2 -> {
-                    if (!MouseBinds.bMouse1Clicked) System.exit(0);
+                    if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed) {
+                        System.exit(0);
+                        bClicked = 0;
+                        KeyBinds.bEnterPressed = false;
+                    }
                 }
             }
-        } else bClicked = 0;
+        }
+        if (KeyBinds.bUpPressed) {
+            --commandNumber;
+            KeyBinds.bUpPressed = false;
+        }
+        if (KeyBinds.bDownPressed) {
+            ++commandNumber;
+            KeyBinds.bDownPressed = false;
+        }
+        if (commandNumber >= optionArray.length) {
+            commandNumber = optionArray.length-1;
+        }
+        if (commandNumber < 0) {
+            commandNumber = 0;
+        }
 
     }
 //DRAW PLAY SCREEN
@@ -115,6 +137,11 @@ public class UserInterface {
     public void drawPauseScreen() {
         if (menuState == 0) {
             drawMenu0();
+            if (KeyBinds.bEscapePressed) {
+                gp.iGameState = gp.playState;
+                gp.resumeMusic();
+                KeyBinds.bEscapePressed = false;
+            }
         }
         else if (menuState == 1) {
             drawMenu1();
@@ -145,22 +172,50 @@ public class UserInterface {
         g2.drawString(text, x, y);
 
         g2.setFont(defaultFont);
-        optionArray = new String[3];
-        optionArray[0] = "Save Game";
-        optionArray[1] = "Settings";
-        optionArray[2] = "Main Menu";
+        optionArray = new String[4];
+        optionArray[0] = "Resume";
+        optionArray[1] = "Save Game";
+        optionArray[2] = "Settings";
+        optionArray[3] = "Main Menu";
         drawMenuButtons(optionArray, gp.iScreenWidth/2, gp.iScreenHeight/2);
         if (bClicked == 1){
             switch (commandNumber){
-                case 0, 1 -> System.out.println("Create " + optionArray[commandNumber] + " function.");
-                case 2 -> {
-                    if (!MouseBinds.bMouse1Clicked){
-                        gp.iGameState = gp.titleState;
+                case 0 -> {
+                    if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed){
+                        gp.iGameState = gp.playState;
+                        gp.resumeMusic();
                         bClicked = 0;
+                        KeyBinds.bEnterPressed = false;
+                    }
+                }
+                case 1, 2 -> {
+                    System.out.println("Create " + optionArray[commandNumber] + " function.");
+                    bClicked = 0;
+                }
+                case 3 -> {
+                    if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed){
+                        gp.iGameState = gp.titleState;
+                        commandNumber = 0;
+                        bClicked = 0;
+                        KeyBinds.bEnterPressed = false;
                     }
                 }
             }
-        } else bClicked = 0;
+        }
+        if (KeyBinds.bUpPressed) {
+            --commandNumber;
+            KeyBinds.bUpPressed = false;
+        }
+        if (KeyBinds.bDownPressed) {
+            ++commandNumber;
+            KeyBinds.bDownPressed = false;
+        }
+        if (commandNumber >= optionArray.length) {
+            commandNumber = optionArray.length-1;
+        }
+        if (commandNumber < 0) {
+            commandNumber = 0;
+        }
 
     }
     public void drawMenu1() {
@@ -198,9 +253,11 @@ public class UserInterface {
         rect3.y = centerToRectY(rect2.y, rect2, rect3);
 
         if (gp.mouseBinds.isMouseOver(rect3)) {
-            highlight = Color.white;
             commandNumber = optionNumber;
-            if (MouseBinds.bMouse1Clicked){
+        }
+        if (commandNumber == optionNumber) {
+            highlight = Color.white;
+            if (MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed){
                 color2 = uTool.ravensDarkGrey;
                 bClicked = 1;
             }
