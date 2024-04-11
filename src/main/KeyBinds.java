@@ -20,9 +20,8 @@ public class KeyBinds implements KeyListener{
         int code = e.getKeyCode();
 
         if (gp.iGameState == gp.titleState) {
-            gp.iGameState = gp.playState;
-            gp.stopMusic();
-            gp.playMusic(2);
+            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) bUpPressed = true;
+            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) bDownPressed = true;
         }
         else if (gp.iGameState == gp.playState) {
             if (code == KeyEvent.VK_ESCAPE) {bEscapePressed = true;}
