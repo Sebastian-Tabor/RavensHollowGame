@@ -3,6 +3,7 @@ import entity.SuperEntity;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class UserInterface {
     public int commandNumber = 0;
     public int bClicked = 0;
     public String[] optionArray;
-
+    public int iStandardArc = 20;
 
     public UserInterface(GamePanel gp) {
         this.gp = gp;
@@ -152,32 +153,19 @@ public class UserInterface {
     }
 
     public void drawMenu0(){
-        int x;
-        int y;
 
-        g2.setColor(new Color(0,0,0,60));
+        g2.setColor(uTool.transparentBackground);
         g2.fillRect(0,0, gp.iScreenWidth, gp.iScreenHeight);
 
-        g2.setColor(new Color(0,0,0,200));
-        g2.fillRect(gp.iScreenWidth/4,gp.iScreenHeight/4, gp.iScreenWidth/2, gp.iScreenHeight/2);
-
-        displayedImage = pauseImage;
-        g2.drawImage(tempImage,gp.iScreenWidth/4,gp.iScreenHeight/4, gp.iTileSize, gp.iTileSize, null);
-
-        text = "Paused";
-        g2.setFont(titleFont);
-        x = gp.iScreenWidth/2;
-        y = gp.iScreenHeight/2;
-        g2.setColor(Color.white);
-        g2.drawString(text, x, y);
-
-        g2.setFont(defaultFont);
         optionArray = new String[4];
         optionArray[0] = "Resume";
         optionArray[1] = "Save Game";
         optionArray[2] = "Settings";
         optionArray[3] = "Main Menu";
-        drawMenuButtons(optionArray, gp.iScreenWidth/2, gp.iScreenHeight/2);
+        drawMenuBackGround(gp.iScreenWidth/3, gp.iScreenHeight/4, gp.iScreenWidth/3, gp.iScreenHeight/2);
+
+        g2.setFont(defaultFont);
+        drawMenuButtons(optionArray, gp.iScreenWidth/2, (int)(gp.iScreenHeight/2.4));
         if (bClicked == 1){
             switch (commandNumber){
                 case 0 -> {
@@ -263,9 +251,9 @@ public class UserInterface {
             }
         }
         //DRAW RECTANGLES
-        drawRoundRectangle(highlight, rect1.x, rect1.y, rect1.width, rect1.height, 10);
-        drawRoundRectangle(color1, rect2.x, rect2.y, rect2.width, rect2.height, 10);
-        drawRoundRectangle(color2, rect3.x, rect3.y, rect3.width, rect3.height, 10);
+        drawRoundRectangle(highlight, rect1.x, rect1.y, rect1.width, rect1.height, iStandardArc);
+        drawRoundRectangle(color1, rect2.x, rect2.y, rect2.width, rect2.height, iStandardArc);
+        drawRoundRectangle(color2, rect3.x, rect3.y, rect3.width, rect3.height, iStandardArc);
 
         g2.setColor(Color.WHITE);
         g2.drawString(text, centerTextToRectX(text, rect3), centerTextToRectY(text, rect3));
@@ -302,6 +290,19 @@ public class UserInterface {
             }
         }
 
+    }
+    public void drawMenuBackGround(int x, int y, int width, int height){
+        Rectangle background = new Rectangle(x, y, width, height);
+        drawBorder(background, uTool.ravensGrey, uTool.ravensLightGrey);
+
+    }
+    public void drawBorder(Rectangle rect, Color color1, Color color2){
+        g2.setColor(color1);
+        g2.fillRoundRect(rect.x - 4, rect.y - 4, rect.width + 8, rect.height + 8, iStandardArc, iStandardArc);
+        g2.setColor(color2);
+        g2.fillRoundRect(rect.x - 2, rect.y - 2, rect.width + 4, rect.height + 4, iStandardArc, iStandardArc);
+        g2.setColor(color1);
+        g2.fillRoundRect(rect.x, rect.y, rect.width, rect.height, iStandardArc, iStandardArc);
     }
 }
 
