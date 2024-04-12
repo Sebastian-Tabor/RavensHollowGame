@@ -51,6 +51,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int loadingState = 3;
     public final int endState = 4;
+//SAVING GAME
+    public int[] saveData = new int[4];
+    public int[] monsterSaveData = new int[4];
+    public int iMaxLines = monster.length + 2;
 //FPS
     int iFPS = 60;
 
@@ -63,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.setAlignmentX(0);
         this.setAlignmentY(0);
+        //SAVEDATA SETUP
     }
     public void setupGame() {
         music.iSoundVolume = 50;

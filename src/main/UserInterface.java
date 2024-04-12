@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.security.Key;
 
 public class UserInterface {
     Font defaultFont, titleFont;
@@ -175,14 +176,18 @@ public class UserInterface {
         if (bClicked == 1){
             switch (commandNumber){
                 case 0 -> {
-                    if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed){
+                    if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed || KeyBinds.bEscapePressed){
                         gp.iGameState = gp.playState;
                         gp.resumeMusic();
                         bClicked = 0;
                         KeyBinds.bEnterPressed = false;
                     }
                 }
-                case 1, 2 -> {
+                case 1 -> {
+                    gp.loadTool.saveGame();
+                    bClicked = 0;
+                }
+                case 2 -> {
                     System.out.println("Create " + optionArray[commandNumber] + " function.");
                     bClicked = 0;
                 }
