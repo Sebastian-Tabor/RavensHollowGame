@@ -41,7 +41,7 @@ public class TileManager {
     }
     public void loadMap(){
         try{
-            InputStream is = new FileInputStream("./res/maps/tempmap.txt");
+            InputStream is = new FileInputStream("./res/maps/" + gp.iScene + "map.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int col = 0;
             int row = 0;

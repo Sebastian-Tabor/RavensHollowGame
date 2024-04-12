@@ -35,6 +35,7 @@ public class SuperEntity {
     public int iVelocityX;
     public int iVelocityY;
     public int iWorldX, iWorldY;
+    public int iStartWorldX, iStartWorldY;
     public int iMovementCounter = 0;
     public int iJumpCooldown;
     public int iRecoveryTime;

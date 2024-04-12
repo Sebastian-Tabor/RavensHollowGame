@@ -39,10 +39,12 @@ public class GamePanel extends JPanel implements Runnable {
     public TileManager tileManager = new TileManager(this);
     public SceneManager sceneManager = new SceneManager(this);
     public UserInterface ui = new UserInterface(this);
+    public LoadingTool loadTool = new LoadingTool(this);
     public CollisionCheck cCheck = new CollisionCheck(this);
     Thread gameThread;
 //GAME STATE
     public int iScene = 0;
+    public int iWins = 0;
     public int iGameState;
     public final int titleState = 0;
     public final int playState = 1;

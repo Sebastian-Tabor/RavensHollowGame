@@ -83,6 +83,7 @@ public class UserInterface {
             switch (commandNumber){
                 case 0 -> {
                     if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed) {
+                        gp.loadTool.newGame();
                         gp.iGameState = gp.playState;
                         gp.stopMusic();
                         gp.playMusic(2);
@@ -92,8 +93,12 @@ public class UserInterface {
 
                 }
                 case 1 -> {
-                    System.out.println("Create " + optionArray[commandNumber] + " function.");
+                    gp.loadTool.loadGame();
+                    gp.iGameState = gp.playState;
+                    gp.stopMusic();
+                    gp.playMusic(2);
                     bClicked = 0;
+                    KeyBinds.bEnterPressed = false;
                 }
                 case 2 -> {
                     if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed) {
@@ -149,7 +154,6 @@ public class UserInterface {
             drawMenu2();
         }
     }
-
     public void drawMenu0(){
 
         g2.setColor(uTool.transparentBackground);
