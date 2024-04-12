@@ -153,9 +153,6 @@ public class Player extends SuperEntity {
             int iAttackIndex = gp.cCheck.checkIf_Hit_(this, gp.monster);
             if (iAttackIndex != 999) {
                 meleeMonster(iAttackIndex, this);
-            } else {
-                iAttackIndex = gp.cCheck.checkIf_Hit_(this, gp.npc);
-                meleeNPC(iAttackIndex, this);
             }
         }
         if (iFrameNumber == 4) {
