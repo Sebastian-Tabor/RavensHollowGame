@@ -1,5 +1,7 @@
 package main;
 
+import entity.SuperEntity;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -129,7 +131,7 @@ public class UserInterface {
     public void drawPlayScreen() {
        // displayedImage = playImage;
        // g2.drawImage(displayedImage, 0, 0, gp.iScreenWidth, gp.iScreenHeight, null);
-
+        drawHealthUltBar(gp.player, gp.iScreenWidth/3, 4*gp.iScreenHeight/5, gp.iScreenWidth/3, gp.iTileSize/2);
         if (KeyBinds.bEscapePressed) {
             gp.iGameState = gp.pauseState;
             gp.stopMusic();
@@ -300,8 +302,21 @@ public class UserInterface {
         g2.setColor(color1);
         g2.fillRoundRect(rect.x, rect.y, rect.width, rect.height, iStandardArc, iStandardArc);
     }
-    public int getMenuY(int menuButtonsY){
-        return menuButtonsY/2;
+    public void drawHealthUltBar(SuperEntity entity, int x, int y, int width, int height){
+        g2.setColor(Color.darkGray);
+        g2.fillRect(x, y, width, height);
+        g2.setColor(Color.darkGray);
+        g2.fillRect(x, y + height, width, height);
+
+        int hScale = width/entity.iHealthMax;
+        int healthPercent = hScale*entity.iHealth;
+        g2.setColor(Color.red);
+        g2.fillRoundRect(x + 1, y + 1, healthPercent, height - 2, iStandardArc, iStandardArc);
+
+        int uScale = width/entity.iUltimateMax;
+        int ultPercent = uScale*entity.iUltimate;
+        g2.setColor(Color.lightGray);
+        g2.fillRoundRect(x + 1, y + height + 1, ultPercent, height - 2, iStandardArc, iStandardArc);
     }
 }
 

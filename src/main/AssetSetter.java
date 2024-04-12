@@ -35,6 +35,7 @@ public class AssetSetter {
         gp.monster[0].iStartWorldY = gp.iTileSize * 11;
         gp.monster[0].iWorldX = gp.monster[0].iStartWorldX;
         gp.monster[0].iWorldY = gp.monster[0].iStartWorldY;
+        gp.monster[0].iValue = 5;
         gp.monster[0].bAlive = true;
     }
     public void resetMonsterPos(){

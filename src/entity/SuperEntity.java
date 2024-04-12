@@ -55,6 +55,7 @@ public class SuperEntity {
     public int iUltimate;
     public int iUltimateMax;
     public int iArmor;
+    public int iValue;
 
 //CONSTRUCTOR
     public SuperEntity(GamePanel gp) {
@@ -288,7 +289,8 @@ public class SuperEntity {
         if (target != 999) {
             if (!gp.monster[target].bImmune){
                 gp.monster[target].iHealth -= source.iMeleeDamage;
-                gp.monster[target].immunityCounter = 60;
+                gp.player.iUltimate += gp.monster[target].iValue;
+                gp.monster[target].immunityCounter = 30;
                 gp.monster[target].bImmune = true;
                 gp.monster[target].bShowBar = true;
             }
@@ -313,6 +315,7 @@ public class SuperEntity {
     public void dyingAnimation(){
         bCanMove = false;
         bImmune = true;
+        iCollisionDmg = 0;
         deathCounter++;
         if (deathCounter == 15) {
             ++iFrameNumber;

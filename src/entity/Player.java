@@ -141,6 +141,11 @@ public class Player extends SuperEntity {
         if (MouseBinds.bMouse2Clicked && bCanAttack) {
             bCanAttack = false;
             bMeleeAttacking = true;
+            if (bMouseIsLeft){
+                facing = "left";
+            } else {
+                facing = "right";
+            }
         }
         if (bMeleeAttacking) {
             attackCounter++;
@@ -155,6 +160,9 @@ public class Player extends SuperEntity {
                 meleeMonster(iAttackIndex, this);
             }
         }
+        if (iHealth > iHealthMax) iHealth = iHealthMax;
+        if (iUltimate > iUltimateMax) iUltimate = iUltimateMax;
+
         if (iFrameNumber == 4) {
             iFrameNumber = 0;
             bMeleeAttacking = false;

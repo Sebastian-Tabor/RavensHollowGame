@@ -9,9 +9,11 @@ public class LoadingTool {
         this.gp = gp;
     }
     public void newGame(){
+
         gp.aSetter.resetMonsterPos();
         gp.aSetter.resetNPCPos();
         gp.aSetter.resetPlayerPos();
+
         try{
             InputStream is = new FileInputStream("./res/saves/newGameState.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
