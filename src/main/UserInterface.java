@@ -1,9 +1,7 @@
 package main;
-import entity.SuperEntity;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -162,7 +160,9 @@ public class UserInterface {
         optionArray[1] = "Save Game";
         optionArray[2] = "Settings";
         optionArray[3] = "Main Menu";
-        drawMenuBackGround(gp.iScreenWidth/3, gp.iScreenHeight/4, gp.iScreenWidth/3, gp.iScreenHeight/2);
+
+        Rectangle menuBox = new Rectangle(gp.iScreenWidth/3, gp.iScreenHeight/4, gp.iScreenWidth/3, gp.iScreenHeight/2);
+        drawMenuBackground(menuBox, uTool.ravensGrey, uTool.ravensLightGrey);
 
         g2.setFont(defaultFont);
         drawMenuButtons(optionArray, gp.iScreenWidth/2, (int)(gp.iScreenHeight/2.4));
@@ -274,9 +274,6 @@ public class UserInterface {
     public int centerTextToRectY(String text, Rectangle rect){
         return (rect.y + stringHeight(text));
     }
-    public int centerRectX(Rectangle rect){
-        return (gp.iScreenWidth/2 - rect.width/2);
-    }
     public int centerToRectX(int x, Rectangle rect1, Rectangle rect2){
         return x + (rect1.width - rect2.width)/2;
     }
@@ -291,18 +288,16 @@ public class UserInterface {
         }
 
     }
-    public void drawMenuBackGround(int x, int y, int width, int height){
-        Rectangle background = new Rectangle(x, y, width, height);
-        drawBorder(background, uTool.ravensGrey, uTool.ravensLightGrey);
-
-    }
-    public void drawBorder(Rectangle rect, Color color1, Color color2){
+    public void drawMenuBackground(Rectangle rect, Color color1, Color color2){
         g2.setColor(color1);
         g2.fillRoundRect(rect.x - 4, rect.y - 4, rect.width + 8, rect.height + 8, iStandardArc, iStandardArc);
         g2.setColor(color2);
         g2.fillRoundRect(rect.x - 2, rect.y - 2, rect.width + 4, rect.height + 4, iStandardArc, iStandardArc);
         g2.setColor(color1);
         g2.fillRoundRect(rect.x, rect.y, rect.width, rect.height, iStandardArc, iStandardArc);
+    }
+    public int getMenuY(int menuButtonsY){
+        return menuButtonsY/2;
     }
 }
 
