@@ -46,6 +46,8 @@ public class LoadingTool {
                     gp.player.iWorldX = Integer.parseInt(dataAt[2]);
                     gp.player.iWorldY = Integer.parseInt(dataAt[3]);
                 } else if (line > 1){
+                    value = br.readLine();
+                    dataAt = value.split(" ");
                     if (gp.monster[line - 2] != null) {
                         gp.monster[line - 2].iWorldX = Integer.parseInt(dataAt[2]);
                         gp.monster[line - 2].iWorldY = Integer.parseInt(dataAt[3]);
