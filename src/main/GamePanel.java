@@ -52,8 +52,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int loadingState = 3;
     public final int endState = 4;
 //SAVING GAME
-    public int[] saveData = new int[4];
-    public int[] monsterSaveData = new int[4];
+    public int[] saveData = new int[8];
+    public int[] monsterSaveData = new int[8];
     public int iMaxLines = monster.length + 2;
 //FPS
     int iFPS = 60;
