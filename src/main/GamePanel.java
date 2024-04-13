@@ -67,7 +67,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.setAlignmentX(0);
         this.setAlignmentY(0);
-        //SAVEDATA SETUP
     }
     public void setupGame() {
         music.iSoundVolume = 50;

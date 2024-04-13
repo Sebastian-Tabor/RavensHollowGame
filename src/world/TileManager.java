@@ -15,7 +15,7 @@ public class TileManager {
     public TileManager(GamePanel gp){
         this.gp = gp;
         // Change this for more than 2 tiles saved
-        tile = new Tile[2];
+        tile = new Tile[6];
         iiMapTileNumber = new int[gp.iMaxMapCol][gp.iMaxMapRow];
         getTileImage();
         loadMap();
@@ -24,6 +24,10 @@ public class TileManager {
 
             setup(0, "blank", false);
             setup(1, "cross", true);
+            setup(2, "dirt", true);
+            setup(3, "grass", true);
+            setup(4, "grassleft", true);
+            setup(5, "grassright", true);
 
     }
     public void setup(int index, String imageName, boolean collision) {
