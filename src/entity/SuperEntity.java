@@ -281,7 +281,7 @@ public class SuperEntity implements ActionsAI {
            gp.player.iHealth -= amount;
            gp.player.immunityCounter = 60;
            gp.player.bImmune = true;
-           gp.ui.addPopupText(amount, gp.player.iWorldX + gp.player.hitBox.width/2, gp.player.iWorldY);
+           gp.ui.addPopupText(amount, gp.player.iWorldX + gp.player.hitBox.width/2, gp.player.iWorldY, 0);
         }
         if (gp.player.iHealth <= 0) {
             gp.player.bDying = true;
@@ -294,7 +294,7 @@ public class SuperEntity implements ActionsAI {
         if (target != 999) {
             if (!gp.monster[target].bImmune){
                 gp.monster[target].iHealth -= source.iMeleeDamage;
-                gp.ui.addPopupText(source.iMeleeDamage, (gp.monster[target].iWorldX + gp.monster[target].hitBox.width/2), gp.monster[target].iWorldY);
+                gp.ui.addPopupText(source.iMeleeDamage, (gp.monster[target].iWorldX + gp.monster[target].hitBox.width/2), gp.monster[target].iWorldY, 0);
                 gp.player.iUltimate += gp.monster[target].iValue;
                 gp.monster[target].immunityCounter = 30;
                 gp.monster[target].bImmune = true;

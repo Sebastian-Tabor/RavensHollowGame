@@ -12,6 +12,7 @@ public class UtilityTool {
     public Color ravensLightGrey = new Color(100,100,100);
     public Color transparentBackground = new Color(0, 0, 0, 100);
     public Color damagedRed = new Color(100, 0, 0, 255);
+    public Color healingGreen = new Color(0, 100, 50, 255);
 
     public BufferedImage scaleImage(BufferedImage original, int width, int height){
 

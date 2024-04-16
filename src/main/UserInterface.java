@@ -23,6 +23,7 @@ public class UserInterface {
     public int iStandardArc = 20;
     public ArrayList<Integer> popupText = new ArrayList<>();
     public ArrayList<Integer> popupTextCounter = new ArrayList<>();
+    public ArrayList<Integer> popupTextType = new ArrayList<>();
     public ArrayList<Point> popupTextPos = new ArrayList<>();
 
     public UserInterface(GamePanel gp) {
@@ -42,7 +43,7 @@ public class UserInterface {
         }
         if (gp.iGameState == gp.playState) {
             drawPlayScreen();
-            drawDamageText();
+            drawPopupText();
         }
         if (gp.iGameState == gp.pauseState) {
             drawPauseScreen();
@@ -329,12 +330,13 @@ public class UserInterface {
         g2.setColor(Color.lightGray);
         g2.fillRoundRect(x + 1, y + height + 1, ultPercent, height - 2, iStandardArc, iStandardArc);
     }
-    public void addPopupText(int amount, int x, int y){
+    public void addPopupText(int amount, int x, int y, int type){
         popupText.add(amount);
         popupTextCounter.add(0);
         popupTextPos.add(new Point(x, y));
+        popupTextType.add(type);
     }
-    public void drawDamageText(){
+    public void drawPopupText(){
         g2.setFont(tinyFont);
         for (int i = 0; i < popupText.size(); i++){
 
@@ -346,7 +348,11 @@ public class UserInterface {
 
                 g2.setColor(Color.black);
                 g2.drawString(Integer.toString(popupText.get(i)), x + 2, y - popupTextCounter.get(i) + 2);
-                g2.setColor(uTool.damagedRed);
+                if (popupTextType.get(i) == 0) {
+                    g2.setColor(uTool.damagedRed);
+                } else {
+                    g2.setColor(uTool.healingGreen);
+                }
                 g2.drawString(Integer.toString(popupText.get(i)), x, y - popupTextCounter.get(i));
 
                 int counter = popupTextCounter.get(i) + 1;
