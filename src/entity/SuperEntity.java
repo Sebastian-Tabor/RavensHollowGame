@@ -281,6 +281,7 @@ public class SuperEntity implements ActionsAI {
            gp.player.iHealth -= amount;
            gp.player.immunityCounter = 60;
            gp.player.bImmune = true;
+           gp.ui.addPopupText(amount, gp.player.iWorldX + gp.player.hitBox.width/2, gp.player.iWorldY);
         }
         if (gp.player.iHealth <= 0) {
             gp.player.bDying = true;
