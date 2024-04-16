@@ -5,7 +5,7 @@ import main.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class SuperEntity {
+public class SuperEntity implements ActionsAI {
     public GamePanel gp;
 //ANIMATIONS
     public String facing;
@@ -24,6 +24,7 @@ public class SuperEntity {
     public boolean bCollisionLeft, bCollisionRight, bCollisionTop, bCollisionBottom, bCollisionDetected, bWouldBeStuck = false;
 //ATTACKING
     public boolean bCanAttack = true;
+    public int iHealthDifference;
     public int iMeleeDamage, iCollisionDmg;
     public int attackCounter, iFrameNumber = 0;
     public Rectangle attackBox = new Rectangle();
@@ -285,10 +286,14 @@ public class SuperEntity {
             gp.player.bDying = true;
         }
     }
+    public void healPlayer(int amount){
+        gp.player.iHealth += amount;
+    }
     public void meleeMonster(int target, SuperEntity source) {
         if (target != 999) {
             if (!gp.monster[target].bImmune){
                 gp.monster[target].iHealth -= source.iMeleeDamage;
+                gp.ui.addPopupText(source.iMeleeDamage, (gp.monster[target].iWorldX + gp.monster[target].hitBox.width/2), gp.monster[target].iWorldY);
                 gp.player.iUltimate += gp.monster[target].iValue;
                 gp.monster[target].immunityCounter = 30;
                 gp.monster[target].bImmune = true;

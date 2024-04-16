@@ -11,7 +11,7 @@ public class UtilityTool {
     public Color ravensGrey = new Color(60,60,60);
     public Color ravensLightGrey = new Color(100,100,100);
     public Color transparentBackground = new Color(0, 0, 0, 100);
-    public Color eraser = new Color(0, 0, 0,0);
+    public Color damagedRed = new Color(100, 0, 0, 255);
 
     public BufferedImage scaleImage(BufferedImage original, int width, int height){
 

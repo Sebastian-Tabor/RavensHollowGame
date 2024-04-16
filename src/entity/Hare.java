@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Random;
 
-public class Hare extends SuperEntity {
+public class Hare extends SuperEntity implements ActionsAI{
 
     public Hare (GamePanel gp) {
         super (gp);

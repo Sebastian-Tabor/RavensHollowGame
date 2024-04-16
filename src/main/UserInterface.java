@@ -7,10 +7,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.security.Key;
+import java.util.ArrayList;
 
 public class UserInterface {
-    Font defaultFont, titleFont;
+    Font tinyFont, defaultFont, titleFont;
     public GamePanel gp;
     public Graphics2D g2;
     public UtilityTool uTool;
@@ -21,6 +21,9 @@ public class UserInterface {
     public int bClicked = 0;
     public String[] optionArray;
     public int iStandardArc = 20;
+    public ArrayList<Integer> popupText = new ArrayList<>();
+    public ArrayList<Integer> popupTextCounter = new ArrayList<>();
+    public ArrayList<Point> popupTextPos = new ArrayList<>();
 
     public UserInterface(GamePanel gp) {
         this.gp = gp;
@@ -39,6 +42,7 @@ public class UserInterface {
         }
         if (gp.iGameState == gp.playState) {
             drawPlayScreen();
+            drawDamageText();
         }
         if (gp.iGameState == gp.pauseState) {
             drawPauseScreen();
@@ -52,6 +56,7 @@ public class UserInterface {
     }
 //FONTS
     public void setFonts(){
+        tinyFont = new Font("Arial", Font.BOLD, 30);
         defaultFont = new Font("Arial", Font.PLAIN, 40);
         titleFont = new Font("Arial", Font.BOLD, 80);
     }
@@ -307,6 +312,7 @@ public class UserInterface {
         g2.setColor(color1);
         g2.fillRoundRect(rect.x, rect.y, rect.width, rect.height, iStandardArc, iStandardArc);
     }
+//HEALTHBARS AND DAMAGE
     public void drawHealthUltBar(SuperEntity entity, int x, int y, int width, int height){
         g2.setColor(Color.darkGray);
         g2.fillRect(x, y, width, height);
@@ -322,6 +328,38 @@ public class UserInterface {
         int ultPercent = uScale*entity.iUltimate;
         g2.setColor(Color.lightGray);
         g2.fillRoundRect(x + 1, y + height + 1, ultPercent, height - 2, iStandardArc, iStandardArc);
+    }
+    public void addPopupText(int amount, int x, int y){
+        popupText.add(amount);
+        popupTextCounter.add(0);
+        popupTextPos.add(new Point(x, y));
+    }
+    public void drawDamageText(){
+        g2.setFont(tinyFont);
+        for (int i = 0; i < popupText.size(); i++){
+
+            if (popupText.get(i) != null){
+                int x = popupTextPos.get(i).x;
+                int y = popupTextPos.get(i).y;
+                x = x - gp.player.iWorldX + gp.player.iScreenPosX;
+                y = y - gp.player.iWorldY + gp.player.iScreenPosY;
+
+                g2.setColor(Color.black);
+                g2.drawString(Integer.toString(popupText.get(i)), x + 2, y - popupTextCounter.get(i) + 2);
+                g2.setColor(uTool.damagedRed);
+                g2.drawString(Integer.toString(popupText.get(i)), x, y - popupTextCounter.get(i));
+
+                int counter = popupTextCounter.get(i) + 1;
+                popupTextCounter.set(i, counter);
+
+                if (popupTextCounter.get(i) > 90) {
+                    popupText.remove(i);
+                    popupTextCounter.remove(i);
+                    popupTextPos.remove(i);
+                    break;
+                }
+            }
+        }
     }
 }
 

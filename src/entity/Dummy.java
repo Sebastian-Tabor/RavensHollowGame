@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Random;
 
-public class Dummy extends SuperEntity {
+public class Dummy extends SuperEntity implements ActionsAI{
 
         public Dummy (GamePanel gp) {
             super (gp);
@@ -46,8 +46,9 @@ public class Dummy extends SuperEntity {
         }
         //HARE SET ACTION
         public void setAction() {
-
+            facing = "left";
             direction = "idle";
+            moveState = "idle";
             //DO NOTHING
         }
 }
