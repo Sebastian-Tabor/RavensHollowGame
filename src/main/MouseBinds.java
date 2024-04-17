@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 public class MouseBinds implements MouseListener {
 
     GamePanel gp;
-    public static boolean bMouse1Clicked, bMouse2Clicked, bMouseOver, bMouseClicked;
+    public static boolean bMouse1Clicked, bMouse2Clicked, bMouseClicked;
     public MouseBinds(GamePanel gp) {
         this.gp = gp;
         bMouseClicked = bMouse1Clicked || bMouse2Clicked;

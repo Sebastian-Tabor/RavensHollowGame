@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class Player extends SuperEntity {
+public class PlayerEntity extends Entity implements HasImages {
     final KeyBinds keyBinds;
     public final int iScreenPosX;
     public final int iScreenPosY;
@@ -18,7 +18,7 @@ public class Player extends SuperEntity {
     public boolean bMouseIsLeft;
 
 //PLAYER OBJECT
-    public Player(GamePanel gp, KeyBinds keyBinds) {
+    public PlayerEntity(GamePanel gp, KeyBinds keyBinds) {
         super (gp);
         this.keyBinds = keyBinds;
     //PLAYER POS ON SCREEN
@@ -27,28 +27,29 @@ public class Player extends SuperEntity {
     //PLAYER POS METHOD IMPLEMENTATION
         setDefaultValues();
     //PLAYER IMAGE METHOD IMPLEMENTATION
-        getPlayerImage();
+        getImage();
     }
 
 //SETTING PLAYER VALUES
     public void setDefaultValues() {
-        iWorldX = iStartPosX;
-        iWorldY = iStartPosY;
-        iType = 0;
-        iSpeedOriginal = 7;
-        iSpeed = iSpeedOriginal;
-        iRecoveryTime = 10;
-        iHealth = 10;
-        iHealthMax = 10;
-        iUltimate = 0;
-        iUltimateMax = 20;
-        iArmor = 0;
-        iMeleeDamage = 2;
+        worldX = iStartPosX;
+        worldY = iStartPosY;
+        type = 0;
+        speedOriginal = 7;
+        speed = speedOriginal;
+        recoveryTime = 10;
+        health = 10;
+        healthMax = 10;
+        ultimate = 0;
+        ultimateMax = 20;
+        armor = 0;
+        meleeDamage = 2;
         moveState = "idle";
         direction = "idle";
         facing = "right";
     }
 //IMAGE SETUP METHOD
+    @Override
     public BufferedImage setup(String imageName) {
         BufferedImage image = null;
         try {
@@ -59,7 +60,8 @@ public class Player extends SuperEntity {
         return image;
     }
 //PLAYER IMAGES
-    public void getPlayerImage() {
+    @Override
+    public void getImage() {
 
             right1 = setup("./res/player/right1");
             right2 = setup("./res/player/right2");
@@ -124,56 +126,71 @@ public class Player extends SuperEntity {
                 jump();
                 break;
             case "crouch":
-                iSpeed = iSpeedOriginal/2;
+                speed = speedOriginal /2;
                 break;
             case "idle":
-                iVelocityX = 0;
+                velocityX = 0;
                 break;
             case "moving":
                 break;
         }
         if (!moveState.equals("crouch")) {
-            iSpeed = iSpeedOriginal;
+            speed = speedOriginal;
         }
     //ATTACKING
-        bAttacking = bMeleeAttacking || bRangedAttacking;
-
-        if (MouseBinds.bMouse2Clicked && bCanAttack) {
-            bCanAttack = false;
-            bMeleeAttacking = true;
+        attacking = meleeAttacking || rangedAttacking;
+        if (MouseBinds.bMouse1Clicked && canAttack) {
+            canAttack = false;
+            rangedAttacking = true;
             if (bMouseIsLeft){
                 facing = "left";
             } else {
                 facing = "right";
             }
         }
-        if (bMeleeAttacking) {
-            attackCounter++;
-        }
-        if (attackCounter == 10) {
-            attackCounter = 0;
-            ++iFrameNumber;
-        }
-        if (iFrameNumber == 1 || iFrameNumber == 2) {
-            int iAttackIndex = gp.cCheck.checkIf_Hit_(this, gp.monster);
-            if (iAttackIndex != 999) {
-                meleeMonster(iAttackIndex, this);
+        if (MouseBinds.bMouse2Clicked && canAttack) {
+            canAttack = false;
+            meleeAttacking = true;
+            if (bMouseIsLeft){
+                facing = "left";
+            } else {
+                facing = "right";
             }
         }
-        if (iHealth > iHealthMax) iHealth = iHealthMax;
-        if (iUltimate > iUltimateMax) iUltimate = iUltimateMax;
+        if (attacking) {
+            attackCounter++;
+        }
+        if (attackCounter == 8) {
+            attackCounter = 0;
+            ++frameNumber;
+        }
+        if (meleeAttacking) {
+            if (frameNumber == 1 || frameNumber == 2) {
+                int iAttackIndex = gp.cCheck.checkIfEntityHitTarget(this, gp.monster);
+                if (iAttackIndex != 999) {
+                    damageMonster(iAttackIndex, this);
+                }
+            }
+        } else if (rangedAttacking) {
+            if (frameNumber == 1) {
+                if (facing.equals("left")) gp.projectile.add(new ArrowProjectile(gp, this));
+                if (facing.equals("right")) gp.projectile.add(new ArrowProjectile(gp, this));
+            }
+        }
+        if (health > healthMax) health = healthMax;
+        if (ultimate > ultimateMax) ultimate = ultimateMax;
 
-        if (iFrameNumber == 4) {
-            iFrameNumber = 0;
-            bMeleeAttacking = false;
-            bRangedAttacking = false;
-            bAttacking = false;
-            bCanAttack = true;
+        if (frameNumber == 4) {
+            frameNumber = 0;
+            meleeAttacking = false;
+            rangedAttacking = false;
+            attacking = false;
+            canAttack = true;
 
         }
     //COLLISION CHECK
         gp.cCheck.checkTile(this);
-        if (bWouldBeStuck) --iWorldY;
+        if (wouldBeStuck) --worldY;
 
         int iObjectIndex = gp.cCheck.checkObject(this, true);
         pickupObject(iObjectIndex);
@@ -183,98 +200,98 @@ public class Player extends SuperEntity {
         collisionMonster(iMonsterIndex);
 
         //Leave this here VV pls
-        bCollisionDetected = false;
+        collisionDetected = false;
         //Do not touch this ^^
         if (immunityCounter > 0) {
             --immunityCounter;
         }
         if (immunityCounter <= 0) {
-            bImmune = false;
+            immune = false;
             immunityCounter = 0;
         }
         //JUMP CONDITIONS
-        if (bCollisionBottom) {
-            iVelocityY = 0;
-            iJumpCooldown--;
-            if (iJumpCooldown < 0) {
-                iJumpCooldown = 0;
-                bCanJump = true;
+        if (collisionBottom) {
+            velocityY = 0;
+            jumpCooldown--;
+            if (jumpCooldown < 0) {
+                jumpCooldown = 0;
+                canJump = true;
             }
         }
         else {
             //JUMPING/FALLING MOVEMENT
-            this.iWorldY -= iVelocityY;
-            iVelocityY --;
+            this.worldY -= velocityY;
+            velocityY--;
         }
         //MAX GRAVITY
-        if (iVelocityY < iGravity) iVelocityY = iGravity;
+        if (velocityY < gravity) velocityY = gravity;
         //TO HIT HEAD ON CEILING (DO NOT SET 0 OR YOU WILL STICK)
-        if (bCollisionTop) iVelocityY = -5;
+        if (collisionTop) velocityY = -5;
         //SET FALLING
-        bFalling = iVelocityY < 0;
+        falling = velocityY < 0;
 
         //SPRITE COUNTER
         spriteCounter++;
         if (spriteCounter > 12) {
-            if (iSpriteNumber == 2){
-                iSpriteNumber = 1;}
-            else if (iSpriteNumber == 1) {
-                iSpriteNumber = 2;}
+            if (spriteNumber == 2){
+                spriteNumber = 1;}
+            else if (spriteNumber == 1) {
+                spriteNumber = 2;}
         spriteCounter = 0;
         }
-        if (bDying) {
+        if (dying) {
             dyingAnimation();
         }
     }
 //DRAW METHOD
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
-        if (bAttacking) {
-            image = switch (iFrameNumber) {
+        if (attacking) {
+            image = switch (frameNumber) {
                 case 0 -> attack1;
                 case 1 -> attack2;
                 case 2 -> attack3;
                 case 3, 4 -> attack4;
-                default -> throw new IllegalStateException("Unexpected value: " + iFrameNumber);
+                default -> throw new IllegalStateException("Unexpected value: " + frameNumber);
             };
-        } else if (bDying) {
-            image = switch (iFrameNumber) {
+        } else if (dying) {
+            image = switch (frameNumber) {
                 case 0 -> dying1;
                 case 1 -> dying2;
                 case 2 -> dying3;
                 case 3, 4 -> dying4;
-                default -> throw new IllegalStateException("Unexpected value: " + iFrameNumber);
+                default -> throw new IllegalStateException("Unexpected value: " + frameNumber);
             };
         } else switch (moveState) {
             case "moving":
-                if (iSpriteNumber == 1) {
+                if (spriteNumber == 1) {
                     image = right1;
                 }
-                if (iSpriteNumber == 2) {
+                if (spriteNumber == 2) {
                     image = right2;
                 }
                 break;
             case "jump":
-                if (iSpriteNumber == 1) {
+                if (spriteNumber == 1) {
                     image = jump1;
                 }
-                if (iSpriteNumber == 2) {
+                if (spriteNumber == 2) {
                     image = jump2;
                 }
                 break;
             case "crouch":
-                if (iSpriteNumber == 1) {
+                if (spriteNumber == 1) {
                     image = crouch1;
                 }
-                if (iSpriteNumber == 2) {
+                if (spriteNumber == 2) {
                     image = crouch2;
                 }
                 break;
             case "idle":
-                if (iSpriteNumber == 1) {
+                if (spriteNumber == 1) {
                     image = idle1;
                 }
-                if (iSpriteNumber == 2) {
+                if (spriteNumber == 2) {
                     image = idle2;
                 }
                 break;
@@ -294,7 +311,7 @@ public class Player extends SuperEntity {
                 case "Feather":
                     gp.obj[index] = null;
                     gp.playSoundEffect(0);
-                    iSpeed += 1;
+                    speed += 1;
                     break;
                 case "Bone":
                     gp.obj[index] = null;
@@ -303,7 +320,7 @@ public class Player extends SuperEntity {
                 case "Arrow":
                     gp.obj[index] = null;
                     //sound effect
-                    iHealth --;
+                    health--;
                     break;
             }
         }
@@ -311,7 +328,7 @@ public class Player extends SuperEntity {
     }
     public void interactNPC(int index) {
         if (index != 999) {
-            String name = gp.npc[index].sName;
+            String name = gp.npc[index].name;
             switch (name) {
                 case "Carver":
                     //Do nothing now
@@ -323,21 +340,21 @@ public class Player extends SuperEntity {
     }
 
     public void collisionMonster(int index) {
-        if(index != 999 && !bDying && bAlive){
-            damagePlayer(gp.monster[index].iCollisionDmg);
+        if(index != 999 && !dying && alive){
+            damagePlayer(gp.monster[index].collisionDmg);
         }
     }
     public void dyingAnimation(){
-        bCanMove = false;
-        bImmune = true;
+        canMove = false;
+        immune = true;
         deathCounter++;
         if (deathCounter == 11) {
-            ++iFrameNumber;
+            ++frameNumber;
             deathCounter = 0;
         }
-        if (iFrameNumber == 4) {
-            bAlive = false;
-            bDying = false;
+        if (frameNumber == 4) {
+            alive = false;
+            dying = false;
         }
     }
 

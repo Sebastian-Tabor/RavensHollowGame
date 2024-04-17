@@ -4,9 +4,9 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
-public class Bone extends SuperObject {
+public class BoneObject extends Object {
 
-    public Bone() {
+    public BoneObject() {
         sName = "Bone";
         try {
             if (iSpriteNumber == 1) {

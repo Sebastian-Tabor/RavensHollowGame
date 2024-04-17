@@ -6,7 +6,7 @@ import main.UtilityTool;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class SuperObject {
+public class Object {
      GamePanel gp;
 //IMAGE AND STRING
      public BufferedImage image;
@@ -36,10 +36,10 @@ public class SuperObject {
      }
 //DRAW METHOD
      public void draw(Graphics2D g2, GamePanel gp) {
-          int iScreenX = iWorldX - gp.player.iWorldX + gp.player.iScreenPosX;
-          int iScreenY = iWorldY - gp.player.iWorldY + gp.player.iScreenPosY;
+          int iScreenX = iWorldX - gp.player.worldX + gp.player.iScreenPosX;
+          int iScreenY = iWorldY - gp.player.worldY + gp.player.iScreenPosY;
 
-          if (iWorldX + gp.iTileSize > gp.player.iWorldX - gp.player.iScreenPosX && iWorldX - gp.iTileSize < gp.player.iWorldX + gp.player.iScreenPosX) {
+          if (iWorldX + gp.iTileSize > gp.player.worldX - gp.player.iScreenPosX && iWorldX - gp.iTileSize < gp.player.worldX + gp.player.iScreenPosX) {
                g2.drawImage(image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
           }
      }

@@ -28,8 +28,8 @@ public class SceneManager {
     }
 //DRAW METHODS
     public void drawForeground(Graphics2D g2){
-        x = gp.player.iWorldX - gp.player.iScreenPosX;
-        y = gp.player.iWorldY - gp.player.iScreenPosY;
+        x = gp.player.worldX - gp.player.iScreenPosX;
+        y = gp.player.worldY - gp.player.iScreenPosY;
         width = gp.iScreenWidth;
         height = gp.iScreenHeight;
         image = scene[gp.iScene].foreground.getSubimage(x, y, width, height);
@@ -38,8 +38,8 @@ public class SceneManager {
         g2.drawImage(image, x, y, null);
     }
     public void drawMidground(Graphics2D g2){
-        x = gp.player.iWorldX - gp.player.iScreenPosX;
-        y = gp.player.iWorldY - gp.player.iScreenPosY;
+        x = gp.player.worldX - gp.player.iScreenPosX;
+        y = gp.player.worldY - gp.player.iScreenPosY;
         width = gp.iScreenWidth;
         height = gp.iScreenHeight;
         image = scene[gp.iScene].midground.getSubimage(x, y, width, height);
@@ -48,8 +48,8 @@ public class SceneManager {
         g2.drawImage(image, x, y, null);
     }
     public void drawBackground(Graphics2D g2){
-        x = gp.player.iWorldX - gp.player.iScreenPosX;
-        y = gp.player.iWorldY - gp.player.iScreenPosY;
+        x = gp.player.worldX - gp.player.iScreenPosX;
+        y = gp.player.worldY - gp.player.iScreenPosY;
         width = gp.iScreenWidth;
         height = gp.iScreenHeight;
         image = scene[gp.iScene].background.getSubimage(x, y, width, height);

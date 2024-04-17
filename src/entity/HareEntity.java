@@ -8,21 +8,22 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Random;
 
-public class Hare extends SuperEntity implements ActionsAI{
+public class HareEntity extends Entity implements ActionsAI, HasImages{
 
-    public Hare (GamePanel gp) {
+    public HareEntity(GamePanel gp) {
         super (gp);
         direction = "idle";
         facing  = "right";
         moveState = "idle";
-        iSpeedOriginal = 6;
-        iType = 1;
-        iHealthMax = 10;
-        iHealth = iHealthMax;
+        speedOriginal = 6;
+        type = 1;
+        healthMax = 10;
+        health = healthMax;
     //GET IMAGE
-        getHareImage();
+        getImage();
     }
 //HARE IMAGE SETUP METHOD
+    @Override
     public BufferedImage setup(String imageName) {
         UtilityTool uTool = new UtilityTool();
         BufferedImage scaledImage = null;
@@ -35,24 +36,26 @@ public class Hare extends SuperEntity implements ActionsAI{
         return scaledImage;
     }
 //HARE IMAGES
-    public void getHareImage() {
+    @Override
+    public void getImage() {
 
 
-            right1 = setup("./res/entities/hare/right1");
-            right2 = setup("./res/entities/hare/right2");
-            jump1 = setup("./res/entities/hare/jump1");
-            jump2 = setup("./res/entities/hare/jump2");
-            crouch1 = setup("./res/entities/hare/crouch1");
-            crouch2 = setup("./res/entities/hare/crouch2");
-            idle1 = setup("./res/entities/hare/idle1");
-            idle2 = setup("./res/entities/hare/idle2");
-            dying1 = setup("./res/entities/hare/dying1");
-            dying2 = setup("./res/entities/hare/dying2");
-            dying3 = setup("./res/entities/hare/dying3");
-            dying4 = setup("./res/entities/hare/dying4");
+            right1 = setup("./res/entities/npcs/hare/right1");
+            right2 = setup("./res/entities/npcs/hare/right2");
+            jump1 = setup("./res/entities/npcs/hare/jump1");
+            jump2 = setup("./res/entities/npcs/hare/jump2");
+            crouch1 = setup("./res/entities/npcs/hare/crouch1");
+            crouch2 = setup("./res/entities/npcs/hare/crouch2");
+            idle1 = setup("./res/entities/npcs/hare/idle1");
+            idle2 = setup("./res/entities/npcs/hare/idle2");
+            dying1 = setup("./res/entities/npcs/hare/dying1");
+            dying2 = setup("./res/entities/npcs/hare/dying2");
+            dying3 = setup("./res/entities/npcs/hare/dying3");
+            dying4 = setup("./res/entities/npcs/hare/dying4");
 
     }
 //HARE SET ACTION
+    @Override
     public void setAction() {
 
         Random random = new Random();

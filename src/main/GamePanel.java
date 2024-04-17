@@ -1,25 +1,24 @@
 package main;
 
-import entity.SuperEntity;
-import entity.Player;
-import object.SuperObject;
+import entity.Entity;
+import entity.PlayerEntity;
+import entity.ProjectileEntity;
+import object.Object;
 import world.SceneManager;
 import world.TileManager;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class GamePanel extends JPanel implements Runnable {
 //FRAME SETTING VARIABLES
     Color bg = new Color(128,128,128);
-    public int iMaxScreenColumns = 30;
-    public int iMaxScreenRows = 17;
     public int iOriginalTileSize = 64;
     public int iScale = 1;
     public int iTileSize = iOriginalTileSize * iScale;
     public int iScreenWidth = 1920;
     public int iScreenHeight = 1080;
-    public boolean bFullscreen = true;
 //MAP SIZE
     public final int iMaxMapCol = 90;
     public final int iMaxMapRow = 22;
@@ -30,11 +29,11 @@ public class GamePanel extends JPanel implements Runnable {
     public MouseBinds mouseBinds = new MouseBinds(this);
     public Sound music = new Sound();
     public Sound soundeffect = new Sound();
-    public Player player = new Player(this, keyBinds);
-    public SuperObject[] obj = new SuperObject[5];
-    public SuperEntity[] npc = new SuperEntity[5];
-    public SuperObject[] projectile = new SuperObject[10];
-    public SuperEntity[] monster = new SuperEntity[10];
+    public PlayerEntity player = new PlayerEntity(this, keyBinds);
+    public Object[] obj = new Object[5];
+    public Entity[] npc = new Entity[5];
+    public ArrayList<ProjectileEntity> projectile = new ArrayList<>();
+    public Entity[] monster = new Entity[10];
     public AssetSetter aSetter = new AssetSetter(this);
     public TileManager tileManager = new TileManager(this);
     public SceneManager sceneManager = new SceneManager(this);
@@ -104,39 +103,43 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
 
         if (iGameState == playState) {
-            for (SuperObject object : obj) {
-                if (object != null) {
-                    object.update();
-                }
-            }
-            for (SuperObject object : projectile) {
+            for (Object object : obj) {
                 if (object != null) {
                     object.update();
                 }
             }
             for (int i = 0; i < npc.length; i++) {
                 if (npc[i] != null) {
-                    if (npc[i].bAlive) {
+                    if (npc[i].alive) {
                         npc[i].update();
                     }
-                    if (!npc[i].bAlive){
+                    if (!npc[i].alive){
                         npc[i] = null;
                     }
                 }
             }
             for (int i = 0; i < monster.length; i++) {
                 if (monster[i] != null) {
-                    if (monster[i].bAlive) {
+                    if (monster[i].alive) {
                         monster[i].update();
                     }
-                    if (!monster[i].bAlive){
+                    if (!monster[i].alive){
                         monster[i] = null;
                     }
 
                 }
             }
+            for (int i = 0; i < projectile.size(); i++) {
+                if (projectile.get(i) != null) {
+                    projectile.get(i).update();
+                    if (projectile.get(i).collisionDetected) {
+                        projectile.remove(i);
+                        break;
+                    }
+                }
+            }
 
-            if (player.bAlive) {
+            if (player.alive) {
                 player.update();
             } else {
                 System.exit(0);
@@ -155,25 +158,25 @@ public class GamePanel extends JPanel implements Runnable {
             sceneManager.drawMidground(g2);
         //TILES
             tileManager.draw(g2);
-            for (SuperObject object : obj) {
+            for (Object object : obj) {
                 if (object != null) {
                     object.draw(g2, this);
                 }
             }
-            for (SuperObject object : projectile) {
-                if (object != null) {
-                    object.update();
-                }
-            }
         //NPC
-            for (SuperEntity entity : npc) {
+            for (Entity entity : npc) {
                 if (entity != null) {
                     entity.draw(g2);
                 }
             }
-            for (SuperEntity entity : monster) {
+            for (Entity entity : monster) {
                 if (entity != null) {
                     entity.draw(g2);
+                }
+            }
+            for (ProjectileEntity projectileEntity : projectile) {
+                if (projectileEntity != null) {
+                    projectileEntity.draw(g2);
                 }
             }
         //PLAYER

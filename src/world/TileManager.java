@@ -79,10 +79,10 @@ public class TileManager {
 
                 int iMapX = iMapCol * gp.iTileSize;
                 int iMapY = iMapRow * gp.iTileSize;
-                int iScreenX = iMapX - gp.player.iWorldX + gp.player.iScreenPosX;
-                int iScreenY = iMapY - gp.player.iWorldY + gp.player.iScreenPosY;
+                int iScreenX = iMapX - gp.player.worldX + gp.player.iScreenPosX;
+                int iScreenY = iMapY - gp.player.worldY + gp.player.iScreenPosY;
 
-                if (iMapX + gp.iTileSize > gp.player.iWorldX - gp.player.iScreenPosX && iMapX - gp.iTileSize < gp.player.iWorldX + gp.player.iScreenPosX) {
+                if (iMapX + gp.iTileSize > gp.player.worldX - gp.player.iScreenPosX && iMapX - gp.iTileSize < gp.player.worldX + gp.player.iScreenPosX) {
                     g2.drawImage(tile[iTileNum].image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
                 }
 

@@ -1,7 +1,5 @@
 package main;
 
-import entity.SuperEntity;
-
 import java.io.*;
 
 public class LoadingTool {
@@ -43,22 +41,22 @@ public class LoadingTool {
                     dataAt = value.split(" ");
                     gp.iScene = Integer.parseInt(dataAt[0]);
                     gp.iWins = Integer.parseInt(dataAt[1]);
-                    gp.player.iWorldX = Integer.parseInt(dataAt[2]);
-                    gp.player.iWorldY = Integer.parseInt(dataAt[3]);
-                    gp.player.iHealth = Integer.parseInt(dataAt[4]);
-                    gp.player.iUltimate = Integer.parseInt(dataAt[5]);
-                    gp.player.iSpeedOriginal = Integer.parseInt(dataAt[6]);
-                    gp.player.iMeleeDamage = Integer.parseInt(dataAt[7]);
+                    gp.player.worldX = Integer.parseInt(dataAt[2]);
+                    gp.player.worldY = Integer.parseInt(dataAt[3]);
+                    gp.player.health = Integer.parseInt(dataAt[4]);
+                    gp.player.ultimate = Integer.parseInt(dataAt[5]);
+                    gp.player.speedOriginal = Integer.parseInt(dataAt[6]);
+                    gp.player.meleeDamage = Integer.parseInt(dataAt[7]);
                 } else if (line > 1){
                     value = br.readLine();
                     dataAt = value.split(" ");
                     if (gp.monster[line - 2] != null) {
-                        gp.monster[line - 2].iWorldX = Integer.parseInt(dataAt[2]);
-                        gp.monster[line - 2].iWorldY = Integer.parseInt(dataAt[3]);
-                        gp.monster[line - 2].iHealth = Integer.parseInt(dataAt[4]);
-                        gp.monster[line - 2].iUltimate = Integer.parseInt(dataAt[5]);
-                        gp.monster[line - 2].iSpeedOriginal = Integer.parseInt(dataAt[6]);
-                        gp.monster[line - 2].iMeleeDamage = Integer.parseInt(dataAt[7]);
+                        gp.monster[line - 2].worldX = Integer.parseInt(dataAt[2]);
+                        gp.monster[line - 2].worldY = Integer.parseInt(dataAt[3]);
+                        gp.monster[line - 2].health = Integer.parseInt(dataAt[4]);
+                        gp.monster[line - 2].ultimate = Integer.parseInt(dataAt[5]);
+                        gp.monster[line - 2].speedOriginal = Integer.parseInt(dataAt[6]);
+                        gp.monster[line - 2].meleeDamage = Integer.parseInt(dataAt[7]);
                     }
                 }
             }
@@ -77,12 +75,12 @@ public class LoadingTool {
             //PLAYER SAVE DATA
             gp.saveData[0] = gp.iScene;
             gp.saveData[1] = gp.iWins;
-            gp.saveData[2] = gp.player.iWorldX;
-            gp.saveData[3] = gp.player.iWorldY;
-            gp.saveData[4] = gp.player.iHealth;
-            gp.saveData[5] = gp.player.iUltimate;
-            gp.saveData[6] = gp.player.iSpeedOriginal;
-            gp.saveData[7] = gp.player.iMeleeDamage;
+            gp.saveData[2] = gp.player.worldX;
+            gp.saveData[3] = gp.player.worldY;
+            gp.saveData[4] = gp.player.health;
+            gp.saveData[5] = gp.player.ultimate;
+            gp.saveData[6] = gp.player.speedOriginal;
+            gp.saveData[7] = gp.player.meleeDamage;
             bw.newLine();
             for (int value : gp.saveData) {
                 bw.write(Integer.toString(value));
@@ -94,12 +92,12 @@ public class LoadingTool {
             for (int i = 0; i < gp.monster.length; i++) {
                 bw.newLine();
                 if (gp.monster[i] != null) {
-                    gp.monsterSaveData[2] = gp.monster[i].iWorldX;
-                    gp.monsterSaveData[3] = gp.monster[i].iWorldY;
-                    gp.monsterSaveData[4] = gp.monster[i].iHealth;
-                    gp.monsterSaveData[5] = gp.monster[i].iUltimate;
-                    gp.monsterSaveData[6] = gp.monster[i].iSpeedOriginal;
-                    gp.monsterSaveData[7] = gp.monster[i].iMeleeDamage;
+                    gp.monsterSaveData[2] = gp.monster[i].worldX;
+                    gp.monsterSaveData[3] = gp.monster[i].worldY;
+                    gp.monsterSaveData[4] = gp.monster[i].health;
+                    gp.monsterSaveData[5] = gp.monster[i].ultimate;
+                    gp.monsterSaveData[6] = gp.monster[i].speedOriginal;
+                    gp.monsterSaveData[7] = gp.monster[i].meleeDamage;
                     for (int value : gp.monsterSaveData) {
                         bw.write(Integer.toString(value));
                         bw.write(" ");

@@ -1,25 +1,22 @@
 package entity;
 
 import main.GamePanel;
-import main.UtilityTool;
-import org.w3c.dom.Entity;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Random;
 
-public class Dummy extends SuperEntity implements ActionsAI{
+public class DummyEntity extends Entity implements ActionsAI{
 
-        public Dummy (GamePanel gp) {
+        public DummyEntity(GamePanel gp) {
             super (gp);
             direction = "idle";
-            iType = 2;
-            iSpeedOriginal = 0;
-            iCollisionDmg = 1;
-            iHealthMax = 10;
-            iHealth = iHealthMax;
-            bImmune = false;
+            type = 2;
+            speedOriginal = 0;
+            collisionDmg = 1;
+            healthMax = 10;
+            health = healthMax;
+            immune = false;
             //GET IMAGE
             getImage();
         }
@@ -36,12 +33,12 @@ public class Dummy extends SuperEntity implements ActionsAI{
         //HARE IMAGES
         public void getImage() {
 
-            idle1 = setup("./res/entities/hare/idle1");
-            idle2 = setup("./res/entities/hare/idle2");
-            dying1 = setup("./res/entities/hare/dying1");
-            dying2 = setup("./res/entities/hare/dying2");
-            dying3 = setup("./res/entities/hare/dying3");
-            dying4 = setup("./res/entities/hare/dying4");
+            idle1 = setup("./res/entities/npcs/hare/idle1");
+            idle2 = setup("./res/entities/npcs/hare/idle2");
+            dying1 = setup("./res/entities/npcs/hare/dying1");
+            dying2 = setup("./res/entities/npcs/hare/dying2");
+            dying3 = setup("./res/entities/npcs/hare/dying3");
+            dying4 = setup("./res/entities/npcs/hare/dying4");
 
         }
         //HARE SET ACTION

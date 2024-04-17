@@ -1,6 +1,6 @@
 package main;
 
-import entity.SuperEntity;
+import entity.Entity;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -314,19 +314,19 @@ public class UserInterface {
         g2.fillRoundRect(rect.x, rect.y, rect.width, rect.height, iStandardArc, iStandardArc);
     }
 //HEALTHBARS AND DAMAGE
-    public void drawHealthUltBar(SuperEntity entity, int x, int y, int width, int height){
+    public void drawHealthUltBar(Entity entity, int x, int y, int width, int height){
         g2.setColor(Color.darkGray);
         g2.fillRect(x, y, width, height);
         g2.setColor(Color.darkGray);
         g2.fillRect(x, y + height, width, height);
 
-        int hScale = width/entity.iHealthMax;
-        int healthPercent = hScale*entity.iHealth;
+        int hScale = width/entity.healthMax;
+        int healthPercent = hScale*entity.health;
         g2.setColor(Color.red);
         g2.fillRoundRect(x + 1, y + 1, healthPercent, height - 2, iStandardArc, iStandardArc);
 
-        int uScale = width/entity.iUltimateMax;
-        int ultPercent = uScale*entity.iUltimate;
+        int uScale = width/entity.ultimateMax;
+        int ultPercent = uScale*entity.ultimate;
         g2.setColor(Color.lightGray);
         g2.fillRoundRect(x + 1, y + height + 1, ultPercent, height - 2, iStandardArc, iStandardArc);
     }
@@ -343,13 +343,15 @@ public class UserInterface {
             if (popupText.get(i) != null){
                 int x = popupTextPos.get(i).x;
                 int y = popupTextPos.get(i).y;
-                x = x - gp.player.iWorldX + gp.player.iScreenPosX;
-                y = y - gp.player.iWorldY + gp.player.iScreenPosY;
+                x = x - gp.player.worldX + gp.player.iScreenPosX;
+                y = y - gp.player.worldY + gp.player.iScreenPosY;
 
                 g2.setColor(Color.black);
                 g2.drawString(Integer.toString(popupText.get(i)), x + 2, y - popupTextCounter.get(i) + 2);
                 if (popupTextType.get(i) == 0) {
                     g2.setColor(uTool.damagedRed);
+                } else if (popupTextType.get(i) == 1) {
+                    g2.setColor(uTool.reflectedGrey);
                 } else {
                     g2.setColor(uTool.healingGreen);
                 }
