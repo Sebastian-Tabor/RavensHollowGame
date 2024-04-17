@@ -93,10 +93,10 @@ public class CollisionCheck {
                 target[i].hitBox.x = target[i].worldX + target[i].hitBox.x;
                 target[i].hitBox.y = target[i].worldY + target[i].hitBox.y;
 
-                entity.hitBoxLeftSense = new Rectangle(entity.hitBox.x - entity.speed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
-                entity.hitBoxRightSense = new Rectangle(entity.hitBox.x + entity.speed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
-                entity.hitBoxTopSense = new Rectangle(entity.hitBox.x, entity.hitBox.y - entity.speed, entity.hitBox.width, entity.hitBox.height);
-                entity.hitBoxBotSense = new Rectangle(entity.hitBox.x, entity.hitBox.y + entity.speed, entity.hitBox.width, entity.hitBox.height);
+                entity.hitBoxLeftSense = new Rectangle(entity.hitBox.x - entity.velocityX, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+                entity.hitBoxRightSense = new Rectangle(entity.hitBox.x + entity.velocityX, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+                entity.hitBoxTopSense = new Rectangle(entity.hitBox.x, entity.hitBox.y - entity.velocityY, entity.hitBox.width, entity.hitBox.height);
+                entity.hitBoxBotSense = new Rectangle(entity.hitBox.x, entity.hitBox.y + entity.velocityY, entity.hitBox.width, entity.hitBox.height);
 
                 if (entity.hitBoxLeftSense.intersects(target[i].hitBox) || entity.hitBoxRightSense.intersects(target[i].hitBox) || entity.hitBoxTopSense.intersects(target[i].hitBox) || entity.hitBoxBotSense.intersects(target[i].hitBox)){
                     if (target[i] != entity) {
@@ -120,10 +120,10 @@ public class CollisionCheck {
         entity.hitBox.y = entity.worldY + entity.hitBox.y;
         gp.player.hitBox.x = gp.player.worldX + gp.player.hitBox.x;
         gp.player.hitBox.y = gp.player.worldY + gp.player.hitBox.y;
-        entity.hitBoxLeftSense = new Rectangle(entity.hitBox.x - entity.speed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
-        entity.hitBoxRightSense = new Rectangle(entity.hitBox.x + entity.speed, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
-        entity.hitBoxTopSense = new Rectangle(entity.hitBox.x, entity.hitBox.y - entity.speed, entity.hitBox.width, entity.hitBox.height);
-        entity.hitBoxBotSense = new Rectangle(entity.hitBox.x, entity.hitBox.y + entity.speed, entity.hitBox.width, entity.hitBox.height);
+        entity.hitBoxLeftSense = new Rectangle(entity.hitBox.x - entity.velocityX, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+        entity.hitBoxRightSense = new Rectangle(entity.hitBox.x + entity.velocityX, entity.hitBox.y, entity.hitBox.width, entity.hitBox.height);
+        entity.hitBoxTopSense = new Rectangle(entity.hitBox.x, entity.hitBox.y - entity.velocityY, entity.hitBox.width, entity.hitBox.height);
+        entity.hitBoxBotSense = new Rectangle(entity.hitBox.x, entity.hitBox.y + entity.velocityY, entity.hitBox.width, entity.hitBox.height);
 
         if (entity.hitBoxLeftSense.intersects(gp.player.hitBox) || entity.hitBoxRightSense.intersects(gp.player.hitBox) || entity.hitBoxTopSense.intersects(gp.player.hitBox) || entity.hitBoxBotSense.intersects(gp.player.hitBox)){
             hit = true;
@@ -135,7 +135,7 @@ public class CollisionCheck {
         gp.player.hitBox.y = gp.player.hitBoxDefaultY;
         return hit;
     }
-    public int checkIfEntityHitTarget(Entity entity, Entity[] target) {
+    public int checkIfEntityMeleedTarget(Entity entity, Entity[] target) {
         int index = 999;
 
         entity.attackBox.y = entity.worldY;

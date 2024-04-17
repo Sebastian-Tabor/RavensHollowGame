@@ -13,7 +13,11 @@ public class ArrowProjectile extends ProjectileEntity implements HasImages {
         this.gp = gp;
 
         name = "arrow";
-        worldX = source.worldX - gp.player.worldX + gp.player.iScreenPosX;
+        if (source.facing.equals("left")) {
+            worldX = source.worldX - gp.iTileSize - gp.player.worldX + gp.player.iScreenPosX;
+        } else {
+            worldX = source.worldX + gp.iTileSize - gp.player.worldX + gp.player.iScreenPosX;
+        }
         worldY = source.worldY - gp.player.worldY + gp.player.iScreenPosY;
         collisionDmg = 4;
         healthMax = 2;

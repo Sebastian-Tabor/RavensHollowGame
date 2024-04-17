@@ -166,15 +166,15 @@ public class PlayerEntity extends Entity implements HasImages {
         }
         if (meleeAttacking) {
             if (frameNumber == 1 || frameNumber == 2) {
-                int iAttackIndex = gp.cCheck.checkIfEntityHitTarget(this, gp.monster);
+                int iAttackIndex = gp.cCheck.checkIfEntityMeleedTarget(this, gp.monster);
                 if (iAttackIndex != 999) {
                     damageMonster(iAttackIndex, this);
                 }
             }
         } else if (rangedAttacking) {
-            if (frameNumber == 1) {
-                if (facing.equals("left")) gp.projectile.add(new ArrowProjectile(gp, this));
-                if (facing.equals("right")) gp.projectile.add(new ArrowProjectile(gp, this));
+            if (frameNumber == 1 && attackCounter == 0) {
+                if (facing.equals("left")) gp.projectile.add(new ArrowProjectile(gp, gp.player));
+                if (facing.equals("right")) gp.projectile.add(new ArrowProjectile(gp, gp.player));
             }
         }
         if (health > healthMax) health = healthMax;
