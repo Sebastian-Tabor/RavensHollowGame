@@ -14,25 +14,25 @@ public class ArrowProjectile extends ProjectileEntity implements HasImages {
 
         name = "arrow";
         if (source.facing.equals("left")) {
-            worldX = source.worldX - gp.iTileSize - gp.player.worldX + gp.player.iScreenPosX;
+            worldX = source.worldX - gp.iTileSize;
         } else {
-            worldX = source.worldX + gp.iTileSize - gp.player.worldX + gp.player.iScreenPosX;
+            worldX = source.worldX + gp.iTileSize + 3;
         }
-        worldY = source.worldY - gp.player.worldY + gp.player.iScreenPosY;
+        worldY = source.worldY;
         collisionDmg = 4;
         healthMax = 2;
         health = healthMax;
         armor = 0;
         speed = 10;
-        velocityX = findVelocity(this).x;
-        velocityY = findVelocity(this).y;
-
+        velocityX = 3 * findVelocity(this).x;
+        velocityY = 2 * findVelocity(this).y;
+        getImage();
     }
 
     @Override
     public void getImage() {
 
-        image = setup("./res/entities/projectiles/arrow");
+        projectileimage = setup("./res/entities/projectiles/arrow");
 
     }
 

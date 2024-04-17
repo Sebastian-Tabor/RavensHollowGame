@@ -132,9 +132,6 @@ public class GamePanel extends JPanel implements Runnable {
             for (int i = 0; i < projectile.size(); i++) {
                 if (projectile.get(i) != null) {
                     projectile.get(i).update();
-                    System.out.println(i);
-                    System.out.println(projectile.get(i).worldX);
-                    System.out.println(projectile.get(i).worldY);
                     if (projectile.get(i).collisionDetected) {
                         projectile.remove(i);
                         break;

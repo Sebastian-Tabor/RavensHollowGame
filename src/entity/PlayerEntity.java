@@ -173,8 +173,7 @@ public class PlayerEntity extends Entity implements HasImages {
             }
         } else if (rangedAttacking) {
             if (frameNumber == 1 && attackCounter == 0) {
-                if (facing.equals("left")) gp.projectile.add(new ArrowProjectile(gp, gp.player));
-                if (facing.equals("right")) gp.projectile.add(new ArrowProjectile(gp, gp.player));
+                gp.projectile.add(new ArrowProjectile(gp, gp.player));
             }
         }
         if (health > healthMax) health = healthMax;
