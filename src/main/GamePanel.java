@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
     public int[] monsterSaveData = new int[8];
     public int maxLines = monster.length + 2;
 //FPS
-    int iFPS = 60;
+    int iFPS = 80;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -94,7 +94,6 @@ public class GamePanel extends JPanel implements Runnable {
            try {
                double dRemainingTimeMS = (dNextDrawTimeNS - System.nanoTime())/1000000;
                Thread.sleep(Math.abs((long) dRemainingTimeMS));
-               if(dRemainingTimeMS < 0) dRemainingTimeMS = 0;
                dNextDrawTimeNS += dDrawIntervalNS;
            } catch (InterruptedException e) {
                throw new RuntimeException(e);

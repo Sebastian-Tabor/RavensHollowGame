@@ -71,7 +71,6 @@ public class ProjectileEntity extends Entity {
         double angle = Math.toDegrees(Math.atan2(y, x)) + 180;
 
         x = (projectile.speed * Math.cos(Math.toRadians(angle)));
-        System.out.println(angle);
 
         return (int) x;
 
