@@ -10,28 +10,28 @@ public class ProjectileEntity extends Entity {
     public ProjectileEntity(GamePanel gp) {
         super(gp);
         this.gp = gp;
-        hitBox = new Rectangle(0, 23, 5, 5);
+        hitBox = new Rectangle(0, 13, 6, 6);
         hitBoxDefaultX = hitBox.x;
         hitBoxDefaultY = hitBox.y;
-        gravity = -gp.iTileSize/15;
+        gravity = -gp.tileSize /15;
     }
     public void update(){
         //SETTING COLLISION
         collisionDetected = false;
         //COLLISION
-        gp.cCheck.checkTile(this);
-        if (source != gp.player) {
-            int npcIndex = gp.cCheck.checkEntity(this, gp.npc);
-            hitNPC(npcIndex);
-            if (gp.cCheck.checkPlayer(this)){
-                damagePlayer(collisionDmg);
-            }
-        }
         int monsterIndex = gp.cCheck.checkEntity(this, gp.monster);
         hitMonster(monsterIndex);
+        if (source != gp.player) {
+            if (gp.cCheck.checkPlayer(this)) {
+                damagePlayer(collisionDmg);
+            }
+            int npcIndex = gp.cCheck.checkEntity(this, gp.npc);
+            hitNPC(npcIndex);
+        }
+        gp.cCheck.checkTile(this);
         //GRAVITY
+        //velocityY--;
         worldY -= velocityY;
-        velocityY--;
         if (velocityY < gravity) velocityY = gravity;
         worldX += velocityX;
         if (velocityX < 0) facing = "left";
@@ -41,10 +41,10 @@ public class ProjectileEntity extends Entity {
         int iScreenX = worldX - gp.player.worldX + gp.player.iScreenPosX;
         int iScreenY = worldY - gp.player.worldY + gp.player.iScreenPosY;
 
-        if (worldX + gp.iTileSize > gp.player.worldX - gp.player.iScreenPosX &&
-                worldX - gp.iTileSize < gp.player.worldX + gp.player.iScreenPosX &&
-                worldY + gp.iTileSize > gp.player.worldY - gp.player.iScreenPosY &&
-                worldY - gp.iTileSize < gp.player.worldY + gp.player.iScreenPosY) {
+        if (worldX + gp.tileSize > gp.player.worldX - gp.player.iScreenPosX &&
+                worldX - gp.tileSize < gp.player.worldX + gp.player.iScreenPosX &&
+                worldY + gp.tileSize > gp.player.worldY - gp.player.iScreenPosY &&
+                worldY - gp.tileSize < gp.player.worldY + gp.player.iScreenPosY) {
             if (facing.equals("left")) {
                 g2.drawImage(image, iScreenX + image.getWidth(), iScreenY, -image.getWidth(), image.getHeight(), null);
             } else {
@@ -62,20 +62,32 @@ public class ProjectileEntity extends Entity {
             damageMonster(index, this);
         }
     }
-    public Point findVelocity(ProjectileEntity projectile){
-        int x = gp.player.iScreenPosX;
-        int y = gp.player.iScreenPosY;
-        Point p1 = gp.mouseBinds.getMouseLocation();
-        x = p1.x - x;
-        y = p1.y - y;
+    public int findVelocityX(ProjectileEntity projectile, Point targetPoint, Point sourcePoint){
+        double x = sourcePoint.x;
+        double y = sourcePoint.y;
+        x = x - targetPoint.x;
+        y = targetPoint.y - y;
 
-        x = (int) (projectile.speed * Math.cos(Math.atan2(y, x)));
-        y = -(int) (projectile.speed * Math.sin(Math.atan2(y, x)));
+        double angle = Math.toDegrees(Math.atan2(y, x)) + 180;
 
-        System.out.println(x);
-        System.out.println(y);
-        p1.x = x;
-        p1.y = y;
-        return p1;
+        x = (projectile.speed * Math.cos(Math.toRadians(angle)));
+        System.out.println(angle);
+
+        return (int) x;
+
+    }
+    public int findVelocityY(ProjectileEntity projectile, Point targetPoint, Point sourcePoint){
+        double x = sourcePoint.x;
+        double y = sourcePoint.y;
+        x = x - targetPoint.x;
+        y = targetPoint.y - y;
+
+
+        double angle = Math.toDegrees(Math.atan2(y, x)) + 180;
+
+        y = (projectile.speed * Math.sin(Math.toRadians(angle)));
+
+        return (int) y;
+
     }
 }

@@ -25,7 +25,7 @@ public class Entity implements ActionsAI {
 //ATTACKING
     public boolean canAttack = true;
     public Entity source;
-    public int meleeDamage, collisionDmg;
+    public int collisionDmg;
     public int attackCounter, frameNumber = 0;
     public Rectangle attackBox = new Rectangle();
     public boolean rangedAttacking, meleeAttacking, attacking = false;
@@ -64,7 +64,7 @@ public class Entity implements ActionsAI {
         hitBox = new Rectangle(8, 2, 48, 60);
         hitBoxDefaultX = hitBox.x;
         hitBoxDefaultY = hitBox.y;
-        gravity = -gp.iTileSize/10;
+        gravity = -gp.tileSize /10;
         direction = "right";
         moveState = "idle";
         facing = "right";
@@ -170,10 +170,10 @@ public class Entity implements ActionsAI {
         int iScreenX = worldX - gp.player.worldX + gp.player.iScreenPosX;
         int iScreenY = worldY - gp.player.worldY + gp.player.iScreenPosY;
 
-        if (worldX + gp.iTileSize > gp.player.worldX - gp.player.iScreenPosX &&
-            worldX - gp.iTileSize < gp.player.worldX + gp.player.iScreenPosX &&
-            worldY + gp.iTileSize > gp.player.worldY - gp.player.iScreenPosY &&
-            worldY - gp.iTileSize < gp.player.worldY + gp.player.iScreenPosY) {
+        if (worldX + gp.tileSize > gp.player.worldX - gp.player.iScreenPosX &&
+            worldX - gp.tileSize < gp.player.worldX + gp.player.iScreenPosX &&
+            worldY + gp.tileSize > gp.player.worldY - gp.player.iScreenPosY &&
+            worldY - gp.tileSize < gp.player.worldY + gp.player.iScreenPosY) {
             if (attacking) {
                 image = switch (frameNumber) {
                     case 1 -> attack1;
@@ -226,9 +226,9 @@ public class Entity implements ActionsAI {
             }
             if (showBar) {
                 g2.setColor(Color.darkGray);
-                g2.fillRect(iScreenX-1, iScreenY-16, gp.iTileSize+2, 12);
+                g2.fillRect(iScreenX-1, iScreenY-16, gp.tileSize +2, 12);
 
-                int dScale = gp.iTileSize/ healthMax;
+                int dScale = gp.tileSize / healthMax;
                 int healthPercent = dScale* health;
 
                 if (type == 1) {
@@ -240,9 +240,9 @@ public class Entity implements ActionsAI {
                 g2.fillRect(iScreenX, iScreenY - 15, healthPercent, 10);
             }
             if (facing.equals("left")) {
-                g2.drawImage(image, iScreenX + gp.iTileSize, iScreenY, -gp.iTileSize, gp.iTileSize, null);
+                g2.drawImage(image, iScreenX + gp.tileSize, iScreenY, -gp.tileSize, gp.tileSize, null);
             } else {
-                g2.drawImage(image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
+                g2.drawImage(image, iScreenX, iScreenY, gp.tileSize, gp.tileSize, null);
             }
         }
     }
@@ -292,7 +292,7 @@ public class Entity implements ActionsAI {
     public void damageMonster(int target, Entity source) {
         if (target != 999) {
             if (!gp.monster[target].immune){
-                int damage = source.meleeDamage - gp.monster[target].armor;
+                int damage = source.collisionDmg - gp.monster[target].armor;
                 if (damage <= 0 ) {
                     damage = 0;
                     gp.ui.addPopupText(damage, (gp.monster[target].worldX + gp.monster[target].hitBox.width/2), gp.monster[target].worldY, 1);
@@ -314,7 +314,7 @@ public class Entity implements ActionsAI {
     public void damageNPC(int target, Entity source) {
         if (target != 999) {
             if (!gp.npc[target].immune && source != gp.player) {
-                gp.npc[target].health -= source.meleeDamage;
+                gp.npc[target].health -= source.collisionDmg;
                 gp.npc[target].immunityCounter = 60;
                 gp.npc[target].immune = true;
                 gp.npc[target].showBar = true;

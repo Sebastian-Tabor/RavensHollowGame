@@ -13,8 +13,8 @@ public class PlayerEntity extends Entity implements HasImages {
     final KeyBinds keyBinds;
     public final int iScreenPosX;
     public final int iScreenPosY;
-    public final int iStartPosX = gp.iTileSize * 17;
-    public final int iStartPosY = gp.iTileSize * 11;
+    public final int iStartPosX = gp.tileSize * 17;
+    public final int iStartPosY = gp.tileSize * 11;
     public boolean bMouseIsLeft;
 
 //PLAYER OBJECT
@@ -22,8 +22,8 @@ public class PlayerEntity extends Entity implements HasImages {
         super (gp);
         this.keyBinds = keyBinds;
     //PLAYER POS ON SCREEN
-        iScreenPosX = (gp.iScreenWidth/2 - gp.iTileSize/2);
-        iScreenPosY = (gp.iScreenHeight/2 - gp.iTileSize/2);
+        iScreenPosX = (gp.screenWidth /2 - gp.tileSize /2);
+        iScreenPosY = (gp.screenHeight /2 - gp.tileSize /2);
     //PLAYER POS METHOD IMPLEMENTATION
         setDefaultValues();
     //PLAYER IMAGE METHOD IMPLEMENTATION
@@ -43,7 +43,7 @@ public class PlayerEntity extends Entity implements HasImages {
         ultimate = 0;
         ultimateMax = 20;
         armor = 0;
-        meleeDamage = 2;
+        collisionDmg = 2;
         moveState = "idle";
         direction = "idle";
         facing = "right";
@@ -109,7 +109,7 @@ public class PlayerEntity extends Entity implements HasImages {
                 facing = "right";
             }
         }
-        bMouseIsLeft = gp.mouseBinds.getMouseLocation().x < (gp.iScreenWidth / 2);
+        bMouseIsLeft = gp.mouseBinds.getMouseLocation().x < (gp.screenWidth / 2);
     //MOVEMENT ACTIONS
         switch (direction) {
             case "left":
@@ -173,7 +173,7 @@ public class PlayerEntity extends Entity implements HasImages {
             }
         } else if (rangedAttacking) {
             if (frameNumber == 1 && attackCounter == 0) {
-                gp.projectile.add(new ArrowProjectile(gp, gp.player));
+                gp.projectile.add(new ArrowProjectile(gp, gp.mouseBinds.getMouseLocation(), gp.player));
             }
         }
         if (health > healthMax) health = healthMax;
@@ -297,7 +297,7 @@ public class PlayerEntity extends Entity implements HasImages {
         }
         assert image != null;
         if (facing.equals("left")) {
-            g2.drawImage(image, iScreenPosX + gp.iTileSize, iScreenPosY, -image.getWidth(), image.getHeight(), null);
+            g2.drawImage(image, iScreenPosX + gp.tileSize, iScreenPosY, -image.getWidth(), image.getHeight(), null);
         } else {
             g2.drawImage(image, iScreenPosX, iScreenPosY, image.getWidth(), image.getHeight(), null);
         }

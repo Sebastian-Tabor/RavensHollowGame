@@ -14,16 +14,16 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel implements Runnable {
 //FRAME SETTING VARIABLES
     Color bg = new Color(128,128,128);
-    public int iOriginalTileSize = 64;
-    public int iScale = 1;
-    public int iTileSize = iOriginalTileSize * iScale;
-    public int iScreenWidth = 1920;
-    public int iScreenHeight = 1080;
+    public int originalTileSize = 64;
+    public int scale = 1;
+    public int tileSize = originalTileSize * scale;
+    public int screenWidth = 1920;
+    public int screenHeight = 1080;
 //MAP SIZE
-    public final int iMaxMapCol = 90;
-    public final int iMaxMapRow = 22;
-    public final int iMapWidth = iTileSize * iMaxMapCol;
-    public final int iMapHeight = iTileSize * iMaxMapRow;
+    public final int maxMapCol = 90;
+    public final int maxMapRow = 22;
+    public final int mapWidth = tileSize * maxMapCol;
+    public final int mapHeight = tileSize * maxMapRow;
 //CLASS OBJECT CREATION
     public KeyBinds keyBinds = new KeyBinds(this);
     public MouseBinds mouseBinds = new MouseBinds(this);
@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Object[] obj = new Object[5];
     public Entity[] npc = new Entity[5];
     public ArrayList<ProjectileEntity> projectile = new ArrayList<>();
+    public ArrayList<Entity> entityList = new ArrayList<>();
     public Entity[] monster = new Entity[10];
     public AssetSetter aSetter = new AssetSetter(this);
     public TileManager tileManager = new TileManager(this);
@@ -42,9 +43,9 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionCheck cCheck = new CollisionCheck(this);
     Thread gameThread;
 //GAME STATE
-    public int iScene = 0;
-    public int iWins = 0;
-    public int iGameState;
+    public int sceneNumber = 0;
+    public int winNumber = 0;
+    public int gameState;
     public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
@@ -53,12 +54,12 @@ public class GamePanel extends JPanel implements Runnable {
 //SAVING GAME
     public int[] saveData = new int[8];
     public int[] monsterSaveData = new int[8];
-    public int iMaxLines = monster.length + 2;
+    public int maxLines = monster.length + 2;
 //FPS
     int iFPS = 60;
 
     public GamePanel() {
-        this.setPreferredSize(new Dimension(iScreenWidth,iScreenHeight));
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(bg);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyBinds);
@@ -73,7 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setNPC();
         aSetter.setMonster();
         playMusic(1);
-        iGameState = titleState;
+        gameState = titleState;
 
     }
     public void startGameThread(){
@@ -102,7 +103,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void update() {
 
-        if (iGameState == playState) {
+        if (gameState == playState) {
             for (Object object : obj) {
                 if (object != null) {
                     object.update();
@@ -144,13 +145,14 @@ public class GamePanel extends JPanel implements Runnable {
             } else {
                 System.exit(0);
             }
+
         }
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         //TITLE SCREEN
-        if (iGameState == titleState || iGameState == endState) {
+        if (gameState == titleState || gameState == endState) {
             ui.draw(g2);
         }
         else {

@@ -15,10 +15,10 @@ public class FeatherObject extends Object {
         try {
             if (iSpriteNumber == 1) {
                 image = ImageIO.read(new File("./res/objects/feather1.png"));
-                uTool.scaleImage(image, gp.iTileSize, gp.iTileSize);
+                uTool.scaleImage(image, gp.tileSize, gp.tileSize);
             } else {
                 image = ImageIO.read(new File("./res/objects/feather2.png"));
-                uTool.scaleImage(image, gp.iTileSize, gp.iTileSize);
+                uTool.scaleImage(image, gp.tileSize, gp.tileSize);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -14,16 +14,16 @@ public class AssetSetter {
     public void setObject() {
 
          gp.obj[0] = new FeatherObject(gp);
-         gp.obj[0].iWorldX = 18 * gp.iTileSize;
-         gp.obj[0].iWorldY = 10 * gp.iTileSize;
+         gp.obj[0].iWorldX = 18 * gp.tileSize;
+         gp.obj[0].iWorldY = 10 * gp.tileSize;
          gp.obj[0].bStorable = true;
 
     }
     public void setNPC() {
         gp.npc[0] = new HareEntity(gp);
         gp.npc[0].name = "Carver";
-        gp.npc[0].startWorldX = gp.iTileSize * 18;
-        gp.npc[0].startWorldY = gp.iTileSize * 10;
+        gp.npc[0].startWorldX = gp.tileSize * 18;
+        gp.npc[0].startWorldY = gp.tileSize * 10;
         gp.npc[0].worldX = gp.npc[0].startWorldX;
         gp.npc[0].worldY = gp.npc[0].startWorldY;
         gp.npc[0].alive = true;
@@ -31,8 +31,8 @@ public class AssetSetter {
     public void setMonster() {
         gp.monster[0] = new DummyEntity(gp);
         gp.monster[0].name = "Dummy";
-        gp.monster[0].startWorldX = gp.iTileSize * 19;
-        gp.monster[0].startWorldY = gp.iTileSize * 11;
+        gp.monster[0].startWorldX = gp.tileSize * 19;
+        gp.monster[0].startWorldY = gp.tileSize * 11;
         gp.monster[0].worldX = gp.monster[0].startWorldX;
         gp.monster[0].worldY = gp.monster[0].startWorldY;
         gp.monster[0].value = 5;

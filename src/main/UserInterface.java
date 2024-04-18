@@ -38,20 +38,20 @@ public class UserInterface {
         this.g2 = g2;
         g2.setFont(defaultFont);
         g2.setColor(Color.white);
-        if (gp.iGameState == gp.titleState) {
+        if (gp.gameState == gp.titleState) {
             drawTitleScreen();
         }
-        if (gp.iGameState == gp.playState) {
+        if (gp.gameState == gp.playState) {
             drawPlayScreen();
             drawPopupText();
         }
-        if (gp.iGameState == gp.pauseState) {
+        if (gp.gameState == gp.pauseState) {
             drawPauseScreen();
         }
-        if (gp.iGameState == gp.loadingState) {
+        if (gp.gameState == gp.loadingState) {
             drawLoadingScreen();
         }
-        if (gp.iGameState == gp.endState) {
+        if (gp.gameState == gp.endState) {
             drawEndScreen();
         }
     }
@@ -80,20 +80,20 @@ public class UserInterface {
 //DRAW TITLE SCREEN
     public void drawTitleScreen() {
         text = "Title";
-        g2.drawString(text, gp.iScreenWidth/2, gp.iScreenHeight/2);
+        g2.drawString(text, gp.screenWidth /2, gp.screenHeight /2);
         displayedImage = titleImage;
-        g2.drawImage(displayedImage, 0, 0, gp.iScreenWidth, gp.iScreenHeight, null);
+        g2.drawImage(displayedImage, 0, 0, gp.screenWidth, gp.screenHeight, null);
         optionArray = new String[3];
         optionArray[0] = "New Game";
         optionArray[1] = "Load Game";
         optionArray[2] = "Quit";
-        drawMenuButtons(optionArray, gp.iScreenWidth/4, gp.iScreenHeight/4);
+        drawMenuButtons(optionArray, gp.screenWidth /4, gp.screenHeight /4);
         if (bClicked == 1){
             switch (commandNumber){
                 case 0 -> {
                     if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed) {
                         gp.loadTool.newGame();
-                        gp.iGameState = gp.playState;
+                        gp.gameState = gp.playState;
                         gp.stopMusic();
                         gp.playMusic(2);
                         bClicked = 0;
@@ -103,7 +103,7 @@ public class UserInterface {
                 }
                 case 1 -> {
                     gp.loadTool.loadGame();
-                    gp.iGameState = gp.playState;
+                    gp.gameState = gp.playState;
                     gp.stopMusic();
                     gp.playMusic(2);
                     bClicked = 0;
@@ -138,9 +138,9 @@ public class UserInterface {
     public void drawPlayScreen() {
        // displayedImage = playImage;
        // g2.drawImage(displayedImage, 0, 0, gp.iScreenWidth, gp.iScreenHeight, null);
-        drawHealthUltBar(gp.player, gp.iScreenWidth/3, 4*gp.iScreenHeight/5, gp.iScreenWidth/3, gp.iTileSize/2);
+        drawHealthUltBar(gp.player, gp.screenWidth /3, 4*gp.screenHeight /5, gp.screenWidth /3, gp.tileSize /2);
         if (KeyBinds.bEscapePressed) {
-            gp.iGameState = gp.pauseState;
+            gp.gameState = gp.pauseState;
             gp.stopMusic();
             menuState = 0;
             KeyBinds.bEscapePressed = false;
@@ -151,7 +151,7 @@ public class UserInterface {
         if (menuState == 0) {
             drawMenu0();
             if (KeyBinds.bEscapePressed) {
-                gp.iGameState = gp.playState;
+                gp.gameState = gp.playState;
                 gp.resumeMusic();
                 KeyBinds.bEscapePressed = false;
             }
@@ -166,7 +166,7 @@ public class UserInterface {
     public void drawMenu0(){
 
         g2.setColor(uTool.transparentBackground);
-        g2.fillRect(0,0, gp.iScreenWidth, gp.iScreenHeight);
+        g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
 
         optionArray = new String[4];
         optionArray[0] = "Resume";
@@ -174,16 +174,16 @@ public class UserInterface {
         optionArray[2] = "Settings";
         optionArray[3] = "Main Menu";
 
-        Rectangle menuBox = new Rectangle(gp.iScreenWidth/3, gp.iScreenHeight/4, gp.iScreenWidth/3, gp.iScreenHeight/2);
+        Rectangle menuBox = new Rectangle(gp.screenWidth /3, gp.screenHeight /4, gp.screenWidth /3, gp.screenHeight /2);
         drawMenuBackground(menuBox, uTool.ravensGrey, uTool.ravensLightGrey);
 
         g2.setFont(defaultFont);
-        drawMenuButtons(optionArray, gp.iScreenWidth/2, (int)(gp.iScreenHeight/2.4));
+        drawMenuButtons(optionArray, gp.screenWidth /2, (int)(gp.screenHeight /2.4));
         if (bClicked == 1){
             switch (commandNumber){
                 case 0 -> {
                     if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed || KeyBinds.bEscapePressed){
-                        gp.iGameState = gp.playState;
+                        gp.gameState = gp.playState;
                         gp.resumeMusic();
                         bClicked = 0;
                         KeyBinds.bEnterPressed = false;
@@ -199,7 +199,7 @@ public class UserInterface {
                 }
                 case 3 -> {
                     if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed){
-                        gp.iGameState = gp.titleState;
+                        gp.gameState = gp.titleState;
                         commandNumber = 0;
                         bClicked = 0;
                         KeyBinds.bEnterPressed = false;
@@ -242,13 +242,13 @@ public class UserInterface {
         Rectangle rect1 = new Rectangle();
 
         //SETUP RECTANGLES
-        rect1.width = stringWidth(text) + gp.iTileSize + 2;
-        rect1.height = stringHeight(text) + gp.iTileSize/2 + 2;
+        rect1.width = stringWidth(text) + gp.tileSize + 2;
+        rect1.height = stringHeight(text) + gp.tileSize /2 + 2;
         rect1.x = x - rect1.width/2;
         rect1.y = y - rect1.height/2;
 
-        rect2.width = stringWidth(text) + gp.iTileSize;
-        rect2.height = stringHeight(text) + gp.iTileSize/2;
+        rect2.width = stringWidth(text) + gp.tileSize;
+        rect2.height = stringHeight(text) + gp.tileSize /2;
         rect2.x = x - rect2.width/2;
         rect2.y = y - rect2.height/2;
 

@@ -39,8 +39,8 @@ public class Object {
           int iScreenX = iWorldX - gp.player.worldX + gp.player.iScreenPosX;
           int iScreenY = iWorldY - gp.player.worldY + gp.player.iScreenPosY;
 
-          if (iWorldX + gp.iTileSize > gp.player.worldX - gp.player.iScreenPosX && iWorldX - gp.iTileSize < gp.player.worldX + gp.player.iScreenPosX) {
-               g2.drawImage(image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
+          if (iWorldX + gp.tileSize > gp.player.worldX - gp.player.iScreenPosX && iWorldX - gp.tileSize < gp.player.worldX + gp.player.iScreenPosX) {
+               g2.drawImage(image, iScreenX, iScreenY, gp.tileSize, gp.tileSize, null);
           }
      }
 }

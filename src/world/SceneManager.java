@@ -30,9 +30,9 @@ public class SceneManager {
     public void drawForeground(Graphics2D g2){
         x = gp.player.worldX - gp.player.iScreenPosX;
         y = gp.player.worldY - gp.player.iScreenPosY;
-        width = gp.iScreenWidth;
-        height = gp.iScreenHeight;
-        image = scene[gp.iScene].foreground.getSubimage(x, y, width, height);
+        width = gp.screenWidth;
+        height = gp.screenHeight;
+        image = scene[gp.sceneNumber].foreground.getSubimage(x, y, width, height);
         x = 0;
         y = 0;
         g2.drawImage(image, x, y, null);
@@ -40,9 +40,9 @@ public class SceneManager {
     public void drawMidground(Graphics2D g2){
         x = gp.player.worldX - gp.player.iScreenPosX;
         y = gp.player.worldY - gp.player.iScreenPosY;
-        width = gp.iScreenWidth;
-        height = gp.iScreenHeight;
-        image = scene[gp.iScene].midground.getSubimage(x, y, width, height);
+        width = gp.screenWidth;
+        height = gp.screenHeight;
+        image = scene[gp.sceneNumber].midground.getSubimage(x, y, width, height);
         x = 0;
         y = 0;
         g2.drawImage(image, x, y, null);
@@ -50,9 +50,9 @@ public class SceneManager {
     public void drawBackground(Graphics2D g2){
         x = gp.player.worldX - gp.player.iScreenPosX;
         y = gp.player.worldY - gp.player.iScreenPosY;
-        width = gp.iScreenWidth;
-        height = gp.iScreenHeight;
-        image = scene[gp.iScene].background.getSubimage(x, y, width, height);
+        width = gp.screenWidth;
+        height = gp.screenHeight;
+        image = scene[gp.sceneNumber].background.getSubimage(x, y, width, height);
         x = 0;
         y = 0;
         g2.drawImage(image, x, y, null);
@@ -70,11 +70,11 @@ public class SceneManager {
             scene[index] = new Scene();
 
             scene[index].foreground = ImageIO.read(new File("./res/world/" + index + "f.png"));
-            scene[index].foreground = uTool.scaleImage(scene[index].foreground, gp.iMapWidth, gp.iMapHeight);
+            scene[index].foreground = uTool.scaleImage(scene[index].foreground, gp.mapWidth, gp.mapHeight);
             scene[index].midground = ImageIO.read(new File("./res/world/" + index + "m.png"));
-            scene[index].midground = uTool.scaleImage(scene[index].midground, gp.iMapWidth, gp.iMapHeight);
+            scene[index].midground = uTool.scaleImage(scene[index].midground, gp.mapWidth, gp.mapHeight);
             scene[index].background = ImageIO.read(new File("./res/world/" + index + "b.png"));
-            scene[index].background = uTool.scaleImage(scene[index].background, gp.iMapWidth, gp.iMapHeight);
+            scene[index].background = uTool.scaleImage(scene[index].background, gp.mapWidth, gp.mapHeight);
 
         } catch (Exception e) {
             throw new RuntimeException(e);

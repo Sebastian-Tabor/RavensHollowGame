@@ -29,7 +29,7 @@ public class HareEntity extends Entity implements ActionsAI, HasImages{
         BufferedImage scaledImage = null;
         try {
             scaledImage = ImageIO.read(new File(imageName + ".png"));
-            scaledImage = uTool.scaleImage(scaledImage, gp.iTileSize, gp.iTileSize);
+            scaledImage = uTool.scaleImage(scaledImage, gp.tileSize, gp.tileSize);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

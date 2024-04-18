@@ -16,7 +16,7 @@ public class TileManager {
         this.gp = gp;
         // Change this for more than 2 tiles saved
         tile = new Tile[6];
-        iiMapTileNumber = new int[gp.iMaxMapCol][gp.iMaxMapRow];
+        iiMapTileNumber = new int[gp.maxMapCol][gp.maxMapRow];
         getTileImage();
         loadMap();
     }
@@ -36,7 +36,7 @@ public class TileManager {
         try {
             tile[index] = new Tile();
             tile[index].image = ImageIO.read(new File("./res/world/" + imageName + ".png"));
-            tile[index].image = uTool.scaleImage(tile[index].image, gp.iTileSize, gp.iTileSize);
+            tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
             tile[index].collision = collision;
 
         } catch (Exception e) {
@@ -45,20 +45,20 @@ public class TileManager {
     }
     public void loadMap(){
         try{
-            InputStream is = new FileInputStream("./res/maps/" + gp.iScene + "map.txt");
+            InputStream is = new FileInputStream("./res/maps/" + gp.sceneNumber + "map.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int col = 0;
             int row = 0;
 
-            while (col < gp.iMaxMapCol && row < gp.iMaxMapRow) {
+            while (col < gp.maxMapCol && row < gp.maxMapRow) {
                 String line = br.readLine();
-                while (col < gp.iMaxMapCol) {
+                while (col < gp.maxMapCol) {
                     String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
                     iiMapTileNumber[col][row] = num;
                     col++;
                 }
-                if (col == gp.iMaxMapCol) {
+                if (col == gp.maxMapCol) {
                     col = 0;
                     row++;
                 }
@@ -74,20 +74,20 @@ public class TileManager {
             int iMapCol = 0;
             int iMapRow = 0;
 
-            while (iMapCol < gp.iMaxMapCol && iMapRow < gp.iMaxMapRow) {
+            while (iMapCol < gp.maxMapCol && iMapRow < gp.maxMapRow) {
                 int iTileNum = iiMapTileNumber[iMapCol][iMapRow];
 
-                int iMapX = iMapCol * gp.iTileSize;
-                int iMapY = iMapRow * gp.iTileSize;
+                int iMapX = iMapCol * gp.tileSize;
+                int iMapY = iMapRow * gp.tileSize;
                 int iScreenX = iMapX - gp.player.worldX + gp.player.iScreenPosX;
                 int iScreenY = iMapY - gp.player.worldY + gp.player.iScreenPosY;
 
-                if (iMapX + gp.iTileSize > gp.player.worldX - gp.player.iScreenPosX && iMapX - gp.iTileSize < gp.player.worldX + gp.player.iScreenPosX) {
-                    g2.drawImage(tile[iTileNum].image, iScreenX, iScreenY, gp.iTileSize, gp.iTileSize, null);
+                if (iMapX + gp.tileSize > gp.player.worldX - gp.player.iScreenPosX && iMapX - gp.tileSize < gp.player.worldX + gp.player.iScreenPosX) {
+                    g2.drawImage(tile[iTileNum].image, iScreenX, iScreenY, gp.tileSize, gp.tileSize, null);
                 }
 
                 iMapCol++;
-                if (iMapCol == gp.iMaxMapCol) {
+                if (iMapCol == gp.maxMapCol) {
                     iMapCol = 0;
                     iMapRow++;
                 }

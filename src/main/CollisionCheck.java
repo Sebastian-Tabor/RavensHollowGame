@@ -18,33 +18,33 @@ public class CollisionCheck {
         int iEntBotWorldY = entity.worldY + entity.hitBox.y + entity.hitBox.height;
         int iEntityLeftCol;
         int iEntityRightCol;
-        int iEntityTopRow = iEntTopWorldY / gp.iTileSize;
-        int iEntityBottomRow = iEntBotWorldY / gp.iTileSize;
+        int iEntityTopRow = iEntTopWorldY / gp.tileSize;
+        int iEntityBottomRow = iEntBotWorldY / gp.tileSize;
         int iTileNum1, iTileNum2, iTileNum3, iTileNum4, iTileNum5, iTileNum6;
 
-        iEntityLeftCol = (iEntLeftWorldX) / gp.iTileSize;
-        iEntityRightCol = (iEntRightWorldX) / gp.iTileSize;
+        iEntityLeftCol = (iEntLeftWorldX) / gp.tileSize;
+        iEntityRightCol = (iEntRightWorldX) / gp.tileSize;
         iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
         iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
 
         entity.wouldBeStuck = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision;
 
-        iEntityLeftCol = (iEntLeftWorldX - entity.speedOriginal) / gp.iTileSize;
+        iEntityLeftCol = (iEntLeftWorldX - entity.speedOriginal) / gp.tileSize;
         iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
         iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
 
         entity.collisionLeft = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision;
 
-        iEntityRightCol = (iEntRightWorldX + entity.speedOriginal) / gp.iTileSize;
+        iEntityRightCol = (iEntRightWorldX + entity.speedOriginal) / gp.tileSize;
         iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
         iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
 
         entity.collisionRight = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision;
 
-        iEntityLeftCol = (iEntLeftWorldX) / gp.iTileSize;
-        iEntityRightCol = (iEntRightWorldX) / gp.iTileSize;
-        iEntityTopRow = (iEntTopWorldY - entity.speedOriginal) / gp.iTileSize;
-        iEntityBottomRow = (iEntBotWorldY + entity.speedOriginal) / gp.iTileSize;
+        iEntityLeftCol = (iEntLeftWorldX) / gp.tileSize;
+        iEntityRightCol = (iEntRightWorldX) / gp.tileSize;
+        iEntityTopRow = (iEntTopWorldY - entity.speedOriginal) / gp.tileSize;
+        iEntityBottomRow = (iEntBotWorldY + entity.speedOriginal) / gp.tileSize;
         iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
         iTileNum4 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
         iTileNum5 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
