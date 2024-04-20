@@ -18,7 +18,7 @@ public class UserInterface {
     public BufferedImage displayedImage, titleImage, playImage, pauseImage, endImage, loadingImage, tempImage;
     public int menuState;
     public int commandNumber = 0;
-    public int bClicked = 0;
+    public boolean bClicked = false;
     public String[] optionArray;
     public int iStandardArc = 20;
     public ArrayList<Integer> popupText = new ArrayList<>();
@@ -57,9 +57,9 @@ public class UserInterface {
     }
 //FONTS
     public void setFonts(){
-        tinyFont = new Font("Arial", Font.BOLD, 30);
-        defaultFont = new Font("Arial", Font.PLAIN, 40);
-        titleFont = new Font("Arial", Font.BOLD, 80);
+        tinyFont = new Font("Arial", Font.BOLD, gp.screenWidth/60);
+        defaultFont = new Font("Arial", Font.PLAIN, gp.screenWidth/30);
+        titleFont = new Font("Arial", Font.BOLD, gp.screenWidth/15);
     }
 //IMAGES
     public void setImages() {
@@ -83,20 +83,21 @@ public class UserInterface {
         g2.drawString(text, gp.screenWidth /2, gp.screenHeight /2);
         displayedImage = titleImage;
         g2.drawImage(displayedImage, 0, 0, gp.screenWidth, gp.screenHeight, null);
-        optionArray = new String[3];
+        optionArray = new String[4];
         optionArray[0] = "New Game";
         optionArray[1] = "Load Game";
-        optionArray[2] = "Quit";
-        drawMenuButtons(optionArray, gp.screenWidth /4, gp.screenHeight /4);
-        if (bClicked == 1){
+        optionArray[2] = "Fullscreen";
+        optionArray[3] = "Quit";
+        drawMenuButtons(optionArray, (int)(0.25*gp.screenWidth), (int)(0.25*gp.screenHeight));
+        if (bClicked){
             switch (commandNumber){
                 case 0 -> {
-                    if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed) {
+                    if (!MouseBinds.bMouse1Clicked || !KeyBinds.bEnterPressed) {
                         gp.loadTool.newGame();
                         gp.gameState = gp.playState;
                         gp.stopMusic();
                         gp.playMusic(2);
-                        bClicked = 0;
+                        bClicked = false;
                         KeyBinds.bEnterPressed = false;
                     }
 
@@ -106,13 +107,34 @@ public class UserInterface {
                     gp.gameState = gp.playState;
                     gp.stopMusic();
                     gp.playMusic(2);
-                    bClicked = 0;
+                    bClicked = false;
                     KeyBinds.bEnterPressed = false;
                 }
                 case 2 -> {
-                    if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed) {
+                    if (!MouseBinds.bMouse1Clicked || !KeyBinds.bEnterPressed) {
+                        if (!gp.fullscreen) {
+                            Main.window.dispose();
+                            Main.window.setResizable(false);
+                            Main.window.setUndecorated(true);
+                            Main.window.setExtendedState(Frame.MAXIMIZED_BOTH);
+                            Main.window.setVisible(true);
+                            gp.fullscreen = true;
+                        } else {
+                            Main.window.dispose();
+                            Main.window.setResizable(true);
+                            Main.window.setUndecorated(false);
+                            Main.window.setVisible(true);
+                            //Main.window.setPreferredSize(new Dimension(1280, 720));
+                            gp.fullscreen = false;
+                        }
+                        bClicked = false;
+                        KeyBinds.bEnterPressed = false;
+                    }
+                }
+                case 3 -> {
+                    if (!MouseBinds.bMouse1Clicked || !KeyBinds.bEnterPressed) {
                         System.exit(0);
-                        bClicked = 0;
+                        bClicked = false;
                         KeyBinds.bEnterPressed = false;
                     }
                 }
@@ -179,29 +201,31 @@ public class UserInterface {
 
         g2.setFont(defaultFont);
         drawMenuButtons(optionArray, gp.screenWidth /2, (int)(gp.screenHeight /2.4));
-        if (bClicked == 1){
+        if (bClicked){
             switch (commandNumber){
                 case 0 -> {
                     if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed || KeyBinds.bEscapePressed){
                         gp.gameState = gp.playState;
                         gp.resumeMusic();
-                        bClicked = 0;
+                        bClicked = false;
                         KeyBinds.bEnterPressed = false;
                     }
                 }
                 case 1 -> {
                     gp.loadTool.saveGame();
-                    bClicked = 0;
+                    bClicked = false;
+                    KeyBinds.bEnterPressed = false;
                 }
                 case 2 -> {
                     System.out.println("Create " + optionArray[commandNumber] + " function.");
-                    bClicked = 0;
+                    bClicked = false;
+                    KeyBinds.bEnterPressed = false;
                 }
                 case 3 -> {
                     if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed){
                         gp.gameState = gp.titleState;
                         commandNumber = 0;
-                        bClicked = 0;
+                        bClicked = false;
                         KeyBinds.bEnterPressed = false;
                     }
                 }
@@ -259,14 +283,13 @@ public class UserInterface {
 
         if (gp.mouseBinds.isMouseOver(rect3)) {
             commandNumber = optionNumber;
-        }
-        if (commandNumber == optionNumber) {
             highlight = Color.white;
             if (MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed){
                 color2 = uTool.ravensDarkGrey;
-                bClicked = 1;
+                bClicked = true;
             }
         }
+
         //DRAW RECTANGLES
         drawRoundRectangle(highlight, rect1.x, rect1.y, rect1.width, rect1.height, iStandardArc);
         drawRoundRectangle(color1, rect2.x, rect2.y, rect2.width, rect2.height, iStandardArc);

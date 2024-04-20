@@ -14,11 +14,12 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel implements Runnable {
 //FRAME SETTING VARIABLES
     Color bg = new Color(128,128,128);
-    public int originalTileSize = 64;
-    public int scale = 1;
-    public int tileSize = originalTileSize * scale;
+    public int maxScreenCol = 16;
+    public int maxScreenRow = 9;
     public int screenWidth = 1920;
     public int screenHeight = 1080;
+    public int tileSize = screenWidth/30;
+    public boolean fullscreen = true;
 //MAP SIZE
     public final int maxMapCol = 90;
     public final int maxMapRow = 22;
@@ -102,6 +103,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void update() {
 
+        screenWidth = Main.window.getWidth();
+        screenHeight = Main.window.getHeight();
+        tileSize = screenWidth/30;
+        
         if (gameState == playState) {
             for (Object object : obj) {
                 if (object != null) {

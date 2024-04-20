@@ -61,7 +61,7 @@ public class Entity implements ActionsAI {
 //CONSTRUCTOR
     public Entity(GamePanel gp) {
         this.gp = gp;
-        hitBox = new Rectangle(8, 2, 48, 60);
+        hitBox = new Rectangle((int)(0.125*gp.tileSize), (int)(0.03125*gp.tileSize), (int)(0.75*gp.tileSize), (int)(0.9375*gp.tileSize));
         hitBoxDefaultX = hitBox.x;
         hitBoxDefaultY = hitBox.y;
         gravity = -gp.tileSize /10;

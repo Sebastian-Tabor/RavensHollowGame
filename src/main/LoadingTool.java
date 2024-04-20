@@ -15,13 +15,12 @@ public class LoadingTool {
         gp.aSetter.resetPlayerPos();
 
         try{
-            InputStream is = new FileInputStream("./res/saves/newGameState.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String line = br.readLine();
-            String[] dataAt = line.split(" ");
-
-            gp.sceneNumber = Integer.parseInt(dataAt[0]);
-            gp.winNumber = Integer.parseInt(dataAt[1]);
+            gp.sceneNumber = 0;
+            gp.winNumber = 0;
+            gp.aSetter.setMonster();
+            gp.aSetter.setNPC();
+            gp.aSetter.setObject();
+            gp.player.setDefaultValues();
 
         } catch (Exception e){
             throw new RuntimeException(e);

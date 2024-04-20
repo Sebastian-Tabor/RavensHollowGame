@@ -18,7 +18,7 @@ public class Main {
         window.setTitle("Raven's Hollow");
         window.setIconImage(null);
         window.setLocation(0,0);
-        window.setMinimumSize(new Dimension(640, 480));
+        window.setMinimumSize(new Dimension(480, 320));
 
     //GAMEPANEL SETUP
         window.add(gp);

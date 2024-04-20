@@ -2,6 +2,7 @@ package entity;
 import main.GamePanel;
 import main.KeyBinds;
 import main.MouseBinds;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,10 +12,10 @@ import java.io.File;
 
 public class PlayerEntity extends Entity implements HasImages {
     final KeyBinds keyBinds;
-    public final int iScreenPosX;
-    public final int iScreenPosY;
-    public final int iStartPosX = gp.tileSize * 17;
-    public final int iStartPosY = gp.tileSize * 11;
+    public int iScreenPosX;
+    public int iScreenPosY;
+    public int iStartPosX = gp.tileSize * 17;;
+    public int iStartPosY = gp.tileSize * 11;;
     public boolean bMouseIsLeft;
 
 //PLAYER OBJECT
@@ -22,8 +23,8 @@ public class PlayerEntity extends Entity implements HasImages {
         super (gp);
         this.keyBinds = keyBinds;
     //PLAYER POS ON SCREEN
-        iScreenPosX = (gp.screenWidth /2 - gp.tileSize /2);
-        iScreenPosY = (gp.screenHeight /2 - gp.tileSize /2);
+        iScreenPosX = (gp.screenWidth/2 - (gp.tileSize /2));
+        iScreenPosY = (gp.screenHeight/2 - (gp.tileSize /2));
     //PLAYER POS METHOD IMPLEMENTATION
         setDefaultValues();
     //PLAYER IMAGE METHOD IMPLEMENTATION
@@ -35,7 +36,10 @@ public class PlayerEntity extends Entity implements HasImages {
         worldX = iStartPosX;
         worldY = iStartPosY;
         type = 0;
-        speedOriginal = 7;
+        speedOriginal = (int)(0.109375*gp.tileSize);
+        if (speedOriginal == 0){
+            speedOriginal = 1;
+        }
         speed = speedOriginal;
         recoveryTime = 10;
         health = 10;
@@ -51,13 +55,15 @@ public class PlayerEntity extends Entity implements HasImages {
 //IMAGE SETUP METHOD
     @Override
     public BufferedImage setup(String imageName) {
-        BufferedImage image = null;
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage scaledImage = null;
         try {
-            image = ImageIO.read(new File( imageName + ".png"));
+            scaledImage = ImageIO.read(new File( imageName + ".png"));
+            scaledImage = uTool.scaleImage(scaledImage, gp.tileSize, gp.tileSize);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return image;
+        return scaledImage;
     }
 //PLAYER IMAGES
     @Override
@@ -82,6 +88,7 @@ public class PlayerEntity extends Entity implements HasImages {
     }
 //UPDATE
     public void update() {
+    //Resizing updates
     //KEYBIND MOVEMENT
         if (KeyBinds.bDownPressed || KeyBinds.bUpPressed || KeyBinds.bRightPressed || KeyBinds.bLeftPressed) {
             if (KeyBinds.bLeftPressed) {
