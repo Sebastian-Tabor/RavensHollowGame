@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.*;
 import java.io.*;
 
 public class LoadingTool {

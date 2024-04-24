@@ -19,6 +19,7 @@ public class Main {
         window.setIconImage(null);
         window.setLocation(0,0);
         window.setMinimumSize(new Dimension(480, 320));
+        //window.setPreferredSize(new Dimension(1280, 720));
 
     //GAMEPANEL SETUP
         window.add(gp);

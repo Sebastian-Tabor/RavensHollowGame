@@ -15,9 +15,9 @@ public class Sound {
     boolean bMusicPlaying;
      public Sound() {
 
-         soundURL[0] = getClass().getResource("../sound/teehee.wav");
+         soundURL[0] = getClass().getResource("../sound/play0.wav");
          soundURL[1] = getClass().getResource("../sound/autumn.wav");
-         soundURL[2] = getClass().getResource("../sound/play0.wav");
+         soundURL[2] = getClass().getResource("../sound/teehee.wav");
 
      }
      public void setFile(int track){

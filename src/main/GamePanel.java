@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
     public int maxScreenRow = 9;
     public int screenWidth = 1920;
     public int screenHeight = 1080;
-    public int tileSize = screenWidth/30;
+    public int tileSize = 64;
     public boolean fullscreen = true;
 //MAP SIZE
     public final int maxMapCol = 90;
@@ -41,9 +41,12 @@ public class GamePanel extends JPanel implements Runnable {
     public SceneManager sceneManager = new SceneManager(this);
     public UserInterface ui = new UserInterface(this);
     public LoadingTool loadTool = new LoadingTool(this);
+    public Transitions sceneSwap = new Transitions(this);
     public CollisionCheck cCheck = new CollisionCheck(this);
     Thread gameThread;
 //GAME STATE
+    public boolean transitionIn, transitionOut;
+    public int transitionCounter;
     public int sceneNumber = 0;
     public int winNumber = 0;
     public int gameState;
@@ -102,11 +105,6 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update() {
-
-        screenWidth = Main.window.getWidth();
-        screenHeight = Main.window.getHeight();
-        tileSize = screenWidth/30;
-        
         if (gameState == playState) {
             for (Object object : obj) {
                 if (object != null) {
@@ -155,11 +153,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        //TITLE SCREEN
-        if (gameState == titleState || gameState == endState) {
-            ui.draw(g2);
-        }
-        else {
+
+        if (gameState == playState || gameState == pauseState) {
             sceneManager.drawBackground(g2);
             sceneManager.drawMidground(g2);
         //TILES
@@ -189,10 +184,12 @@ public class GamePanel extends JPanel implements Runnable {
             player.draw(g2);
         //FOREGROUND
             sceneManager.drawForeground(g2);
-        //UI
-            ui.draw(g2);
-            g2.dispose();
+
         }
+        //UI
+        ui.draw(g2);
+        sceneSwap.draw(g2);
+        g2.dispose();
     }
 //SOUNDS
     public void playMusic(int track) {

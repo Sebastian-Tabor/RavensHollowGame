@@ -316,7 +316,7 @@ public class PlayerEntity extends Entity implements HasImages {
             switch (sObjectName) {
                 case "Feather":
                     gp.obj[index] = null;
-                    gp.playSoundEffect(0);
+                    gp.playSoundEffect(2);
                     speed += 1;
                     break;
                 case "Bone":

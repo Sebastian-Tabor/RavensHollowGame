@@ -21,6 +21,7 @@ public class UserInterface {
     public boolean bClicked = false;
     public String[] optionArray;
     public int iStandardArc = 20;
+
     public ArrayList<Integer> popupText = new ArrayList<>();
     public ArrayList<Integer> popupTextCounter = new ArrayList<>();
     public ArrayList<Integer> popupTextType = new ArrayList<>();
@@ -54,6 +55,7 @@ public class UserInterface {
         if (gp.gameState == gp.endState) {
             drawEndScreen();
         }
+
     }
 //FONTS
     public void setFonts(){
@@ -83,59 +85,56 @@ public class UserInterface {
         g2.drawString(text, gp.screenWidth /2, gp.screenHeight /2);
         displayedImage = titleImage;
         g2.drawImage(displayedImage, 0, 0, gp.screenWidth, gp.screenHeight, null);
+
         optionArray = new String[4];
         optionArray[0] = "New Game";
         optionArray[1] = "Load Game";
         optionArray[2] = "Fullscreen";
         optionArray[3] = "Quit";
+
         drawMenuButtons(optionArray, (int)(0.25*gp.screenWidth), (int)(0.25*gp.screenHeight));
+
         if (bClicked){
             switch (commandNumber){
                 case 0 -> {
                     if (!MouseBinds.bMouse1Clicked || !KeyBinds.bEnterPressed) {
                         gp.loadTool.newGame();
-                        gp.gameState = gp.playState;
-                        gp.stopMusic();
-                        gp.playMusic(2);
-                        bClicked = false;
-                        KeyBinds.bEnterPressed = false;
+                        gp.sceneSwap.transitionState = gp.playState;
+                        gp.transitionIn = true;
+                        resetEnterKeys();
                     }
 
                 }
                 case 1 -> {
-                    gp.loadTool.loadGame();
-                    gp.gameState = gp.playState;
-                    gp.stopMusic();
-                    gp.playMusic(2);
-                    bClicked = false;
-                    KeyBinds.bEnterPressed = false;
+                    if (!MouseBinds.bMouse1Clicked || !KeyBinds.bEnterPressed) {
+                        gp.loadTool.loadGame();
+                        gp.sceneSwap.transitionState = gp.playState;
+                        gp.transitionIn = true;
+                        resetEnterKeys();
+                    }
                 }
                 case 2 -> {
                     if (!MouseBinds.bMouse1Clicked || !KeyBinds.bEnterPressed) {
                         if (!gp.fullscreen) {
                             Main.window.dispose();
-                            Main.window.setResizable(false);
                             Main.window.setUndecorated(true);
                             Main.window.setExtendedState(Frame.MAXIMIZED_BOTH);
                             Main.window.setVisible(true);
                             gp.fullscreen = true;
                         } else {
                             Main.window.dispose();
-                            Main.window.setResizable(true);
                             Main.window.setUndecorated(false);
                             Main.window.setVisible(true);
-                            //Main.window.setPreferredSize(new Dimension(1280, 720));
+                            Main.window.setPreferredSize(new Dimension(1280, 720));
                             gp.fullscreen = false;
                         }
-                        bClicked = false;
-                        KeyBinds.bEnterPressed = false;
+                        resetEnterKeys();
                     }
                 }
                 case 3 -> {
                     if (!MouseBinds.bMouse1Clicked || !KeyBinds.bEnterPressed) {
                         System.exit(0);
-                        bClicked = false;
-                        KeyBinds.bEnterPressed = false;
+                        resetEnterKeys();
                     }
                 }
             }
@@ -190,11 +189,10 @@ public class UserInterface {
         g2.setColor(uTool.transparentBackground);
         g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
 
-        optionArray = new String[4];
+        optionArray = new String[3];
         optionArray[0] = "Resume";
-        optionArray[1] = "Save Game";
-        optionArray[2] = "Settings";
-        optionArray[3] = "Main Menu";
+        optionArray[1] = "Settings";
+        optionArray[2] = "Main Menu";
 
         Rectangle menuBox = new Rectangle(gp.screenWidth /3, gp.screenHeight /4, gp.screenWidth /3, gp.screenHeight /2);
         drawMenuBackground(menuBox, uTool.ravensGrey, uTool.ravensLightGrey);
@@ -207,26 +205,20 @@ public class UserInterface {
                     if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed || KeyBinds.bEscapePressed){
                         gp.gameState = gp.playState;
                         gp.resumeMusic();
-                        bClicked = false;
-                        KeyBinds.bEnterPressed = false;
+                        resetEnterKeys();
                     }
                 }
                 case 1 -> {
-                    gp.loadTool.saveGame();
-                    bClicked = false;
-                    KeyBinds.bEnterPressed = false;
+                    System.out.println("Create " + optionArray[commandNumber] + " function.");
+                    resetEnterKeys();
                 }
                 case 2 -> {
-                    System.out.println("Create " + optionArray[commandNumber] + " function.");
-                    bClicked = false;
-                    KeyBinds.bEnterPressed = false;
-                }
-                case 3 -> {
                     if (!MouseBinds.bMouse1Clicked || KeyBinds.bEnterPressed){
-                        gp.gameState = gp.titleState;
+                        gp.loadTool.saveGame();
+                        gp.transitionIn = true;
+                        gp.sceneSwap.transitionState = gp.titleState;
                         commandNumber = 0;
-                        bClicked = false;
-                        KeyBinds.bEnterPressed = false;
+                        resetEnterKeys();
                     }
                 }
             }
@@ -340,7 +332,6 @@ public class UserInterface {
     public void drawHealthUltBar(Entity entity, int x, int y, int width, int height){
         g2.setColor(Color.darkGray);
         g2.fillRect(x, y, width, height);
-        g2.setColor(Color.darkGray);
         g2.fillRect(x, y + height, width, height);
 
         int hScale = width/entity.healthMax;
@@ -391,6 +382,11 @@ public class UserInterface {
                 }
             }
         }
+    }
+    public void resetEnterKeys(){
+        bClicked = false;
+        KeyBinds.bEnterPressed = false;
+
     }
 }
 
