@@ -15,8 +15,6 @@ import java.util.Random;
 public class GamePanel extends JPanel implements Runnable {
 //FRAME SETTING VARIABLES
     Color bg = new Color(128,128,128);
-    public int maxScreenCol = 16;
-    public int maxScreenRow = 9;
     public int screenWidth = 1920;
     public int screenHeight = 1080;
     public int tileSize = 64;
