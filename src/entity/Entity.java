@@ -21,7 +21,7 @@ public class Entity implements ActionsAI {
     public boolean immune = false;
     public int hitBoxDefaultX, hitBoxDefaultY;
     public Rectangle hitBox, hitBoxLeftSense, hitBoxRightSense, hitBoxTopSense, hitBoxBotSense;
-    public boolean collisionLeft, collisionRight, collisionTop, collisionBottom, collisionDetected, wouldBeStuck = false;
+    public boolean collisionLeft, collisionRight, collisionTop, collisionBottom, collisionDetected, collisionEntity, wouldBeStuck = false;
 //ATTACKING
     public boolean canAttack = true;
     public Entity source;

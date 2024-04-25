@@ -137,7 +137,7 @@ public class GamePanel extends JPanel implements Runnable {
             for (int i = 0; i < projectile.size(); i++) {
                 if (projectile.get(i) != null) {
                     projectile.get(i).update();
-                    if (projectile.get(i).collisionDetected) {
+                    if (projectile.get(i).collisionDetected || projectile.get(i).collisionEntity) {
                         //ADDS PARTICLE(S)
                         int rand = new Random().nextInt(5, 10);
                         for (int i1 = 0; i1 < rand; i1++) {

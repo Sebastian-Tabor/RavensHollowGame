@@ -100,9 +100,12 @@ public class CollisionCheck {
 
                 if (entity.hitBoxLeftSense.intersects(target[i].hitBox) || entity.hitBoxRightSense.intersects(target[i].hitBox) || entity.hitBoxTopSense.intersects(target[i].hitBox) || entity.hitBoxBotSense.intersects(target[i].hitBox)){
                     if (target[i] != entity) {
-                        entity.collisionDetected = true;
+                        entity.collisionEntity = true;
                         index = i;
+                        System.out.println(index);
                     }
+                    System.out.println(entity.name);
+                    System.out.println(entity.collisionEntity);
                 }
 
                 entity.hitBox.x = entity.hitBoxDefaultX;
@@ -135,7 +138,7 @@ public class CollisionCheck {
         gp.player.hitBox.y = gp.player.hitBoxDefaultY;
         return hit;
     }
-    public int checkIfEntityMeleedTarget(Entity entity, Entity[] target) {
+    public int checkIfEntityHitTarget(Entity entity, Entity[] target) {
         int index = 999;
 
         entity.attackBox.y = entity.worldY;

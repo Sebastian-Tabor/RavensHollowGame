@@ -19,14 +19,14 @@ public class ProjectileEntity extends Entity {
         //SETTING COLLISION
         collisionDetected = false;
         //COLLISION
-        int monsterIndex = gp.cCheck.checkEntity(this, gp.monster);
-        hitMonster(monsterIndex);
+        int monsterIndex = gp.cCheck.checkEntity(this, gp.monster);   //HIT MONSTER
+        hitMonster(monsterIndex);                                           //HIT MONSTER
         if (source != gp.player) {
-            if (gp.cCheck.checkPlayer(this)) {
-                damagePlayer(collisionDmg);
+            if (gp.cCheck.checkPlayer(this)) {              //HIT PLAYER
+                damagePlayer(collisionDmg);                       //HIT PLAYER
             }
-            int npcIndex = gp.cCheck.checkEntity(this, gp.npc);
-            hitNPC(npcIndex);
+            int npcIndex = gp.cCheck.checkEntity(this, gp.npc);  //HIT NPC
+            hitNPC(npcIndex);                                           //HIT NPC
         }
         gp.cCheck.checkTile(this);
         //GRAVITY

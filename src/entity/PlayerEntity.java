@@ -174,7 +174,7 @@ public class PlayerEntity extends Entity implements HasImages {
         }
         if (meleeAttacking) {
             if (frameNumber == 1 || frameNumber == 2) {
-                int iAttackIndex = gp.cCheck.checkIfEntityMeleedTarget(this, gp.monster);
+                int iAttackIndex = gp.cCheck.checkIfEntityHitTarget(this, gp.monster);
                 if (iAttackIndex != 999) {
                     damageMonster(iAttackIndex, this);
                 }
