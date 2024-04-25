@@ -16,6 +16,7 @@ public class ArrowProjectile extends ProjectileEntity implements HasImages {
         name = "arrow";
         worldX = source.worldX + gp.tileSize /2;
         worldY = source.worldY + gp.tileSize /2;
+        color = Color.red;
         this.source = source;
         collisionDmg = 4;
         healthMax = 2;

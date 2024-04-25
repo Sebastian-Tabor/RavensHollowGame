@@ -85,6 +85,7 @@ public class PlayerEntity extends Entity implements HasImages {
             dying2 = setup("./res/player/dying2");
             dying3 = setup("./res/player/dying3");
             dying4 = setup("./res/player/dying4");
+
     }
 //UPDATE
     public void update() {

@@ -9,6 +9,7 @@ import world.TileManager;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -34,7 +35,8 @@ public class GamePanel extends JPanel implements Runnable {
     public Object[] obj = new Object[5];
     public Entity[] npc = new Entity[5];
     public ArrayList<ProjectileEntity> projectile = new ArrayList<>();
-    public ArrayList<Entity> entityList = new ArrayList<>();
+    public ArrayList<Particles> particle = new ArrayList<>();
+    public ArrayList<Integer> particleCounter = new ArrayList<>();
     public Entity[] monster = new Entity[10];
     public AssetSetter aSetter = new AssetSetter(this);
     public TileManager tileManager = new TileManager(this);
@@ -136,9 +138,20 @@ public class GamePanel extends JPanel implements Runnable {
                 if (projectile.get(i) != null) {
                     projectile.get(i).update();
                     if (projectile.get(i).collisionDetected) {
+                        //ADDS PARTICLE(S)
+                        int rand = new Random().nextInt(5, 10);
+                        for (int i1 = 0; i1 < rand; i1++) {
+                            particle.add(new Particles(this, projectile.get(i)));
+                            particleCounter.add(0);
+                        }
                         projectile.remove(i);
                         break;
                     }
+                }
+            }
+            for (int i = 0; i < particle.size(); i++) {
+                if (particle.get(i) != null) {
+                    particle.get(i).update();
                 }
             }
 
@@ -182,6 +195,12 @@ public class GamePanel extends JPanel implements Runnable {
             }
         //PLAYER
             player.draw(g2);
+        //PARTICLES
+            for (Particles particles : particle) {
+                if (particles != null) {
+                    particles.draw(g2);
+                }
+            }
         //FOREGROUND
             sceneManager.drawForeground(g2);
 

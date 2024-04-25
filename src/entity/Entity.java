@@ -50,6 +50,7 @@ public class Entity implements ActionsAI {
     public BufferedImage jump1, jump2, crouch1, crouch2, right1, right2, idle1, idle2;
 //STAT TRACKERS/IDENTIFIERS
     public String name;
+    public Color color;
     public int type;
     public int health;
     public int healthMax;
