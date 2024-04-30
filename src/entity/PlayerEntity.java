@@ -12,10 +12,10 @@ import java.io.File;
 
 public class PlayerEntity extends Entity implements HasImages {
     final KeyBinds keyBinds;
-    public int iScreenPosX;
-    public int iScreenPosY;
-    public int iStartPosX = gp.tileSize * 17;;
-    public int iStartPosY = gp.tileSize * 11;;
+    public int screenPosX;
+    public int screenPosY;
+    public int startPosX = gp.tileSize * 17;;
+    public int startPosY = gp.tileSize * 11;;
     public boolean bMouseIsLeft;
 
 //PLAYER OBJECT
@@ -23,8 +23,8 @@ public class PlayerEntity extends Entity implements HasImages {
         super (gp);
         this.keyBinds = keyBinds;
     //PLAYER POS ON SCREEN
-        iScreenPosX = (gp.screenWidth/2 - (gp.tileSize /2));
-        iScreenPosY = (gp.screenHeight/2 - (gp.tileSize /2));
+        screenPosX = (gp.screenWidth/2 - (gp.tileSize /2));
+        screenPosY = (gp.screenHeight/2 - (gp.tileSize /2));
     //PLAYER POS METHOD IMPLEMENTATION
         setDefaultValues();
     //PLAYER IMAGE METHOD IMPLEMENTATION
@@ -33,8 +33,8 @@ public class PlayerEntity extends Entity implements HasImages {
 
 //SETTING PLAYER VALUES
     public void setDefaultValues() {
-        worldX = iStartPosX;
-        worldY = iStartPosY;
+        worldX = startPosX;
+        worldY = startPosY;
         type = 0;
         speedOriginal = (int)(0.109375*gp.tileSize);
         if (speedOriginal == 0){
@@ -305,9 +305,9 @@ public class PlayerEntity extends Entity implements HasImages {
         }
         assert image != null;
         if (facing.equals("left")) {
-            g2.drawImage(image, iScreenPosX + gp.tileSize, iScreenPosY, -image.getWidth(), image.getHeight(), null);
+            g2.drawImage(image, screenPosX + gp.tileSize, screenPosY, -image.getWidth(), image.getHeight(), null);
         } else {
-            g2.drawImage(image, iScreenPosX, iScreenPosY, image.getWidth(), image.getHeight(), null);
+            g2.drawImage(image, screenPosX, screenPosY, image.getWidth(), image.getHeight(), null);
         }
     }
     //OBJECT METHODS

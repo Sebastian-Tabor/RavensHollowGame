@@ -357,8 +357,8 @@ public class UserInterface {
             if (popupText.get(i) != null){
                 int x = popupTextPos.get(i).x;
                 int y = popupTextPos.get(i).y;
-                x = x - gp.player.worldX + gp.player.iScreenPosX;
-                y = y - gp.player.worldY + gp.player.iScreenPosY;
+                x = x - gp.player.worldX + gp.player.screenPosX;
+                y = y - gp.player.worldY + gp.player.screenPosY;
 
                 g2.setColor(Color.black);
                 g2.drawString(Integer.toString(popupText.get(i)), x + 2, y - popupTextCounter.get(i) + 2);

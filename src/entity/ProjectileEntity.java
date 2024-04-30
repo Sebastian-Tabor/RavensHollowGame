@@ -38,13 +38,13 @@ public class ProjectileEntity extends Entity {
     }
     public void draw(Graphics2D g2){
         BufferedImage image = projectileimage;
-        int iScreenX = worldX - gp.player.worldX + gp.player.iScreenPosX;
-        int iScreenY = worldY - gp.player.worldY + gp.player.iScreenPosY;
+        int iScreenX = worldX - gp.player.worldX + gp.player.screenPosX;
+        int iScreenY = worldY - gp.player.worldY + gp.player.screenPosY;
 
-        if (worldX + gp.tileSize > gp.player.worldX - gp.player.iScreenPosX &&
-                worldX - gp.tileSize < gp.player.worldX + gp.player.iScreenPosX &&
-                worldY + gp.tileSize > gp.player.worldY - gp.player.iScreenPosY &&
-                worldY - gp.tileSize < gp.player.worldY + gp.player.iScreenPosY) {
+        if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenPosX &&
+                worldX - gp.tileSize < gp.player.worldX + gp.player.screenPosX &&
+                worldY + gp.tileSize > gp.player.worldY - gp.player.screenPosY &&
+                worldY - gp.tileSize < gp.player.worldY + gp.player.screenPosY) {
             if (facing.equals("left")) {
                 g2.drawImage(image, iScreenX + image.getWidth(), iScreenY, -image.getWidth(), image.getHeight(), null);
             } else {

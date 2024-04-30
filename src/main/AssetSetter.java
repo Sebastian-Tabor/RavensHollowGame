@@ -57,7 +57,7 @@ public class AssetSetter {
         }
     }
     public void resetPlayerPos(){
-        gp.player.worldX = gp.player.iStartPosX;
-        gp.player.worldY = gp.player.iStartPosY;
+        gp.player.worldX = gp.player.startPosX;
+        gp.player.worldY = gp.player.startPosY;
     }
 }

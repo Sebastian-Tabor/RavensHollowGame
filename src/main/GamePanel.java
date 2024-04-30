@@ -166,8 +166,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         if (gameState == playState || gameState == pauseState) {
-            sceneManager.drawBackground(g2);
-            sceneManager.drawMidground(g2);
+            sceneManager.drawScene(g2);
         //TILES
             tileManager.draw(g2);
             for (Object object : obj) {
@@ -200,7 +199,6 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
         //FOREGROUND
-            sceneManager.drawForeground(g2);
 
         }
         //UI

@@ -24,20 +24,20 @@ public class CollisionCheck {
 
         iEntityLeftCol = (iEntLeftWorldX) / gp.tileSize;
         iEntityRightCol = (iEntRightWorldX) / gp.tileSize;
-        iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
-        iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
+        iTileNum1 = gp.tileManager.mapTileCoordinates[iEntityLeftCol][iEntityBottomRow];
+        iTileNum2 = gp.tileManager.mapTileCoordinates[iEntityRightCol][iEntityBottomRow];
 
         entity.wouldBeStuck = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision;
 
         iEntityLeftCol = (iEntLeftWorldX - entity.speedOriginal) / gp.tileSize;
-        iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
-        iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
+        iTileNum1 = gp.tileManager.mapTileCoordinates[iEntityLeftCol][iEntityTopRow];
+        iTileNum2 = gp.tileManager.mapTileCoordinates[iEntityLeftCol][iEntityBottomRow];
 
         entity.collisionLeft = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision;
 
         iEntityRightCol = (iEntRightWorldX + entity.speedOriginal) / gp.tileSize;
-        iTileNum1 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
-        iTileNum2 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
+        iTileNum1 = gp.tileManager.mapTileCoordinates[iEntityRightCol][iEntityTopRow];
+        iTileNum2 = gp.tileManager.mapTileCoordinates[iEntityRightCol][iEntityBottomRow];
 
         entity.collisionRight = gp.tileManager.tile[iTileNum1].collision || gp.tileManager.tile[iTileNum2].collision;
 
@@ -45,10 +45,10 @@ public class CollisionCheck {
         iEntityRightCol = (iEntRightWorldX) / gp.tileSize;
         iEntityTopRow = (iEntTopWorldY - entity.speedOriginal) / gp.tileSize;
         iEntityBottomRow = (iEntBotWorldY + entity.speedOriginal) / gp.tileSize;
-        iTileNum3 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityTopRow];
-        iTileNum4 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityTopRow];
-        iTileNum5 = gp.tileManager.iiMapTileNumber[iEntityLeftCol][iEntityBottomRow];
-        iTileNum6 = gp.tileManager.iiMapTileNumber[iEntityRightCol][iEntityBottomRow];
+        iTileNum3 = gp.tileManager.mapTileCoordinates[iEntityLeftCol][iEntityTopRow];
+        iTileNum4 = gp.tileManager.mapTileCoordinates[iEntityRightCol][iEntityTopRow];
+        iTileNum5 = gp.tileManager.mapTileCoordinates[iEntityLeftCol][iEntityBottomRow];
+        iTileNum6 = gp.tileManager.mapTileCoordinates[iEntityRightCol][iEntityBottomRow];
 
         entity.collisionTop = gp.tileManager.tile[iTileNum3].collision || gp.tileManager.tile[iTileNum4].collision;
         entity.collisionBottom = gp.tileManager.tile[iTileNum5].collision || gp.tileManager.tile[iTileNum6].collision;

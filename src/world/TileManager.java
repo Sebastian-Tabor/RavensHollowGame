@@ -10,13 +10,13 @@ import java.io.*;
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
-    public int[][] iiMapTileNumber;
+    public int[][] mapTileCoordinates;
 
     public TileManager(GamePanel gp){
         this.gp = gp;
         // Change this for more than 2 tiles saved
         tile = new Tile[6];
-        iiMapTileNumber = new int[gp.maxMapCol][gp.maxMapRow];
+        mapTileCoordinates = new int[gp.maxMapCol][gp.maxMapRow];
         getTileImage();
         loadMap();
     }
@@ -55,7 +55,7 @@ public class TileManager {
                 while (col < gp.maxMapCol) {
                     String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
-                    iiMapTileNumber[col][row] = num;
+                    mapTileCoordinates[col][row] = num;
                     col++;
                 }
                 if (col == gp.maxMapCol) {
@@ -75,14 +75,14 @@ public class TileManager {
             int iMapRow = 0;
 
             while (iMapCol < gp.maxMapCol && iMapRow < gp.maxMapRow) {
-                int iTileNum = iiMapTileNumber[iMapCol][iMapRow];
+                int iTileNum = mapTileCoordinates[iMapCol][iMapRow];
 
                 int iMapX = iMapCol * gp.tileSize;
                 int iMapY = iMapRow * gp.tileSize;
-                int iScreenX = iMapX - gp.player.worldX + gp.player.iScreenPosX;
-                int iScreenY = iMapY - gp.player.worldY + gp.player.iScreenPosY;
+                int iScreenX = iMapX - gp.player.worldX + gp.player.screenPosX;
+                int iScreenY = iMapY - gp.player.worldY + gp.player.screenPosY;
 
-                if (iMapX + gp.tileSize > gp.player.worldX - gp.player.iScreenPosX && iMapX - gp.tileSize < gp.player.worldX + gp.player.iScreenPosX) {
+                if (iMapX + gp.tileSize > gp.player.worldX - gp.player.screenPosX && iMapX - gp.tileSize < gp.player.worldX + gp.player.screenPosX) {
                     g2.drawImage(tile[iTileNum].image, iScreenX, iScreenY, gp.tileSize, gp.tileSize, null);
                 }
 

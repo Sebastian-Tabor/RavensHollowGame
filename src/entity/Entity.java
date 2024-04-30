@@ -168,13 +168,13 @@ public class Entity implements ActionsAI {
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;
-        int iScreenX = worldX - gp.player.worldX + gp.player.iScreenPosX;
-        int iScreenY = worldY - gp.player.worldY + gp.player.iScreenPosY;
+        int iScreenX = worldX - gp.player.worldX + gp.player.screenPosX;
+        int iScreenY = worldY - gp.player.worldY + gp.player.screenPosY;
 
-        if (worldX + gp.tileSize > gp.player.worldX - gp.player.iScreenPosX &&
-            worldX - gp.tileSize < gp.player.worldX + gp.player.iScreenPosX &&
-            worldY + gp.tileSize > gp.player.worldY - gp.player.iScreenPosY &&
-            worldY - gp.tileSize < gp.player.worldY + gp.player.iScreenPosY) {
+        if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenPosX &&
+            worldX - gp.tileSize < gp.player.worldX + gp.player.screenPosX &&
+            worldY + gp.tileSize > gp.player.worldY - gp.player.screenPosY &&
+            worldY - gp.tileSize < gp.player.worldY + gp.player.screenPosY) {
             if (attacking) {
                 image = switch (frameNumber) {
                     case 1 -> attack1;

@@ -36,10 +36,10 @@ public class Object {
      }
 //DRAW METHOD
      public void draw(Graphics2D g2, GamePanel gp) {
-          int iScreenX = iWorldX - gp.player.worldX + gp.player.iScreenPosX;
-          int iScreenY = iWorldY - gp.player.worldY + gp.player.iScreenPosY;
+          int iScreenX = iWorldX - gp.player.worldX + gp.player.screenPosX;
+          int iScreenY = iWorldY - gp.player.worldY + gp.player.screenPosY;
 
-          if (iWorldX + gp.tileSize > gp.player.worldX - gp.player.iScreenPosX && iWorldX - gp.tileSize < gp.player.worldX + gp.player.iScreenPosX) {
+          if (iWorldX + gp.tileSize > gp.player.worldX - gp.player.screenPosX && iWorldX - gp.tileSize < gp.player.worldX + gp.player.screenPosX) {
                g2.drawImage(image, iScreenX, iScreenY, gp.tileSize, gp.tileSize, null);
           }
      }
